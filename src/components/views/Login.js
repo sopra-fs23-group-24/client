@@ -62,6 +62,9 @@ const Login = props => {
     <BaseContainer>
       <div className="login container">
         <div className="login form">
+
+          <h2> "Who said that?" - Group 24 </h2>
+
           <FormField
             label="Username"
             value={username}
