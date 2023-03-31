@@ -1,0 +1,92 @@
+@import 'styles/theme';
+
+.startscreen {
+  &.container {
+    margin-top: 2em;
+    min-height: 300px;
+    /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
+    @include center;
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  &.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 30em;
+    height: 30em;
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 0px;
+    margin-right: 20px;
+    border-radius: 0.75em;
+    background-color: #F4CE7C; //color of yellow form
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: $dropShadow;
+  }
+
+  &.form2 {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-basis: 100%;
+    width: 100%;
+    max-width: 40em;
+    height: 30em;
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 0.75em;
+    background-color: #5CC8D5; //color of blue form
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  &.field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  &.input {
+    height: 35px;
+    padding-left: 15px;
+    margin-left: -4px;
+    border: none;
+    border-radius: 0.75em;
+    margin-bottom: 20px;
+    background: transparentize(white, 0.85);
+    color: $textColor;
+  }
+  &.label {
+    color: $textColor;
+    margin-bottom: 10px;
+    font-weight: 300;
+    font-size: 25px;
+  }
+  &.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+  }
+
+
+  &.questionimg {
+    -ms-transform: rotate(340deg);
+    transform: rotate(340deg);
+    height: 43em;
+    width: 30em;
+    margin-bottom: 80px;
+
+  }
+  &.bubbleimg {
+    height: 38em;
+    width: 26em;
+    margin-left: 200px;
+    margin-top: 50px;
+  }
+
+
+
+}

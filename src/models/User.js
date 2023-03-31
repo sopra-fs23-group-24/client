@@ -8,6 +8,8 @@ class User {
     this.username = null;
     this.token = null;
     this.status = null;
+    this.playerId = null;
+    this.gamePin = null;
     Object.assign(this, data);
   }
 }

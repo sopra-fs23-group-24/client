@@ -10,7 +10,9 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   font-family: $fontDefault;
-  background-image: linear-gradient(135deg, $accent 10%, $accentDark 100%);
+  background-color: #5CC8D5; //So farbe vom Hintergrund
+
+
 }
 
 input,
