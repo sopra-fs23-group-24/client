@@ -5,6 +5,7 @@ import {LoginGuard} from "components/routing/routeProtectors/LoginGuard";
 import Login from "components/views/Login";
 import StartScreen from "../../views/StartScreen";
 import JoinCode from "../../views/JoinCode";
+import Lobby from "components/views/Lobby";
 
 /**
  * Main router of your application.
@@ -39,6 +40,12 @@ const AppRouter = () => {
         <Route exact path="/joincode">
           <LoginGuard>
             <JoinCode/>
+          </LoginGuard>
+        </Route>
+
+        <Route exact path="/lobby">
+          <LoginGuard>
+            <Lobby/>
           </LoginGuard>
         </Route>
 
