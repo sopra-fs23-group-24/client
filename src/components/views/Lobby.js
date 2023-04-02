@@ -68,11 +68,12 @@ const Lobby = props => {
 
     return (
         <BaseContainer>
+            
             <div className="joincode container">
                 <div className="joincode form">
 
                     <FormField
-                        label="Lobby overview"
+                        label="Players"
                         
                     />
                     
@@ -82,7 +83,7 @@ const Lobby = props => {
                     <img src="/images/questiony.png" alt="" className="joincode questionimg"/>
 
 
-                </div>
+             </div>
                 
 
 
