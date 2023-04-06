@@ -6,6 +6,7 @@ import Login from "components/views/Login";
 import StartScreen from "../../views/StartScreen";
 import JoinCode from "../../views/JoinCode";
 import Lobby from "components/views/Lobby";
+import EnterName from "../../views/EnterName";
 
 /**
  * Main router of your application.
@@ -47,6 +48,10 @@ const AppRouter = () => {
           <LoginGuard>
             <Lobby/>
           </LoginGuard>
+        </Route>
+
+        <Route exact path="/enterName">
+            <EnterName/>
         </Route>
 
         <Route exact path="/">
