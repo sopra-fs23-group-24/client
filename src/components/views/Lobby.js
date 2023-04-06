@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+//import React, {useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import User from 'models/User';
+//import User from 'models/User';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
-import 'styles/views/JoinCode.scss';
+import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import StartScreen from './StartScreen';
+//import StartScreen from './StartScreen';
 
 /*
 It is possible to add multiple components inside a single file,
@@ -16,8 +16,8 @@ specific components that belong to the main one in the same file.
  */
 const FormField = props => {
     return (
-        <div className="joincode field">
-            <label className="joincode label">
+        <div className="lobby field">
+            <label className="lobby label">
                 {props.label}
             </label>
             <input
@@ -39,64 +39,62 @@ FormField.propTypes = {
     onChange: PropTypes.func
 };
 
-const Lobby = props => {
+const Lobby = () => {
     const history = useHistory();
-    const [gamePin, setGamePin] = useState(null);
+    //const [gamePin, setGamePin] = useState(null);
 
-    const joinGame = async () => {
+
+    const leaveGame = async () => {
         try {
-            const requestBody = JSON.stringify({gamePin});
-            const response = await api.post('/join', requestBody);
+            const response = await api.delete('/players' + localStorage.getItem("playerId"));
+            // TODO: use response!!
 
-            // Get the returned user and update a new object.
-            //TODO: if it gets correct response continue with code:
-            const user = new User(response.data);
-
-            // Store the id and gamepin into the local storage.
-            localStorage.setItem('playerId', user.playerId);
-            localStorage.setItem('gamePin', user.gamePin);
-
-            // Login successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/usernamescreen`); //TODO: find out what this is called
+            // Leaving worked successfully--> navigate to the start screen
+            history.push(`/startscreen`);
 
         } catch (error) {
-            alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
+            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
         }
     };
+
+    /*const displayPlayers = async () => {
+        try {
+            //TO DO: get request
+
+
+        } catch (error) {
+            alert(`Something went wrong while trying to display users: \n${handleError(error)}`);
+        }
+    };*/
 
 
 
     return (
         <BaseContainer>
             
-            <div className="joincode container">
-                <div className="joincode form">
+            <div className="lobby container">
 
-                    <FormField
-                        label="Players"
-                        
-                    />
-                    
+                <div  className="lobby form2">
+                    <img src="/images/questiony.png" alt="" className="lobby questionimg"/>
                 </div>
 
-                <div  className="joincode form2">
-                    <img src="/images/questiony.png" alt="" className="joincode questionimg"/>
+                <div className="lobby form">
+                    <h1>Players</h1>
 
-
-             </div>
-                
-
-
-
-            </div>
-            <div className="login button-container">
+                    <div className="login button-container">
                         <Button
-                            width="50%"
-                            onClick={() => history.push(`/startscreen`)}
+                            style={{ marginLeft: "auto" }}
+                            width="30%"
+                            onClick={() => leaveGame()}
                         >
                             LEAVE
                         </Button>
                     </div>
+                </div>
+
+
+            </div>
+
         </BaseContainer>
 
     );
