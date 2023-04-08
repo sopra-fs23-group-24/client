@@ -29,6 +29,9 @@ const Game = () => {
   // a component can have as many state variables as you like.
   // more information can be found under https://reactjs.org/docs/hooks-state.html
   const [users, setUsers] = useState(null);
+  /*const getUsers = () => {
+        return users;
+    };*/
 
   const logout = () => {
     localStorage.removeItem('token');

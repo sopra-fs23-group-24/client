@@ -1,19 +1,12 @@
-//import React, {useState} from 'react';
 import {api, handleError} from 'helpers/api';
-//import User from 'models/User';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-//import StartScreen from './StartScreen';
+import {useEffect, useState} from "react";
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
+
 const FormField = props => {
     return (
         <div className="lobby field">
@@ -27,9 +20,6 @@ const FormField = props => {
                 onChange={e => props.onChange(e.target.value)}
             />
         </div>
-
-
-
     );
 };
 
@@ -41,10 +31,38 @@ FormField.propTypes = {
 
 const Lobby = () => {
     const history = useHistory();
-    //const [gamePin, setGamePin] = useState(null);
+    const [users, setUsers] = useState(null);
 
+    useEffect(async () => {
+        try {
+            const response = await api.get('/allPlayers');
 
-    const leaveGame = async () => {
+            // delays continuous execution of an async operation for 1 second.
+            // This is just a fake async call, so that the spinner can be displayed
+            // feel free to remove it :)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Get the returned users and update the state.
+            setUsers(response.data);
+            //setUsers([{playerName: "user1"},{playerName: "user2"}])
+
+            // This is just some data for you to see what is available.
+            // Feel free to remove it.
+            console.log('request to:', response.request.responseURL);
+            console.log('status code:', response.status);
+            console.log('status text:', response.statusText);
+            console.log('requested data:', response.data);
+
+            // See here to get more data.
+            console.log(response);
+        } catch (error) {
+            console.error(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            console.error("Details:", error);
+            alert("Something went wrong while fetching the users! See the console for details.");
+        }
+    }, []);
+
+        const leaveGame = async () => {
         try {
             const response = await api.delete('/players' + localStorage.getItem("playerId"));
             // TODO: use response!!
@@ -56,16 +74,6 @@ const Lobby = () => {
             alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
         }
     };
-
-    /*const displayPlayers = async () => {
-        try {
-            //TO DO: get request
-
-
-        } catch (error) {
-            alert(`Something went wrong while trying to display users: \n${handleError(error)}`);
-        }
-    };*/
 
 
 
@@ -80,7 +88,9 @@ const Lobby = () => {
 
                 <div className="lobby form">
                     <h1>Players</h1>
-
+                    <ul>{users !== null && users.map(user => {
+                        return <div>{user.playerName}</div>})}
+                    </ul>
                     <div className="login button-container">
                         <Button
                             style={{ marginLeft: "auto" }}
