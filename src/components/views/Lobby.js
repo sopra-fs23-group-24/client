@@ -5,6 +5,7 @@ import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 
 const FormField = props => {
@@ -32,6 +33,7 @@ FormField.propTypes = {
 const Lobby = () => {
     const history = useHistory();
     const [users, setUsers] = useState(null);
+    const [qrCode, setQrCode] = useState(null);
 
     useEffect(async () => {
         try {
@@ -60,7 +62,30 @@ const Lobby = () => {
             console.error("Details:", error);
             alert("Something went wrong while fetching the users! See the console for details.");
         }
+
+        createQrCode();
+
     }, []);
+
+        const createQrCode = () => {
+            const options = {
+                method: 'GET',
+                url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
+                params: {type: 'url', value: 'https://www.google.com'},
+                headers: {
+                    'X-RapidAPI-Key': '9706f0679bmshb78281c4935e15bp14358cjsn25618d800385',
+                    'X-RapidAPI-Host': 'codzz-qr-cods.p.rapidapi.com'
+                }
+            };
+
+            axios.request(options).then(function (response) {
+                console.log(response.data);
+                setQrCode(response.data);
+            }).catch(function (error) {
+                console.error(error);
+            });
+
+        };
 
         const leaveGame = async () => {
         try {
@@ -83,8 +108,11 @@ const Lobby = () => {
             <div className="lobby container">
 
                 <div  className="lobby form2">
+                    {qrCode !== null && <img style={{ width: 100, height: 100 }} src={qrCode.url} alt="qr code"/>}
                     <img src="/images/questiony.png" alt="" className="lobby questionimg"/>
+
                 </div>
+
 
                 <div className="lobby form">
                     <h1>Players</h1>
