@@ -41,14 +41,14 @@ FormField.propTypes = {
 const EnterName = props => {
 
     const history = useHistory();
-    const [userName, setUserName] = useState(null);
+    const [playerName, setPlayerName] = useState(null);
     const id = localStorage.getItem("playerId");
     console.log(id);
 
 
     const enterName = async () => {
         try {
-            const requestBody = JSON.stringify({userName, isHost: localStorage.getItem("isHost")});
+            const requestBody = JSON.stringify({playerName, isHost: localStorage.getItem("isHost")});
             const response = await api.post('/games/' + localStorage.getItem("gamePin") +"/players", requestBody);
 
 
@@ -72,8 +72,8 @@ const EnterName = props => {
 
                     <FormField
                         label="Enter your Name"
-                        value={userName}
-                        onChange={n => setUserName(n)}
+                        value={playerName}
+                        onChange={n => setPlayerName(n)}
                     />
                     <div className="login button-container">
                         <Button
