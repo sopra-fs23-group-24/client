@@ -4,12 +4,15 @@
   &.container {
     margin-top: 2em;
     min-height: 300px;
-    /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
     @include center;
     display: flex;
     flex-direction: row;
-  }
 
+    @media (max-width: 768px) { // Adjust for mobile screens
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 
   &.form {
     display: flex;
@@ -25,10 +28,16 @@
     background-color: #F4CE7C; //color of yellow form
     transition: opacity 0.5s ease, transform 0.5s ease;
     box-shadow: $dropShadow;
+
+    @media (max-width: 768px) { // Adjust for mobile screens
+      margin-right: 0;
+      margin-bottom: 2em;
+      width: 100%;
+      max-width: none;
+    }
   }
 
   &.form2 {
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -43,12 +52,22 @@
     border-radius: 0.75em;
     background-color: #5CC8D5; //color of blue form
     transition: opacity 0.5s ease, transform 0.5s ease;
+
+    @media (max-width: 768px) { // Adjust for mobile screens
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      height: auto;
+    }
   }
+
   &.field {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
   &.input {
     height: 35px;
     padding-left: 15px;
@@ -59,34 +78,48 @@
     background: transparentize(white, 0.85);
     color: $textColor;
   }
+
   &.label {
     color: $textColor;
     margin-bottom: 10px;
     font-weight: 300;
     font-size: 25px;
   }
+
   &.button-container {
     display: flex;
     justify-content: center;
     margin-top: 2em;
   }
 
-
   &.questionimg {
     -ms-transform: rotate(340deg);
     transform: rotate(340deg);
-    height: 43em;
-    width: 30em;
-    margin-bottom: 80px;
+    height: 51em;
+    width: 36em;
+    margin-bottom: 50px;
+    margin-left: -50px;
 
+    @media (max-width: 768px) { // Adjust for mobile screens
+      width: 100%;
+      max-width: none;
+      margin-bottom: 4em;
+      margin-left: 10%;
+    }
   }
+
   &.bubbleimg {
     height: 38em;
     width: 26em;
     margin-left: 200px;
     margin-top: 50px;
+
+    @media (max-width: 768px) { // Adjust for mobile screens
+      width: 60%;
+      margin-left: 0;
+      margin-top: 30px;
+      align-self: center; // Center the image horizontally
+      margin-bottom: 2em;
+    }
   }
-
-
-
 }

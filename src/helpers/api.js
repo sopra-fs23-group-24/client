@@ -3,7 +3,7 @@ import { getDomain } from 'helpers/getDomain';
 
 export const api = axios.create({
   baseURL: getDomain(),
-  headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'PlayerId': localStorage.getItem("playerId"), 'GamePin': localStorage.getItem("gamePin") }
+  headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'playerToken': localStorage.getItem("Token") }
 });
 
 export const handleError = error => {

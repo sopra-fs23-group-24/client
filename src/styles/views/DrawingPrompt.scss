@@ -1,6 +1,6 @@
-@import 'styles/theme';
+@import 'src/styles/theme';
 
-.joincode {
+.drawingprompt {
   &.container {
     margin-top: 2em;
     min-height: 300px;
@@ -15,18 +15,22 @@
     }
   }
 
+
+
+
   &.form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    max-width: 30em;
-    height: 30em;
+    max-width: 60em;
+    height: 35em;
     font-size: 16px;
     font-weight: 300;
-    padding-left: 37px;
+    padding-left: 20px;
     padding-right: 37px;
     margin-right: 20px;
+
     border-radius: 0.75em;
     background-color: #F4CE7C; //color of yellow form
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -43,11 +47,12 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    max-width: 30em;
+    max-width: 15em;
     height: 30em;
     font-size: 16px;
     font-weight: 300;
-    padding-left: 37px;
+    padding-left: 0px;
+
     padding-right: 37px;
     border-radius: 0.75em;
     background-color: #5CC8D5; //color of black form
@@ -76,10 +81,21 @@
   }
 
   &.label {
-    color: $textColor;
+    color: #555876;
     margin-bottom: 10px;
-    font-weight: 300;
-    font-size: 25px;
+    font-weight: 700;
+    font-size: 35px;
+  }
+
+  &.row{
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  &.column{
+    display: flex;
+    flex-direction: column;
   }
 
   &.button-container {
@@ -89,15 +105,39 @@
   }
 
   &.questionimg {
-    -ms-transform: rotate(20deg);
-    transform: rotate(20deg);
-    height: 43em;
-    width: 30em;
-    margin-top: 2em;
+
+    height: 21em;
+    width: 15em;
+    margin-top: 20em;
+    margin-right: 10em;
 
     @media (max-width: 768px) {
       height: 20em;
       width: 14em;
     }
+  }
+
+  &.canvas {
+
+    background-color: #ffffff;
+
+
+  }
+
+  &.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 3%;
+
+  }
+
+  &.colorbutton-container {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 10%;
+
   }
 }

@@ -10,6 +10,8 @@ class User {
     this.status = null;
     this.playerId = null;
     this.gamePin = null;
+    this.isHost = false;
+    this.score = null;
     Object.assign(this, data);
   }
 }
