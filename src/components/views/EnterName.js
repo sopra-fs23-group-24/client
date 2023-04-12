@@ -53,7 +53,11 @@ const EnterName = props => {
 
 
             const user = new User(response.data);
-            localStorage.setItem("Token", response.headers["playerToken"])
+            localStorage.removeItem("Token")
+            localStorage.setItem("Token", response.headers["playertoken"])
+            console.log("TOKEN:" + localStorage.getItem("Token"))
+
+            localStorage.setItem("playerId", user.playerId)
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/lobby`); //TODO: find out what this is called

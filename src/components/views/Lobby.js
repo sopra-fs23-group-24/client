@@ -90,7 +90,9 @@ const Lobby = () => {
 
         const leaveGame = async () => {
         try {
-            const response = await api.delete('/players' + localStorage.getItem("playerId"));
+            console.log("TOKEN:" + localStorage.getItem("Token"))
+            const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
+            localStorage.removeItem("Token")
             // TODO: use response!!
 
             // Leaving worked successfully--> navigate to the start screen
