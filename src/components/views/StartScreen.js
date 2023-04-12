@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import User from 'models/User';
+import GameInstance from 'models/GameInstance';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/StartScreen.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import Game from "./Game";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -39,18 +40,18 @@ const StartScreen = props => {
 
     const hostGame = async () => {
         try {
-            const response = await api.post('/host');
+            const response = await api.post('/games');
 
             // Get the returned user and update a new object.
-            const user = new User(response.data);
+            const game = new GameInstance(response.data);
 
             // Store the id and gamepin into the local storage.
-            localStorage.setItem('playerId', user.playerId);
-            localStorage.setItem('gamePin', user.gamePin);
+            localStorage.setItem('gamePin', game.gamePin);
+            localStorage.setItem('isHost', "true");
 
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/usernameenterscreen`); //TODO: find out what this is called
+            history.push(`/enterName`); //TODO: find out what this is called
         } catch (error) {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
         }
@@ -71,11 +72,9 @@ const StartScreen = props => {
                 <div className="startscreen form">
 
 
-                    <img src="/images/speechBubble.png" alt="" className="startscreen bubbleimg"  />
 
 
-
-                    <img src="/images/questiony.png" alt="" className="startscreen questionimg"   />
+                    <img src="/images/bubbleQuest.png" alt="" className="startscreen questionimg"   />
 
 
                 </div>

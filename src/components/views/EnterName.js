@@ -39,8 +39,7 @@ FormField.propTypes = {
 };
 
 const EnterName = props => {
-    localStorage.setItem('playerId', "3");
-    localStorage.setItem('gamePin', "1234");
+
     const history = useHistory();
     const [userName, setUserName] = useState(null);
     const id = localStorage.getItem("playerId");
@@ -49,12 +48,12 @@ const EnterName = props => {
 
     const enterName = async () => {
         try {
-            const requestBody = JSON.stringify({userName});
-            const response = await api.put('/users/'+id, requestBody);
+            const requestBody = JSON.stringify({userName, isHost: localStorage.getItem("isHost")});
+            const response = await api.post('/games/' + localStorage.getItem("gamePin") +"/players", requestBody);
 
-            if (response != null){
-                console.log("User attributes changed");
-            }
+
+            const user = new User(response.data);
+            localStorage.setItem("Token", response.headers["playerToken"])
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/lobby`); //TODO: find out what this is called
