@@ -37,7 +37,8 @@ const Lobby = () => {
 
     useEffect(async () => {
         try {
-            const response = await api.get('/allPlayers');
+            const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
+            //correct mapping -> this should get all the users
 
             // delays continuous execution of an async operation for 1 second.
             // This is just a fake async call, so that the spinner can be displayed
