@@ -8,6 +8,7 @@ import JoinCode from "../../views/JoinCode";
 import Lobby from "components/views/Lobby";
 import EnterName from "../../views/EnterName";
 import DrawingPrompt from "../../views/DrawingPrompt";
+import AnswerPrompt from "../../views/AnswerPrompt";
 
 /**
  * Main router of your application.
@@ -59,6 +60,10 @@ const AppRouter = () => {
 
         <Route exact path="/enterName">
             <EnterName/>
+        </Route>
+
+        <Route exact path="/answerPrompt">
+          <AnswerPrompt/>
         </Route>
 
         <Route exact path="/">
