@@ -44,7 +44,7 @@ const JoinCode = props => {
 
     const joinGame = async () => {
         try {
-            const response = await api.post('/games/' + gamePin);
+            const response = await api.get('/games/' + gamePin);
 
             // Get the returned user and update a new object.
             //TODO: if it gets correct response continue with code:

@@ -46,6 +46,9 @@ const AnswerPrompt = props => {
     const [counter, setCounter] = useState(0);
     const updateCounter = () => {
         setCounter(prevCounter => prevCounter + 1);
+        if(counter > 5){
+            setCounter(-1);
+        }
     }
 
     const history = useHistory();
@@ -79,24 +82,30 @@ const AnswerPrompt = props => {
     }
 
     let content = <Spinner/>
+
     if(prompts !== null && prompts !== []){
-        if(prompts[counter].promptType === 'TRUEFALSE') {
-            content =
-                <TrueFalsePrompt prompts={prompts[counter]} updateCounter={updateCounter}>
-
-                </TrueFalsePrompt>
+        if(counter === -1){
+            content = <Spinner/>;
         }
-        if(prompts[counter].promptType === 'TEXT') {
-            content =
-                <TextPrompt prompts={prompts[counter]} updateCounter={updateCounter}>
+        else {
+            if (prompts[counter].promptType === 'TRUEFALSE') {
+                content =
+                    <TrueFalsePrompt prompts={prompts[counter]} updateCounter={updateCounter}>
 
-                </TextPrompt>
-        }
-        if(prompts[counter].promptType === 'DRAWING') {
-            content =
-                <DrawingPrompt>
+                    </TrueFalsePrompt>
+            }
+            if (prompts[counter].promptType === 'TEXT') {
+                content =
+                    <TextPrompt prompts={prompts[counter]} updateCounter={updateCounter}>
 
-                </DrawingPrompt>
+                    </TextPrompt>
+            }
+            if (prompts[counter].promptType === 'DRAWING') {
+                content =
+                    <DrawingPrompt prompts={prompts[counter]} updateCounter={updateCounter}>
+
+                    </DrawingPrompt>
+            }
         }
     }
 

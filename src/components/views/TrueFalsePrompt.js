@@ -45,7 +45,7 @@ const TrueFalsePrompt = props => {
 
     const submitAnswer=async () => {
         const requestBody = JSON.stringify({associatedPromptNr: prompt.promptNr, answerText: answer, answerBoolean:switchValue});
-        await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answer/text", requestBody);
+        await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/tf", requestBody);
     }
 
     const handleButtonClick=() => {

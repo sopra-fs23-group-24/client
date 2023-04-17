@@ -45,6 +45,11 @@ const EnterName = props => {
     const [playerName, setPlayerName] = useState(null);
     const id = localStorage.getItem("playerId");
     console.log(id);
+    const {gameID} = useParams();
+
+    const printID = () => {
+        console.log(gameID);
+    }
 
 
     const enterName = async () => {
@@ -83,6 +88,12 @@ const EnterName = props => {
                             onClick={() => enterName()}
                         >
                             JOIN GAME
+                        </Button>
+                        <Button
+                            width="100%"
+                            onClick={() => printID()}
+                        >
+                            Print ID
                         </Button>
                     </div>
 

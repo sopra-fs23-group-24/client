@@ -4,10 +4,7 @@ import User from 'models/User';
 import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
-import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import DrawingPrompt from "./DrawingPrompt";
-import staticRouter from "react-router-dom/es/StaticRouter";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -51,7 +48,7 @@ const TextPrompt = props => {
     const [answer, setAnswer] = useState(null);
     const submitAnswer=async () => {
         const requestBody = JSON.stringify({associatedPromptNr: prompt.promptNr, answer: answer});
-        await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answer/text", requestBody);
+        await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/text", requestBody);
     }
     const handleButtonClick=() => {
         submitAnswer();

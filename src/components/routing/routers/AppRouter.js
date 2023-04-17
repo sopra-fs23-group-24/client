@@ -62,12 +62,16 @@ const AppRouter = () => {
             <EnterName/>
         </Route>
 
+        <Route exact path="/enterName/:pin">
+          <EnterName/>
+        </Route>
+
         <Route exact path="/answerPrompt">
           <AnswerPrompt/>
         </Route>
 
         <Route exact path="/">
-          <Redirect to="/game"/>
+          <Redirect to="/startscreen"/>
         </Route>
       </Switch>
     </BrowserRouter>
