@@ -9,6 +9,7 @@ import Lobby from "components/views/Lobby";
 import EnterName from "../../views/EnterName";
 import DrawingPrompt from "../../views/DrawingPrompt";
 import AnswerPrompt from "../../views/AnswerPrompt";
+import WaitingRoom from "../../views/WaitingRoom";
 
 /**
  * Main router of your application.
@@ -65,6 +66,11 @@ const AppRouter = () => {
         <Route exact path="/enterName/:pin">
           <EnterName/>
         </Route>
+
+        <Route exact path="/waitingRoom">
+          <WaitingRoom/>
+        </Route>
+
 
         <Route exact path="/answerPrompt">
           <AnswerPrompt/>
