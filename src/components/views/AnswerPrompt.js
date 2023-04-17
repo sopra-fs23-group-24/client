@@ -46,8 +46,9 @@ const AnswerPrompt = props => {
     const [counter, setCounter] = useState(0);
     const updateCounter = () => {
         setCounter(prevCounter => prevCounter + 1);
-        if(counter > 5){
-            setCounter(-1);
+        if(counter > 3){
+            console.log("peepeepoopoo")
+            history.push("/waitingRoom");
         }
     }
 
@@ -78,16 +79,14 @@ const AnswerPrompt = props => {
     const printQuestions = async () => {
         console.log(prompts);
         console.log(prompts[0]);
+        console.log(counter)
 
     }
 
     let content = <Spinner/>
 
-    if(prompts !== null && prompts !== []){
-        if(counter === -1){
-            content = <Spinner/>;
-        }
-        else {
+    if(prompts !== null && prompts !== [] && counter <=4 ){
+
             if (prompts[counter].promptType === 'TRUEFALSE') {
                 content =
                     <TrueFalsePrompt prompts={prompts[counter]} updateCounter={updateCounter}>
@@ -106,7 +105,7 @@ const AnswerPrompt = props => {
 
                     </DrawingPrompt>
             }
-        }
+
     }
 
         return (

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import GameInstance from 'models/GameInstance';
 import {useHistory} from 'react-router-dom';
@@ -36,6 +36,34 @@ FormField.propTypes = {
 const WaitingRoom = props => {
     const history = useHistory();
 
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            if (response.data.status !== 'PROMPT') {
+                history.push("/startscreen");
+            }
+
+        };
+
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
+/*
+    useEffect(() => {
+        if (data.status !== 'PROMPT') {
+            history.push("/startscreen");
+        }
+    }, [data]);
+
+ */
+
+
+    const changeStatus = () => {
+        const newState = JSON.stringify({status:"SELECTION"});
+        api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
+    }
+
     return (
         <BaseContainer>
             <div className="waitingroom container">
@@ -44,6 +72,12 @@ const WaitingRoom = props => {
                 </div>
                 <div  className="waitingroom form2">
                     <h1>Waiting for other players to answer the questions!</h1>
+                    <Button
+                        width="100%"
+                        onClick={() => changeStatus()}
+                    >
+                        Change Status
+                    </Button>
                 </div>
             </div>
         </BaseContainer>
