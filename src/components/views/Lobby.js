@@ -72,7 +72,7 @@ const Lobby = () => {
             const options = {
                 method: 'GET',
                 url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
-                params: {type: 'url', value: 'https://www.google.com'},
+                params: {type: 'url', value: 'http://localhost:3000/entername'},
                 headers: {
                     'X-RapidAPI-Key': '9706f0679bmshb78281c4935e15bp14358cjsn25618d800385',
                     'X-RapidAPI-Host': 'codzz-qr-cods.p.rapidapi.com'
@@ -101,6 +101,15 @@ const Lobby = () => {
         } catch (error) {
             alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
         }
+
+        /*const displayGamePin = () => {
+            try {
+                const gamePin = localStorage.getItem("gamePin");
+                return gamePin
+
+        } catch (error) {
+                alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        }*/
     };
 
 
@@ -109,13 +118,14 @@ const Lobby = () => {
         <BaseContainer>
             
             <div className="lobby container">
+                <h1>GAME: {localStorage.getItem("gamePin")}</h1>
 
                 <div  className="lobby form2">
                     {qrCode !== null && <img style={{ width: 100, height: 100 }} src={qrCode.url} alt="qr code"/>}
-                    <img src="/images/questiony.png" alt="" className="lobby questionimg"/>
+
+                    <img style={{ width: '50%', height: '50%' }} src="/images/questiony.png" alt="" className="lobby questionimg"/>
 
                 </div>
-
 
                 <div className="lobby form">
                     <h1>Players</h1>
