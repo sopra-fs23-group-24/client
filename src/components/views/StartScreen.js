@@ -74,7 +74,7 @@ const StartScreen = props => {
 
 
 
-                    <img src="/bubbleQuest.png" alt="" className="startscreen questionimg"   />
+                    <img src="/images/bubbleQuest.png" alt="" className="startscreen questionimg"   />
 
 
                 </div>
