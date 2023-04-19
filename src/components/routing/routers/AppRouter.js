@@ -25,38 +25,27 @@ const AppRouter = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/game">
-          <GameGuard>
             <GameRouter base="/game"/>
-          </GameGuard>
         </Route>
+
         <Route exact path="/login">
-          <LoginGuard>
             <Login/>
-          </LoginGuard>
         </Route>
 
         <Route exact path="/startscreen">
-          <LoginGuard>
             <StartScreen/>
-          </LoginGuard>
         </Route>
 
         <Route exact path="/joincode">
-          <LoginGuard>
             <JoinCode/>
-          </LoginGuard>
         </Route>
 
         <Route exact path="/drawingprompt">
-          <LoginGuard>
             <DrawingPrompt/>
-          </LoginGuard>
         </Route>
 
         <Route exact path="/lobby">
-          <LoginGuard>
             <Lobby/>
-          </LoginGuard>
         </Route>
 
         <Route exact path="/enterName">
