@@ -11,6 +11,7 @@ import DrawingPrompt from "../../views/DrawingPrompt";
 import AnswerPrompt from "../../views/AnswerPrompt";
 import WaitingRoom from "../../views/WaitingRoom";
 import QuizAnswer from "../../views/QuizAnswer";
+import EndScreen from "../../views/EndScreen";
 
 /**
  * Main router of your application.
@@ -60,6 +61,10 @@ const AppRouter = () => {
         <Route exact path="/waitingRoom">
           <WaitingRoom/>
         </Route>
+
+          <Route exact path="/EndScreen">
+              <EndScreen/>
+          </Route>
 
 
         <Route exact path="/answerPrompt">

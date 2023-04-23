@@ -10,10 +10,20 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   font-family: $fontDefault;
-  background-color: #5CC8D5; //So farbe vom Hintergrund
+  //background-color: #5CC8D5; //So farbe vom Hintergrund
 
+  opacity: 1;
+  background-image: linear-gradient(135deg, #5CC8D5 25%, transparent 25%),
+  linear-gradient(225deg, #5CC8D5 25%, transparent 25%),
+  linear-gradient(45deg, #5CC8D5 25%, transparent 25%),
+  linear-gradient(315deg, #5CC8D5 25%, transparent 25%),
+  linear-gradient(#3da9b5, #3da9b5);
+  background-position:  20px 0, 20px 0, 0 0, 0 0;
+  background-size: 20px 20px;
+  background-repeat: repeat;
 
 }
+
 
 input,
 textarea,

@@ -1,12 +1,11 @@
 @import 'styles/theme';
 
-.startscreen {
+.endscreen {
   &.container {
-    margin-top: 2em;
     min-height: 300px;
     @include center;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     @media (max-width: 768px) { // Adjust for mobile screens
       flex-direction: column;
@@ -15,36 +14,34 @@
   }
 
   &.form {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-end;
     justify-content: center;
-    max-width: 30em;
-    height: 30em;
+    width: 95vw;
+    height: 29em;
     font-size: 16px;
     font-weight: 300;
-    padding-left: 0px;
-    margin-right: 20px;
     border-radius: 0.75em;
     background-color: #F4CE7C; //color of yellow form
     transition: opacity 0.5s ease, transform 0.5s ease;
     box-shadow: $dropShadow;
 
-    @media (max-width: 768px) { // Adjust for mobile screens
+    @media (max-width: 768px) {
       margin-right: 0;
-      margin-bottom: 2em;
-      width: 100%;
-      max-width: none;
+      margin-bottom: 1em;
     }
   }
 
   &.form2 {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: right;
     flex-basis: 100%;
-    width: 100%;
-    max-width: 40em;
-    height: 30em;
+    margin: 4px;
+    width: 100vw;
+    height: 1em;
     font-size: 16px;
     font-weight: 300;
     padding-left: 50px;
@@ -53,6 +50,7 @@
     transition: opacity 0.5s ease, transform 0.5s ease;
 
     @media (max-width: 768px) { // Adjust for mobile screens
+      flex-direction: column;
       padding-left: 20px;
       padding-right: 20px;
       margin-top: 2em;
@@ -60,6 +58,42 @@
       height: auto;
     }
   }
+  &.podiumForm{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20vw;
+    font-size: 16px;
+    font-weight: 300;
+    background-color: #5C188E; //color of yellow form
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: $dropShadow;
+    margin-bottom: 10px;
+
+    h2{
+      color:#F4CE7C;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      margin-right: 0;
+      margin-bottom: 1em;
+    }
+  }
+  &.displayName{
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+
+  }
+
 
   &.field {
     display: flex;
@@ -90,14 +124,18 @@
     justify-content: center;
     margin-top: 2em;
   }
+  &.button {
+    margin:2px;
+    height: 70px;
+    font-size: 18px;
+  }
 
   &.questionimg {
-    -ms-transform: rotate(340deg);
-    transform: rotate(340deg);
-    height: 51em;
-    width: 36em;
-    margin-bottom: 50px;
-    margin-left: -50px;
+    height: 14em;
+    width: 21em;
+    margin-top: 15vw;
+    margin-left: 50vw;
+
 
     @media (max-width: 768px) { // Adjust for mobile screens
       width: 100%;

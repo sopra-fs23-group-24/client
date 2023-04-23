@@ -47,9 +47,6 @@ const EnterName = props => {
     console.log(id);
     const {gameID} = useParams();
 
-    const printID = () => {
-        console.log(gameID);
-    }
 
 
     const enterName = async () => {
@@ -89,12 +86,7 @@ const EnterName = props => {
                         >
                             JOIN GAME
                         </Button>
-                        <Button
-                            width="100%"
-                            onClick={() => printID()}
-                        >
-                            Print ID
-                        </Button>
+
                     </div>
 
                 </div>
