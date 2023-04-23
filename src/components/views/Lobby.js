@@ -39,27 +39,34 @@ const Lobby = () => {
 
     useEffect(async () => {
         try {
-            const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
-            //correct mapping -> this should get all the users
+            const fetchData = async () => {
 
-            // delays continuous execution of an async operation for 1 second.
-            // This is just a fake async call, so that the spinner can be displayed
-            // feel free to remove it :)
-            await new Promise(resolve => setTimeout(resolve, 1000));
+                const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
+                //correct mapping -> this should get all the users
 
-            // Get the returned users and update the state.
-            setUsers(response.data);
-            //setUsers([{playerName: "user1"},{playerName: "user2"}])
+                // delays continuous execution of an async operation for 1 second.
+                // This is just a fake async call, so that the spinner can be displayed
+                // feel free to remove it :)
+                //await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // This is just some data for you to see what is available.
-            // Feel free to remove it.
-            console.log('request to:', response.request.responseURL);
-            console.log('status code:', response.status);
-            console.log('status text:', response.statusText);
-            console.log('requested data:', response.data);
+                // Get the returned users and update the state.
+                setUsers(response.data);
+                //setUsers([{playerName: "user1"},{playerName: "user2"}])
 
-            // See here to get more data.
-            console.log(response);
+                // This is just some data for you to see what is available.
+                // Feel free to remove it.
+                // console.log('request to:', response.request.responseURL);
+                // console.log('status code:', response.status);
+                // console.log('status text:', response.statusText);
+                // console.log('requested data:', response.data);
+
+                // See here to get more data.
+                //console.log(response);
+            }
+
+            const intervalId = setInterval(fetchData, 1000);
+            // () => clearInterval(intervalId);
+
         } catch (error) {
             console.error(`Something went wrong while fetching the users: \n${handleError(error)}`);
             console.error("Details:", error);
@@ -67,6 +74,9 @@ const Lobby = () => {
         }
 
         createQrCode();
+
+
+
 
     }, []);
 
@@ -107,24 +117,34 @@ const Lobby = () => {
 
     };
 
+        const deleteUser = async (playerId) => {
+            const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + playerId, {headers: {"playerToken": localStorage.getItem("Token")}});
+        };
+
 
     if (localStorage.getItem('isHost') === 'true') {
         return ( <BaseContainer>
 
                 <div className="lobby container">
-                    <h1>GAME: {localStorage.getItem("gamePin")}</h1>
+
 
                     <div  className="lobby form2">
-                        {qrCode !== null && <img style={{ width: 100, height: 100 }} src={qrCode.url} alt="qr code"/>}
+                        <h1>GAME: {localStorage.getItem("gamePin")}</h1>
+                        {qrCode !== null && <img style={{ width: 125, height: 125 }} src={qrCode.url} alt="qr code"/>}
 
-                        <img style={{ width: '50%', height: '50%' }} src="/images/questiony.png" alt="" className="lobby questionimg"/>
+                        <img style={{ width: '50%', height: '50%', marginLeft: '180px' }} src="/images/questiony.png" alt="" className="lobby questionimg"/>
 
                     </div>
 
                     <div className="lobby form">
                         <h1>Players</h1>
-                        <ul>{users !== null && users.map(user => {
-                            return <div>{user.playerName}</div>})}
+                        <ul>{users !== null && users.map((user, index) => {
+                            return <li key={index}>{user.playerName}
+                                <a
+                                    style={{ marginLeft: "auto" }}
+                                    onClick={() => deleteUser(user.playerId)}
+                                > X </a>
+                            </li>})}
                         </ul>
                         <div className="login button-container">
                             <Button
@@ -157,19 +177,20 @@ const Lobby = () => {
         <BaseContainer>
 
             <div className="lobby container">
-                <h1>GAME: {localStorage.getItem("gamePin")}</h1>
+
 
                 <div  className="lobby form2">
-                    {qrCode !== null && <img style={{ width: 100, height: 100 }} src={qrCode.url} alt="qr code"/>}
-
-                    <img style={{ width: '50%', height: '50%' }} src="/images/questiony.png" alt="" className="lobby questionimg"/>
-
+                    <h1>GAME: {localStorage.getItem("gamePin")}</h1>
+                    <div>
+                     <div style={{float: 'left', width: '50%'}}>{qrCode !== null && <img style={{ width: 125, height: 125, marginTop: 40 }} src={qrCode.url} alt="qr code"/>}</div>
+                     <div style={{ float: 'right', width: '50%'}}><img style={{ width: 250, height: 250 }} src="/images/questiony.png" alt="" className="lobby questionimg"/></div>
+                    </div>
                 </div>
 
                 <div className="lobby form">
                     <h1>Players</h1>
-                    <ul>{users !== null && users.map(user => {
-                        return <div>{user.playerName}</div>})}
+                    <ul>{users !== null && users.map((user, index) => {
+                        return <li key={index}>{user.playerName}</li>})}
                     </ul>
                     <div className="login button-container">
                         <Button
