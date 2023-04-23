@@ -35,6 +35,14 @@ FormField.propTypes = {
 
 
 const DrawingPrompt = props => {
+    const prompt = props.prompts;
+    const updateCounter = () => {
+        props.updateCounter();
+    }
+    const handleButtonClick=() => {
+        submitDrawing();
+        updateCounter();
+    }
     const history = useHistory();
     const [gamePin, setGamePin] = useState(null);
 
@@ -111,20 +119,12 @@ const DrawingPrompt = props => {
             const canvas = document.getElementById('myCanvas');
             dataURL = canvas.toDataURL();
             console.log(dataURL);
-            const requestBody = { dataURL: dataURL }; // ALSO MIT TYP DATAURL SCHICKEN
-            const requestBody2 = JSON.stringify({ imageData: dataURL }); // stringifien und dann schicken
-            /*
-            const requestBody = JSON.stringify({gamePin});
-            const response = await api.post('/join', requestBody);
-
-            // Get the returned user and update a new object.
-            //TODO: if it gets correct response continue with code:
-            const user = new User(response.data);
+            const requestBody = JSON.stringify({ associatedPromptNr: prompt.promptNr, answerDrawing: dataURL }); // stringifien und dann schicken
 
 
-            // Login successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/enterName`); //TODO: find out what this is called
-            */
+            await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/drawing", requestBody);
+
+
         } catch (error) {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
         }
@@ -219,7 +219,7 @@ const DrawingPrompt = props => {
                         <div className="drawingprompt button-container">
                             <Button
                                 width="100%"
-                                onClick={() => submitDrawing()}
+                                onClick={() => handleButtonClick()}
                             >
                                 Submit Drawing
                             </Button>

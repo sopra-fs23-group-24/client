@@ -1,6 +1,6 @@
 @import 'styles/theme';
 
-.startscreen {
+.waitingroom {
   &.container {
     margin-top: 2em;
     min-height: 300px;
@@ -98,6 +98,23 @@
     width: 36em;
     margin-bottom: 50px;
     margin-left: -50px;
+
+    animation-name: rotate;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(-20deg);
+      }
+      50% {
+        transform: rotate(20deg);
+      }
+      100% {
+        transform: rotate(-20deg);
+      }
+    }
 
     @media (max-width: 768px) { // Adjust for mobile screens
       width: 100%;

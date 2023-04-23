@@ -6,6 +6,7 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import DrawingPrompt from "./DrawingPrompt";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -44,20 +45,19 @@ const EnterName = props => {
     const [playerName, setPlayerName] = useState(null);
     const id = localStorage.getItem("playerId");
     console.log(id);
+    const {gameID} = useParams();
+
 
 
     const enterName = async () => {
         try {
+            console.log(playerName);
             const requestBody = JSON.stringify({playerName, isHost: localStorage.getItem("isHost")});
             const response = await api.post('/games/' + localStorage.getItem("gamePin") +"/players", requestBody);
 
 
             const user = new User(response.data);
-            localStorage.removeItem("Token")
-            localStorage.setItem("Token", response.headers["playertoken"])
-            console.log("TOKEN:" + localStorage.getItem("Token"))
-
-            localStorage.setItem("playerId", user.playerId)
+            localStorage.setItem("Token", response.headers["playertoken"]);
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/lobby`); //TODO: find out what this is called
@@ -86,13 +86,13 @@ const EnterName = props => {
                         >
                             JOIN GAME
                         </Button>
+
                     </div>
 
                 </div>
 
                 <div  className="joincode form2">
                     <img src="/images/questiony.png" alt="" className="joincode questionimg"/>
-
 
                 </div>
 
