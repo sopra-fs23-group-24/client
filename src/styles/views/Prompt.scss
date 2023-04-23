@@ -3,6 +3,9 @@
 $textColor: black;
 
 .prompt {
+  h1{
+    color: black;
+  }
   &.container {
     min-height: 300px;
     display: flex;

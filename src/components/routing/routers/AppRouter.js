@@ -10,6 +10,7 @@ import EnterName from "../../views/EnterName";
 import DrawingPrompt from "../../views/DrawingPrompt";
 import AnswerPrompt from "../../views/AnswerPrompt";
 import WaitingRoom from "../../views/WaitingRoom";
+import QuizAnswer from "../../views/QuizAnswer";
 
 /**
  * Main router of your application.
@@ -64,6 +65,10 @@ const AppRouter = () => {
         <Route exact path="/answerPrompt">
           <AnswerPrompt/>
         </Route>
+
+          <Route exact path="/quizAnswer">
+              <QuizAnswer/>
+          </Route>
 
         <Route exact path="/">
           <Redirect to="/startscreen"/>
