@@ -4,8 +4,10 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
+import User from "../../models/User";
+import user from "../../models/User";
 
 
 const FormField = props => {
@@ -72,7 +74,7 @@ const Lobby = () => {
             const options = {
                 method: 'GET',
                 url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
-                params: {type: 'url', value: 'http://localhost:3000/entername'},
+                params: {type: 'url', value: 'http://localhost:3000/entername/{gamePin}/'},
                 headers: {
                     'X-RapidAPI-Key': '9706f0679bmshb78281c4935e15bp14358cjsn25618d800385',
                     'X-RapidAPI-Host': 'codzz-qr-cods.p.rapidapi.com'
@@ -90,7 +92,7 @@ const Lobby = () => {
 
         const leaveGame = async () => {
         try {
-            console.log("TOKEN:" + localStorage.getItem("Token"))
+            //console.log("TOKEN:" + localStorage.getItem("Token"))
             const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
             localStorage.removeItem("Token")
             // TODO: use response!!
@@ -102,21 +104,58 @@ const Lobby = () => {
             alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
         }
 
-        /*const displayGamePin = () => {
-            try {
-                const gamePin = localStorage.getItem("gamePin");
-                return gamePin
 
-        } catch (error) {
-                alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
-        }*/
     };
 
 
+    if (localStorage.getItem('isHost') === 'true') {
+        return ( <BaseContainer>
 
-    return (
+                <div className="lobby container">
+                    <h1>GAME: {localStorage.getItem("gamePin")}</h1>
+
+                    <div  className="lobby form2">
+                        {qrCode !== null && <img style={{ width: 100, height: 100 }} src={qrCode.url} alt="qr code"/>}
+
+                        <img style={{ width: '50%', height: '50%' }} src="/images/questiony.png" alt="" className="lobby questionimg"/>
+
+                    </div>
+
+                    <div className="lobby form">
+                        <h1>Players</h1>
+                        <ul>{users !== null && users.map(user => {
+                            return <div>{user.playerName}</div>})}
+                        </ul>
+                        <div className="login button-container">
+                            <Button
+                                style={{ marginLeft: "auto" }}
+                                width="30%"
+                                onClick={() => leaveGame()}
+                            >
+                                END
+                            </Button>
+
+                            <Button
+                                style={{ marginLeft: "auto" }}
+                                width="30%"
+                                onClick={() => leaveGame()}
+                            >
+                                START
+                            </Button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </BaseContainer>
+
+        );
+    }
+    else {
+        return (
         <BaseContainer>
-            
+
             <div className="lobby container">
                 <h1>GAME: {localStorage.getItem("gamePin")}</h1>
 
@@ -148,7 +187,7 @@ const Lobby = () => {
 
         </BaseContainer>
 
-    );
+    );}
 };
 
 /**
