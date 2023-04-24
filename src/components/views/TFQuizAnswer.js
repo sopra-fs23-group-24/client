@@ -21,7 +21,12 @@ const TFQuizAnswer = props => {
 
     const history = useHistory();
     const [answer, setAnswer] = useState(null);
-
+    const question=props.question;
+    const submitAnswer=(value)=>{
+        props.submitAnswer(value);
+    }
+    const value1="player1";
+    const value2="player2";
 
 
     return (
@@ -34,10 +39,10 @@ const TFQuizAnswer = props => {
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
-                            <Button width="50%" value="player1" >
+                            <Button width="50%" onClick={()=>submitAnswer(value1)}>
                                 True
                             </Button>
-                            <Button width="50%" >
+                            <Button width="50%" onClick={()=>submitAnswer(value2)}>
                                 False
                             </Button>
                         </div>

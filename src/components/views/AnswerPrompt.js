@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import User from 'models/User';
 import {useHistory, useParams} from 'react-router-dom';
@@ -55,37 +55,32 @@ const AnswerPrompt = props => {
     const history = useHistory();
     const [prompts, setPrompts] = useState(null);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log(localStorage.getItem("Token"));
+                const newState = JSON.stringify({status:"SELECTION"});
+                await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
+                let response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
+                if(response2.data.length === 0){
+                    const requestBody = JSON.stringify({textNr:2, truefalseNr:2, drawingNr:1});
+                    await api.post('/games/' + localStorage.getItem("gamePin") +"/prompts", requestBody);
+                    response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
+                }
+                console.log(response2);
 
-
-    const getPrompts = async () => {
-        try {
-            console.log(localStorage.getItem("Token"));
-            const newState = JSON.stringify({status:"SELECTION"});
-            await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
-            let response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
-            if(response2.data.length === 0){
-                const requestBody = JSON.stringify({textNr:2, truefalseNr:2, drawingNr:1});
-                await api.post('/games/' + localStorage.getItem("gamePin") +"/prompts", requestBody);
-                response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
+                setPrompts(response2.data);
+            } catch (error) {
+                alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
             }
-            console.log(response2);
+        };
+        fetchData();
+    }, []);
 
-            setPrompts(response2.data);
-        } catch (error) {
-            alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
-        }
-    };
 
-    const printQuestions = async () => {
-        console.log(prompts);
-        console.log(prompts[0]);
-        console.log(counter)
+    let content = null;
 
-    }
-
-    let content = <Spinner/>
-
-    if(prompts !== null && prompts !== [] && counter <=4 ){
+    if(prompts && prompts !== [] && counter <=4 ){
 
             if (prompts[counter].promptType === 'TRUEFALSE') {
                 content =
@@ -110,21 +105,6 @@ const AnswerPrompt = props => {
 
         return (
         <BaseContainer>
-            <div className="login button-container">
-                <Button
-                    width="100%"
-                    onClick={() => getPrompts()}
-                >
-                    JOIN GAME
-                </Button>
-
-                <Button
-                    width="100%"
-                    onClick={() => printQuestions()}
-                >
-                    Print Questions
-                </Button>
-            </div>
             <div className="prompt container">
                 {content}
             </div>

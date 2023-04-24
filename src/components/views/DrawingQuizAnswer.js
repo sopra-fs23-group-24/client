@@ -18,9 +18,17 @@ specific components that belong to the main one in the same file.
 
 
 const DrawingQuizAnswer = props => {
-
+    const question=props.question;
+    const submitAnswer=(value)=>{
+        props.submitAnswer(value);
+    }
     const history = useHistory();
     const [answer, setAnswer] = useState(null);
+    const value1="player1";
+    const value2="player2";
+    const value3="player3";
+    const value4="player4";
+
 
     return (
         <div className="prompt container">
@@ -34,19 +42,19 @@ const DrawingQuizAnswer = props => {
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
-                            <Button width="50%" value="player1" >
+                            <Button width="50%" onClick={()=>submitAnswer(value1)}>
                                 Player 1
                             </Button>
-                            <Button width="50%" >
+                            <Button width="50%" onClick={()=>submitAnswer(value2)}>
                                 Player 2
                             </Button>
                         </div>
 
                         <div className="quiz upperButtons">
-                            <Button width="50%" value="player1" >
+                            <Button width="50%" onClick={()=>submitAnswer(value3)}>
                                 Player 3
                             </Button>
-                            <Button width="50%" >
+                            <Button width="50%" onClick={()=>submitAnswer(value4)}>
                                 Player 4
                             </Button>
                         </div>

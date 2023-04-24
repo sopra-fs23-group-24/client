@@ -1,18 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import User from 'models/User';
 import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
-import DrawingPrompt from "./DrawingPrompt";
-import TrueFalsePrompt from "./TrueFalsePrompt";
 import {Spinner} from "../ui/Spinner";
-import TextPrompt from "./TextPrompt";
 import TextQuizAnswer from "./TextQuizAnswer";
 import TFQuizAnswer from "./TFQuizAnswer";
 import DrawingQuizAnswer from "./DrawingQuizAnswer";
+import QuestionInstance from "../../models/QuestionInstance";
 
 
 /*
@@ -21,47 +17,66 @@ however be sure not to clutter your files with an endless amount!
 As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
-const FormField = props => {
-    return (
-        <div className="joincode field">
-            <label className="joincode label">
-                {props.label}
-            </label>
-            <input
-                className="login input"
-                placeholder="Enter Name"
-                value={props.value}
-                onChange={e => props.onChange(e.target.value)}
-            />
-        </div>
-
-
-
-    );
-};
-
-FormField.propTypes = {
-    label: PropTypes.string,
-    value: PropTypes.string,
-    onChange: PropTypes.func
-};
 
 const QuizAnswer = props => {
 
     const history = useHistory();
     const [question, setQuestion] = useState(null);
+    const [selectedAnswerId, setSelectedAnswerId] = useState(null);
+    const [leaderboardStatus, setLeaderBoardStatus] = useState(false);
+
 
     /*
     api.post('/games/'+ localStorage.getItem("gamePin") + 'quizQuestions')
     */
     const getQuestions = async () => {
-        await api.get('/games/'+ localStorage.getItem("gamePin") + 'quizQuestions');
-
+        //TODO look at naming convention in question
+        let response = await api.get('/games/'+ localStorage.getItem("gamePin") + '/quizQuestions');
+        const questionInstance = new QuestionInstance(response.data);
+        setQuestion(questionInstance);
     };
+
+    const submitAnswer = (value) => {
+        setSelectedAnswerId(value);
+        const requestBody = JSON.stringify({answerOptionId:selectedAnswerId});
+        api.post('/games/'+ localStorage.getItem("gamePin") + '/gameQuestions/'+question.questionId+'/answers'
+            ,requestBody,{headers:{"playerToken":localStorage.getItem('Token')}})
+        setLeaderBoardStatus(true);
+    }
+
+    function changeLeaderboardStatus(){
+        setLeaderBoardStatus(!leaderboardStatus);
+    }
 
 
     let content = <Spinner/>
 
+    if(leaderboardStatus===false){
+        if(question) {
+            if (question.imageToDisplay != null) {
+                content =
+                    <DrawingQuizAnswer question={question} submitAnswer={submitAnswer}>
+
+                    </DrawingQuizAnswer>
+            } else {
+                if (question.answerOptions.length === 4) {
+                    content =
+                        <TextQuizAnswer question={question} submitAnswer={submitAnswer}>
+                        </TextQuizAnswer>
+                }
+                if (question.answerOptions.length === 2) {
+                    content =
+                        <TFQuizAnswer question={question} submitAnswer={submitAnswer}>
+
+                        </TFQuizAnswer>
+                }
+            }
+        }
+    }
+    else{
+        //TODO set content to Leaderboard View
+        content=<Spinner/>
+    }
 
     return (
         <BaseContainer>
@@ -75,15 +90,9 @@ const QuizAnswer = props => {
 
             </div>
             <div className="prompt container">
-                <TextQuizAnswer>
-                </TextQuizAnswer>
+                {content}
             </div>
-            <TFQuizAnswer>
 
-            </TFQuizAnswer>
-            <DrawingQuizAnswer>
-
-            </DrawingQuizAnswer>
         </BaseContainer>
 
     );
