@@ -50,24 +50,26 @@ const QuizAnswer = props => {
 
 
     let content = <Spinner/>
+
     if(leaderboardStatus===false){
-        if(question.imageToDisplay!=null){
-            content =
-                <DrawingQuizAnswer question={question} submitAnswer={submitAnswer}>
+        if(question) {
+            if (question.imageToDisplay != null) {
+                content =
+                    <DrawingQuizAnswer question={question} submitAnswer={submitAnswer}>
 
-                </DrawingQuizAnswer>
-        }
-        else{
-            if(question.answerOptions.length===4){
-                content=
-                    <TextQuizAnswer question={question} submitAnswer={submitAnswer}>
-                    </TextQuizAnswer>
-            }
-            if(question.answerOptions.length===2){
-                content=
-                    <TFQuizAnswer question={question} submitAnswer={submitAnswer}>
+                    </DrawingQuizAnswer>
+            } else {
+                if (question.answerOptions.length === 4) {
+                    content =
+                        <TextQuizAnswer question={question} submitAnswer={submitAnswer}>
+                        </TextQuizAnswer>
+                }
+                if (question.answerOptions.length === 2) {
+                    content =
+                        <TFQuizAnswer question={question} submitAnswer={submitAnswer}>
 
-                    </TFQuizAnswer>
+                        </TFQuizAnswer>
+                }
             }
         }
     }
