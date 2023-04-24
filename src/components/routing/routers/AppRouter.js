@@ -12,6 +12,7 @@ import AnswerPrompt from "../../views/AnswerPrompt";
 import WaitingRoom from "../../views/WaitingRoom";
 import QuizAnswer from "../../views/QuizAnswer";
 import EndScreen from "../../views/EndScreen";
+import LeaderBoardView from "../../views/leaderBoardView";
 
 /**
  * Main router of your application.
@@ -66,8 +67,13 @@ const AppRouter = () => {
               <EndScreen/>
           </Route>
 
+          <Route exact path="/leaderBoardView">
+              <LeaderBoardView/>
+          </Route>
 
-        <Route exact path="/answerPrompt">
+
+
+          <Route exact path="/answerPrompt">
           <AnswerPrompt/>
         </Route>
 
