@@ -8,3 +8,12 @@ export const Button = props => (
     {props.children}
   </button>
 );
+
+export const secondButton = props => (
+    <button
+        {...props}
+        style={{width: props.width, ...props.style}}
+        className={`secondary-button ${props.className}`}>
+      {props.children}
+    </button>
+);

@@ -130,10 +130,10 @@ const Lobby = () => {
 
                     <div  className="lobby form2">
                         <h1>GAME: {localStorage.getItem("gamePin")}</h1>
-                        {qrCode !== null && <img style={{ width: 125, height: 125 }} src={qrCode.url} alt="qr code"/>}
-
-                        <img style={{ width: '50%', height: '50%', marginLeft: '180px' }} src="/images/questiony.png" alt="" className="lobby questionimg"/>
-
+                        <div>
+                            <div style={{float: 'left', width: '50%'}}>{qrCode !== null && <img style={{ width: 125, height: 125, marginTop: 40 }} src={qrCode.url} alt="qr code"/>}</div>
+                            <div style={{ float: 'right', width: '50%'}}><img style={{ width: 250, height: 250 }} src="/images/questiony.png" alt="" className="lobby questionimg"/></div>
+                        </div>
                     </div>
 
                     <div className="lobby form">
@@ -147,7 +147,7 @@ const Lobby = () => {
                             </li>})}
                         </ul>
                         <div className="login button-container">
-                            <Button
+                            <Button className='secondary-button'
                                 style={{ marginLeft: "auto" }}
                                 width="30%"
                                 onClick={() => leaveGame()}
@@ -193,7 +193,7 @@ const Lobby = () => {
                         return <li key={index}>{user.playerName}</li>})}
                     </ul>
                     <div className="login button-container">
-                        <Button
+                        <Button className='secondary-button'
                             style={{ marginLeft: "auto" }}
                             width="30%"
                             onClick={() => leaveGame()}
