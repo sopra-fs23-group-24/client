@@ -28,7 +28,16 @@ const TextQuizAnswer = props => {
     const value2=question.answerOptions[1].answerOptionId;
     const value3=question.answerOptions[2].answerOptionId;
     const value4=question.answerOptions[3].answerOptionId;
+    const [isClicked1, setIsClicked1] = useState(false);
+    const [isClicked2, setIsClicked2] = useState(false);
+    const [isClicked3, setIsClicked3] = useState(false);
+    const [isClicked4, setIsClicked4] = useState(false);
+    const [allDisabled, setAllDisabled] = useState(false);
 
+    const handleClick = (clickNumber) => {
+        clickNumber(true);
+        setAllDisabled(true);
+    };
 
     return (
         <div className="prompt container">
@@ -40,19 +49,31 @@ const TextQuizAnswer = props => {
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
-                            <Button width="50%" onClick={()=>submitAnswer(value1)}>
+                            <Button className={isClicked1 ? 'quiz clicked' : ''}
+                                width="50%"
+                                disabled={allDisabled}
+                                onClick={()=>{submitAnswer(value1); handleClick(setIsClicked1)}}>
                                 {question.answerOptions[0].answerOptionText}
                             </Button>
-                            <Button width="50%" onClick={()=>submitAnswer(value2)}>
+                            <Button className={isClicked2 ? 'quiz clicked' : ''}
+                                width="50%"
+                                disabled={allDisabled}
+                                    onClick={()=>{submitAnswer(value2); handleClick(setIsClicked2)}}>
                                 {question.answerOptions[1].answerOptionText}
                             </Button>
                         </div>
 
                         <div className="quiz upperButtons">
-                            <Button width="50%" onClick={()=>submitAnswer(value3)}>
+                            <Button className={isClicked3 ? 'quiz clicked' : ''}
+                                width="50%"
+                                disabled={allDisabled}
+                                    onClick={()=>{submitAnswer(value3); handleClick(setIsClicked3)}}>
                                 {question.answerOptions[2].answerOptionText}
                             </Button>
-                            <Button width="50%" onClick={()=>submitAnswer(value4)}>
+                            <Button className={isClicked4 ? 'quiz clicked' : ''}
+                                width="50%"
+                                disabled={allDisabled}
+                                onClick={()=>{submitAnswer(value4); handleClick(setIsClicked4)}}>
                                 {question.answerOptions[3].answerOptionText}
                             </Button>
                         </div>

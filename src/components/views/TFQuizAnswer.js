@@ -27,6 +27,14 @@ const TFQuizAnswer = props => {
     }
     const value1=question.answerOptions[0].answerOptionId;
     const value2=question.answerOptions[1].answerOptionId;
+    const [isClicked1, setIsClicked1] = useState(false);
+    const [isClicked2, setIsClicked2] = useState(false);
+    const [allDisabled, setAllDisabled] = useState(false);
+
+    const handleClick = (clickNumber) => {
+        clickNumber(true);
+        setAllDisabled(true);
+    };
 
 
     return (
@@ -39,10 +47,16 @@ const TFQuizAnswer = props => {
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
-                            <Button width="50%" onClick={()=>submitAnswer(value1)}>
+                            <Button className={isClicked1 ? 'quiz clicked' : ''}
+                                    width="50%"
+                                    disabled={allDisabled}
+                                    onClick={()=>{submitAnswer(value1); handleClick(setIsClicked1)}}>
                                 {question.answerOptions[0].answerOptionText}
                             </Button>
-                            <Button width="50%" onClick={()=>submitAnswer(value2)}>
+                            <Button className={isClicked2 ? 'quiz clicked' : ''}
+                                    width="50%"
+                                    disabled={allDisabled}
+                                    onClick={()=>{submitAnswer(value2); handleClick(setIsClicked2)}}>
                                 {question.answerOptions[1].answerOptionText}
                             </Button>
                         </div>

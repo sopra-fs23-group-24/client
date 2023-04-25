@@ -22,6 +22,26 @@
 
   }
 
+  &.clicked:disabled{
+    opacity: 1;
+    animation: glowing 1300ms infinite;
+  }
+  @keyframes glowing {
+    0% {
+      background-color: #5C188E;
+      box-shadow: 0 0 5px #5C188E;
+    }
+    50% {
+      background-color: #6d2aac;
+      box-shadow: 0 0 20px #6d2aac;
+    }
+    100% {
+      background-color: #5C188E;
+      box-shadow: 0 0 5px #5C188E;
+    }
+  }
+
+
   &.button-container {
     display: flex;
     flex-direction: column;
