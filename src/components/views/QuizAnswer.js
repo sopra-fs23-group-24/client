@@ -20,38 +20,44 @@ specific components that belong to the main one in the same file.
 
 const QuizAnswer = props => {
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            if (response.data.currentQuestion.questionStatus === 'FINISHED') {
+                history.push("/leaderboard");
+            }
+
+        };
+        const initialize = async () => {
+            let response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            const questionInstance = new QuestionInstance(response.data.currentQuestion);
+            setQuestion(questionInstance);
+        };
+
+        initialize();
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
+
     const history = useHistory();
     const [question, setQuestion] = useState(null);
     const [selectedAnswerId, setSelectedAnswerId] = useState(null);
-    const [leaderboardStatus, setLeaderBoardStatus] = useState(false);
 
 
     /*
     api.post('/games/'+ localStorage.getItem("gamePin") + 'quizQuestions')
     */
-    const getQuestions = async () => {
-        //TODO look at naming convention in question
-        let response = await api.get('/games/'+ localStorage.getItem("gamePin") + '/quizQuestions');
-        const questionInstance = new QuestionInstance(response.data);
-        setQuestion(questionInstance);
-    };
 
     const submitAnswer = (value) => {
         setSelectedAnswerId(value);
-        const requestBody = JSON.stringify({answerOptionId:selectedAnswerId});
-        api.post('/games/'+ localStorage.getItem("gamePin") + '/gameQuestions/'+question.questionId+'/answers'
+        const requestBody = JSON.stringify({pickedAnswerOptionId:selectedAnswerId});
+        api.post('/games/'+ localStorage.getItem("gamePin") + '/quiz-questions/'+question.questionId+'/answers'
             ,requestBody,{headers:{"playerToken":localStorage.getItem('Token')}})
-        setLeaderBoardStatus(true);
-    }
-
-    function changeLeaderboardStatus(){
-        setLeaderBoardStatus(!leaderboardStatus);
     }
 
 
-    let content = <Spinner/>
+    let content = null;
 
-    if(leaderboardStatus===false){
         if(question) {
             if (question.imageToDisplay != null) {
                 content =
@@ -72,23 +78,11 @@ const QuizAnswer = props => {
                 }
             }
         }
-    }
-    else{
-        //TODO set content to Leaderboard View
-        content=<Spinner/>
-    }
+
 
     return (
         <BaseContainer>
-            <div className="login button-container">
-                <Button
-                    width="100%"
-                    onClick={() => getQuestions()}
-                >
-                    JOIN GAME
-                </Button>
 
-            </div>
             <div className="prompt container">
                 {content}
             </div>

@@ -20,15 +20,14 @@ specific components that belong to the main one in the same file.
 const TextQuizAnswer = props => {
 
     const history = useHistory();
-    const [answer, setAnswer] = useState(null);
     const question=props.question;
     const submitAnswer=(value)=>{
         props.submitAnswer(value);
     }
-    const value1="player1";
-    const value2="player2";
-    const value3="player3";
-    const value4="player4";
+    const value1=question.answerOptions[0].answerOptionId;
+    const value2=question.answerOptions[1].answerOptionId;
+    const value3=question.answerOptions[2].answerOptionId;
+    const value4=question.answerOptions[3].answerOptionId;
 
 
     return (
@@ -37,24 +36,24 @@ const TextQuizAnswer = props => {
             <div className="prompt containerQuestion">
                 <div className="prompt form">
                     <div className="quiz question-container">
-                        <h1>Here comes the Question</h1>
+                        <h1>{question.quizQuestionText}</h1>
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
                             <Button width="50%" onClick={()=>submitAnswer(value1)}>
-                                Player 1
+                                {question.answerOptions[0].answerOptionText}
                             </Button>
                             <Button width="50%" onClick={()=>submitAnswer(value2)}>
-                                Player 2
+                                {question.answerOptions[1].answerOptionText}
                             </Button>
                         </div>
 
                         <div className="quiz upperButtons">
                             <Button width="50%" onClick={()=>submitAnswer(value3)}>
-                                Player 3
+                                {question.answerOptions[2].answerOptionText}
                             </Button>
                             <Button width="50%" onClick={()=>submitAnswer(value4)}>
-                                Player 4
+                                {question.answerOptions[3].answerOptionText}
                             </Button>
                         </div>
                     </div>

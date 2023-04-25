@@ -25,8 +25,8 @@ const TFQuizAnswer = props => {
     const submitAnswer=(value)=>{
         props.submitAnswer(value);
     }
-    const value1="player1";
-    const value2="player2";
+    const value1=question.answerOptions[0].answerOptionId;
+    const value2=question.answerOptions[1].answerOptionId;
 
 
     return (
@@ -35,15 +35,15 @@ const TFQuizAnswer = props => {
             <div className="prompt containerQuestion">
                 <div className="prompt form">
                     <div className="quiz question-container">
-                        <h1>Here comes the Question</h1>
+                        <h1>{question.quizQuestionText}</h1>
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
                             <Button width="50%" onClick={()=>submitAnswer(value1)}>
-                                True
+                                {question.answerOptions[0].answerOptionText}
                             </Button>
                             <Button width="50%" onClick={()=>submitAnswer(value2)}>
-                                False
+                                {question.answerOptions[1].answerOptionText}
                             </Button>
                         </div>
                     </div>

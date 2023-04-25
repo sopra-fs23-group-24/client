@@ -9,6 +9,7 @@ class QuestionInstance {
         this.storyToDisplay = null;
         this.answerOptions = null;
         this.correctAnswer = null;
+        this.questionStatus = null;
         Object.assign(this, data);
     }
 }

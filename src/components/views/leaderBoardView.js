@@ -39,7 +39,7 @@ const LeaderBoardView = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await api.put('/games/'+ localStorage.getItem("gamePin") + '/quizQuestions');
-            if (response.data.currentQuestion === 'UNFINISHED') {
+            if (response.data.currentQuestion.questionStatus === 'NOT_FINISHED') {
                 history.push("/quizAnswer");
             }
 
