@@ -84,7 +84,7 @@ const Lobby = () => {
             const options = {
                 method: 'GET',
                 url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
-                params: {type: 'url', value: 'http://localhost:3000/entername/{gamePin}/'},
+                params: {type: 'url', value: 'http://localhost:3000/entername/' + localStorage.getItem('gamePin')},
                 headers: {
                     'X-RapidAPI-Key': '9706f0679bmshb78281c4935e15bp14358cjsn25618d800385',
                     'X-RapidAPI-Host': 'codzz-qr-cods.p.rapidapi.com'
@@ -118,8 +118,38 @@ const Lobby = () => {
     };
 
         const deleteUser = async (playerId) => {
+            try {
             const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + playerId, {headers: {"playerToken": localStorage.getItem("Token")}});
-        };
+            console.log(response)
+
+        } catch (error) {
+        alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+    }
+
+};
+
+    const endGame = async () => {
+        try {
+            console.log(localStorage.getItem('gamePin'))
+            const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
+            console.log(response)
+
+        } catch (error) {
+            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        }
+
+    };
+
+    const startGame = async () => {
+        try {
+            history.push("/answerPrompt");
+
+
+        } catch (error) {
+            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        }
+
+    };
 
 
     if (localStorage.getItem('isHost') === 'true') {
@@ -150,7 +180,7 @@ const Lobby = () => {
                             <Button className='secondary-button'
                                 style={{ marginLeft: "auto" }}
                                 width="30%"
-                                onClick={() => leaveGame()}
+                                onClick={() => endGame()}
                             >
                                 END
                             </Button>
@@ -158,7 +188,7 @@ const Lobby = () => {
                             <Button
                                 style={{ marginLeft: "auto" }}
                                 width="30%"
-                                onClick={() => leaveGame()}
+                                onClick={() => startGame()}
                             >
                                 START
                             </Button>
