@@ -215,7 +215,7 @@ const Lobby = () => {
                     <h1>GAME: {localStorage.getItem("gamePin")}</h1>
                     <div>
                      <div style={{float: 'left', width: '50%'}}>{qrCode !== null && <img style={{ width: 125, height: 125, marginTop: 40 }} src={qrCode.url} alt="qr code"/>}</div>
-                     <div style={{ float: 'right', width: '50%'}}><img style={{ width: 250, height: 250 }} src="/images/questiony.png" alt="" className="lobby questionimg"/></div>
+                     <div style={{ float: 'right', width: '50%'}}><img style={{ width: 250, height: 250 }} src={QuestionImage} alt="" className="lobby questionimg"/></div>
                     </div>
                 </div>
 

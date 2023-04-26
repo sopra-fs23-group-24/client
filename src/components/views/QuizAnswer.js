@@ -41,7 +41,6 @@ const QuizAnswer = props => {
 
     const history = useHistory();
     const [question, setQuestion] = useState(null);
-    const [selectedAnswerId, setSelectedAnswerId] = useState(null);
 
 
     /*
@@ -49,8 +48,7 @@ const QuizAnswer = props => {
     */
 
     const submitAnswer = (value) => {
-        setSelectedAnswerId(value);
-        const requestBody = JSON.stringify({pickedAnswerOptionId:selectedAnswerId});
+        const requestBody = JSON.stringify({pickedAnswerOptionId:value});
         api.post('/games/'+ localStorage.getItem("gamePin") + '/quiz-questions/'+question.questionId+'/answers'
             ,requestBody,{headers:{"playerToken":localStorage.getItem('Token')}})
     }

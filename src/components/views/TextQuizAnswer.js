@@ -24,6 +24,8 @@ const TextQuizAnswer = props => {
     const history = useHistory();
     const question=props.question;
     const submitAnswer=(value)=>{
+        console.log(question.answerOptions[0].answerOptionId);
+        console.log(value);
         props.submitAnswer(value);
     }
     const value1=question.answerOptions[0].answerOptionId;

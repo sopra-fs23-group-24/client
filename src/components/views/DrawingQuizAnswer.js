@@ -48,7 +48,7 @@ const DrawingQuizAnswer = props => {
                 <div className="quiz form">
                     <div className="quiz question-container">
                         <h1>{question.quizQuestionText}</h1>
-                        <img src="/src/components/views/Images/questiony.png" alt="" className="quiz questionimg"/>
+                        <img src={question.imageToDisplay} alt="" style={{height:"100%",width:"100%",objectFit:"contain"}}/>
 
                     </div>
                     <div className="quiz button-container">

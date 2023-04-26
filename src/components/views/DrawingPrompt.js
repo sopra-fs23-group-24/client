@@ -150,7 +150,7 @@ const DrawingPrompt = props => {
                 <div className="drawingprompt form">
 
                     <FormField
-                        label="Draw a Rat"
+                        label={prompt.promptText}
 
                     />
                     <div className = "drawingprompt row">
