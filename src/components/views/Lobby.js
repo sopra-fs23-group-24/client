@@ -1,23 +1,19 @@
-import React, {useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import User from 'models/User';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
-import 'styles/views/JoinCode.scss';
+import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import StartScreen from './StartScreen';
+import React, {useEffect, useState} from "react";
+import axios from "axios";
+import User from "../../models/User";
+import user from "../../models/User";
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
+
 const FormField = props => {
     return (
-        <div className="joincode field">
-            <label className="joincode label">
+        <div className="lobby field">
+            <label className="lobby label">
                 {props.label}
             </label>
             <input
@@ -27,9 +23,6 @@ const FormField = props => {
                 onChange={e => props.onChange(e.target.value)}
             />
         </div>
-
-
-
     );
 };
 
@@ -39,67 +32,213 @@ FormField.propTypes = {
     onChange: PropTypes.func
 };
 
-const Lobby = props => {
+const Lobby = () => {
     const history = useHistory();
-    const [gamePin, setGamePin] = useState(null);
+    const [users, setUsers] = useState(null);
+    const [qrCode, setQrCode] = useState(null);
 
-    const joinGame = async () => {
+    useEffect(async () => {
         try {
-            const requestBody = JSON.stringify({gamePin});
-            const response = await api.post('/join', requestBody);
+            const fetchData = async () => {
 
-            // Get the returned user and update a new object.
-            //TODO: if it gets correct response continue with code:
-            const user = new User(response.data);
+                const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
+                //correct mapping -> this should get all the users
 
-            // Store the id and gamepin into the local storage.
-            localStorage.setItem('playerId', user.playerId);
-            localStorage.setItem('gamePin', user.gamePin);
+                // delays continuous execution of an async operation for 1 second.
+                // This is just a fake async call, so that the spinner can be displayed
+                // feel free to remove it :)
+                //await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Login successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/usernamescreen`); //TODO: find out what this is called
+                // Get the returned users and update the state.
+                setUsers(response.data);
+                //setUsers([{playerName: "user1"},{playerName: "user2"}])
+
+                // This is just some data for you to see what is available.
+                // Feel free to remove it.
+                // console.log('request to:', response.request.responseURL);
+                // console.log('status code:', response.status);
+                // console.log('status text:', response.statusText);
+                // console.log('requested data:', response.data);
+
+                // See here to get more data.
+                //console.log(response);
+            }
+
+            const intervalId = setInterval(fetchData, 1000);
+            // () => clearInterval(intervalId);
 
         } catch (error) {
-            alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
+            console.error(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            console.error("Details:", error);
+            alert("Something went wrong while fetching the users! See the console for details.");
         }
+
+        createQrCode();
+
+
+
+
+    }, []);
+
+        const createQrCode = () => {
+            const options = {
+                method: 'GET',
+                url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
+                params: {type: 'url', value: 'http://localhost:3000/entername/' + localStorage.getItem('gamePin')},
+                headers: {
+                    'X-RapidAPI-Key': '9706f0679bmshb78281c4935e15bp14358cjsn25618d800385',
+                    'X-RapidAPI-Host': 'codzz-qr-cods.p.rapidapi.com'
+                }
+            };
+
+            axios.request(options).then(function (response) {
+                console.log(response.data);
+                setQrCode(response.data);
+            }).catch(function (error) {
+                console.error(error);
+            });
+
+        };
+
+        const leaveGame = async () => {
+        try {
+            //console.log("TOKEN:" + localStorage.getItem("Token"))
+            const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
+            localStorage.removeItem("Token")
+            // TODO: use response!!
+
+            // Leaving worked successfully--> navigate to the start screen
+            history.push(`/startscreen`);
+
+        } catch (error) {
+            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        }
+
+
+    };
+
+        const deleteUser = async (playerId) => {
+            try {
+            const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + playerId, {headers: {"playerToken": localStorage.getItem("Token")}});
+            console.log(response)
+
+        } catch (error) {
+        alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+    }
+
+};
+
+    const endGame = async () => {
+        try {
+            console.log(localStorage.getItem('gamePin'))
+            const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
+            console.log(response)
+
+        } catch (error) {
+            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        }
+
+    };
+
+    const startGame = async () => {
+        try {
+            history.push("/answerPrompt");
+
+
+        } catch (error) {
+            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        }
+
     };
 
 
+    if (localStorage.getItem('isHost') === 'true') {
+        return ( <BaseContainer>
 
-    return (
-        <BaseContainer>
-            
-            <div className="joincode container">
-                <div className="joincode form">
+                <div className="lobby container">
 
-                    <FormField
-                        label="Players"
-                        
-                    />
-                    
+
+                    <div  className="lobby form2">
+                        <h1>GAME: {localStorage.getItem("gamePin")}</h1>
+                        <div>
+                            <div style={{float: 'left', width: '50%'}}>{qrCode !== null && <img style={{ width: 125, height: 125, marginTop: 40 }} src={qrCode.url} alt="qr code"/>}</div>
+                            <div style={{ float: 'right', width: '50%'}}><img style={{ width: 250, height: 250 }} src="/images/questiony.png" alt="" className="lobby questionimg"/></div>
+                        </div>
+                    </div>
+
+                    <div className="lobby form">
+                        <h1>Players</h1>
+                        <ul>{users !== null && users.map((user, index) => {
+                            return <li key={index}>{user.playerName}
+                                <a
+                                    style={{ marginLeft: "auto" }}
+                                    onClick={() => deleteUser(user.playerId)}
+                                > X </a>
+                            </li>})}
+                        </ul>
+                        <div className="login button-container">
+                            <Button className='secondary-button'
+                                style={{ marginLeft: "auto" }}
+                                width="30%"
+                                onClick={() => endGame()}
+                            >
+                                END
+                            </Button>
+
+                            <Button
+                                style={{ marginLeft: "auto" }}
+                                width="30%"
+                                onClick={() => startGame()}
+                            >
+                                START
+                            </Button>
+                        </div>
+                    </div>
+
+
                 </div>
 
-                <div  className="joincode form2">
-                    <img src="/images/questiony.png" alt="" className="joincode questionimg"/>
+            </BaseContainer>
+
+        );
+    }
+    else {
+        return (
+        <BaseContainer>
+
+            <div className="lobby container">
 
 
-             </div>
-                
+                <div  className="lobby form2">
+                    <h1>GAME: {localStorage.getItem("gamePin")}</h1>
+                    <div>
+                     <div style={{float: 'left', width: '50%'}}>{qrCode !== null && <img style={{ width: 125, height: 125, marginTop: 40 }} src={qrCode.url} alt="qr code"/>}</div>
+                     <div style={{ float: 'right', width: '50%'}}><img style={{ width: 250, height: 250 }} src="/images/questiony.png" alt="" className="lobby questionimg"/></div>
+                    </div>
+                </div>
 
-
-
-            </div>
-            <div className="login button-container">
-                        <Button
-                            width="50%"
-                            onClick={() => history.push(`/startscreen`)}
+                <div className="lobby form">
+                    <h1>Players</h1>
+                    <ul>{users !== null && users.map((user, index) => {
+                        return <li key={index}>{user.playerName}</li>})}
+                    </ul>
+                    <div className="login button-container">
+                        <Button className='secondary-button'
+                            style={{ marginLeft: "auto" }}
+                            width="30%"
+                            onClick={() => leaveGame()}
                         >
                             LEAVE
                         </Button>
                     </div>
+                </div>
+
+
+            </div>
+
         </BaseContainer>
 
-    );
+    );}
 };
 
 /**
