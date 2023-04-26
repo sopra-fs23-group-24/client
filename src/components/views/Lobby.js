@@ -40,9 +40,10 @@ const Lobby = () => {
     const [qrCode, setQrCode] = useState(null);
     const [ingame, setIngame] = useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
+
         try {
-            const fetchData = async () => {
+            const fetchDataLobb = async () => {
 
                 const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
                 //correct mapping -> this should get all the users
@@ -65,13 +66,13 @@ const Lobby = () => {
 
                 // See here to get more data.
                 //console.log(response);
-                const response2 = await api.get('/games/'+ localStorage.getItem("gamePin"));
-                if (response2.data.status !== 'LOBBY') {
+                const responseLobby = await api.get('/games/'+ localStorage.getItem("gamePin"));
+                if (responseLobby.data.status !== 'LOBBY') {
                     history.push("/answerPrompt");
                 }
-            }
+            };
 
-            const intervalId = setInterval(fetchData, 1000);
+            const intervalId = setInterval(fetchDataLobb, 1000);
             return () => clearInterval(intervalId);
 
         } catch (error) {

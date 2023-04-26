@@ -67,22 +67,22 @@ const EndScreen = props => {
             <div className="endscreen displayName">
                 <h1>{playerList[0].playerName}</h1>
                 <div
-                    className = "endscreen podiumForm" style={{ height: "250px" }}> <h2>Score: 10</h2> <h2>2 out of 7</h2>
+                    className = "endscreen podiumForm" style={{ height: "250px" }}> <h2>{playerList[0].score}</h2> <h2>2 out of 7</h2>
                 </div>
             </div>
 
 
             <div className="endscreen displayName">
-                <h1>Username 2</h1>
+                <h1>{playerList[1].playerName}</h1>
                 <div
-                    className = "endscreen podiumForm" style={{ height: "300px" }}> <h2>Score: 20</h2> <h2>1 out of 7</h2>
+                    className = "endscreen podiumForm" style={{ height: "300px" }}> <h2>{playerList[1].score}</h2> <h2>1 out of 7</h2>
                 </div>
             </div>
 
             <div className="endscreen displayName">
-                <h1>Us</h1>
+                <h1>{playerList[2].playerName}</h1>
                 <div
-                    className = "endscreen podiumForm" style={{ height: "200px" }}> <h2>Score: 0</h2> <h2>3 out of 7</h2>
+                    className = "endscreen podiumForm" style={{ height: "200px" }}> <h2>{playerList[2].score}</h2> <h2>3 out of 7</h2>
                 </div>
             </div>
 
@@ -129,11 +129,20 @@ const EndScreen = props => {
 
 
     const restartGame = async() => {
-        //code (request) to delete all scores / answers
-        history.push("/lobby")
+        const requestBody = JSON.stringify({status: "LOBBY"});
+        const response = await api.put('/games/' + localStorage.getItem('gamePin'), requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
+        history.push("/lobby");
     };
     const endGame = async() => {
-        //delete Lobby Code
+        console.log(localStorage.getItem('gamePin'))
+        const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
+        console.log(response)
+        history.push("/startscreen")
+        localStorage.removeItem("Token")
+        localStorage.removeItem("gamePin")
+        localStorage.removeItem("playerId")
+        localStorage.removeItem("isHost")
+
     };
 
     const leaveLobby = async() => {

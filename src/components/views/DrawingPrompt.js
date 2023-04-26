@@ -124,7 +124,7 @@ const DrawingPrompt = props => {
             const requestBody = JSON.stringify({ associatedPromptNr: prompt.promptNr, answerDrawing: dataURL }); // stringifien und dann schicken
 
 
-            await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/drawing", requestBody);
+            await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/drawing", requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
 
 
         } catch (error) {

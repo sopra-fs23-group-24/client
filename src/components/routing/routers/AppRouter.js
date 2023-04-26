@@ -67,7 +67,7 @@ const AppRouter = () => {
               <EndScreen/>
           </Route>
 
-          <Route exact path="/leaderboard">
+          <Route exact path="/leaderboard/:points">
               <LeaderBoardView/>
           </Route>
 

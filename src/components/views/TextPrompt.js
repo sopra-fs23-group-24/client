@@ -50,7 +50,7 @@ const TextPrompt = props => {
     const [answer, setAnswer] = useState(null);
     const submitAnswer=async () => {
         const requestBody = JSON.stringify({associatedPromptNr: prompt.promptNr, answer: answer});
-        await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/text", requestBody);
+        await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/text", requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
     }
     const handleButtonClick=() => {
         submitAnswer();
