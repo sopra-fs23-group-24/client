@@ -38,6 +38,7 @@ const Lobby = () => {
     const history = useHistory();
     const [users, setUsers] = useState(null);
     const [qrCode, setQrCode] = useState(null);
+    const [ingame, setIngame] = useState(false);
 
     useEffect(async () => {
         try {
@@ -64,10 +65,14 @@ const Lobby = () => {
 
                 // See here to get more data.
                 //console.log(response);
+                const response2 = await api.get('/games/'+ localStorage.getItem("gamePin"));
+                if (response2.data.status !== 'LOBBY') {
+                    history.push("/answerPrompt");
+                }
             }
 
             const intervalId = setInterval(fetchData, 1000);
-            // () => clearInterval(intervalId);
+            return () => clearInterval(intervalId);
 
         } catch (error) {
             console.error(`Something went wrong while fetching the users: \n${handleError(error)}`);
@@ -81,6 +86,25 @@ const Lobby = () => {
 
 
     }, []);
+
+    useEffect(()=> {
+        const checkPlayers = () => {
+            let isPLayerFound = false;
+            for (let i = 0; i < users.length; i++) {
+                const user = new User(users[i]);
+                if (user.playerId.toString() === localStorage.getItem("playerId")) {
+                    isPLayerFound = true;
+                }
+            }
+            if (isPLayerFound === false) {
+                localStorage.removeItem("playerId");
+                localStorage.removeItem("Token");
+                history.push("/startscreen");
+            }
+        }
+        const intervalId = setInterval(checkPlayers, 1000);
+        return () => clearInterval(intervalId);
+    },[users, ingame])
 
         const createQrCode = () => {
             const options = {
@@ -105,7 +129,7 @@ const Lobby = () => {
         const leaveGame = async () => {
         try {
             //console.log("TOKEN:" + localStorage.getItem("Token"))
-            const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
+            await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
             localStorage.removeItem("Token")
             // TODO: use response!!
 

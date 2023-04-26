@@ -58,9 +58,10 @@ const AnswerPrompt = props => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(localStorage.getItem("Token"));
-                const newState = JSON.stringify({status:"SELECTION"});
-                await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
+                if(localStorage.getItem("isHost")==="true") {
+                    const newState = JSON.stringify({status: "SELECTION"});
+                    await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
+                }
                 let response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
                 if(response2.data.length === 0){
                     const requestBody = JSON.stringify({textNr:2, truefalseNr:2, drawingNr:1});
