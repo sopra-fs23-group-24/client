@@ -28,6 +28,8 @@
     background-color: #F4CE7C; //color of yellow form
     transition: opacity 0.5s ease, transform 0.5s ease;
     box-shadow: $dropShadow;
+    background-image: radial-gradient(#ffffff 0.5px, #F4CE7C 0.5px);
+    background-size: 10px 10px;
 
     @media (max-width: 768px) { // Adjust for mobile screens
       margin-right: 0;

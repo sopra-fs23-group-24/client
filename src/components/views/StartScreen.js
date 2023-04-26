@@ -7,6 +7,8 @@ import 'styles/views/StartScreen.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import Game from "./Game";
+import QuestionImageBubble from "./bubbleQuest.png"
+
 
 /*
 It is possible to add multiple components inside a single file,
@@ -74,7 +76,7 @@ const StartScreen = props => {
 
 
 
-                    <img src="/images/bubbleQuest.png" alt="" className="startscreen questionimg"   />
+                    <img src={QuestionImageBubble} alt="" className="startscreen questionimg"   />
 
 
                 </div>
