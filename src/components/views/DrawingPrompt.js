@@ -6,6 +6,8 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/DrawingPrompt.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import QuestionImage from "./Images/questiony.png"
+
 
 /*
 It is possible to add multiple components inside a single file,
@@ -142,7 +144,7 @@ const DrawingPrompt = props => {
             <div className="drawingprompt container">
 
                 <div className="drawingprompt form2">
-                    <img src="/images/questiony.png" alt="" className="drawingprompt questionimg"/>
+                    <img src={QuestionImage} alt="" className="drawingprompt questionimg"/>
 
                 </div>
                 <div className="drawingprompt form">

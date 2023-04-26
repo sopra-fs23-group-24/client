@@ -6,8 +6,7 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/StartScreen.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import Game from "./Game";
-import QuestionImageBubble from "./bubbleQuest.png"
+import QuestionImageBubble from "./Images/bubbleQuest.png"
 
 
 /*

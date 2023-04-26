@@ -7,6 +7,8 @@ import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import DrawingPrompt from "./DrawingPrompt";
+import QuestionImage from "./Images/questiony.png"
+
 
 /*
 It is possible to add multiple components inside a single file,
@@ -93,7 +95,7 @@ const EnterName = props => {
                 </div>
 
                 <div  className="joincode form2">
-                    <img src="/images/questiony.png" alt="" className="joincode questionimg"/>
+                    <img src={QuestionImage} alt="" className="joincode questionimg"/>
 
                 </div>
 

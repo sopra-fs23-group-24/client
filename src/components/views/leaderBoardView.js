@@ -71,7 +71,7 @@ const LeaderBoardView = () => {
 
                     <div  className="leaderboardview form2">
 
-                        <img style={{ width: '50%', height: '50%' }} src="/images/questiony.png" alt="" className="leaderboardview questionimg"/>
+                        <img style={{ width: '50%', height: '50%' }} src="/src/components/views/Images/questiony.png" alt="" className="leaderboardview questionimg"/>
 
                     </div>
 
@@ -109,7 +109,7 @@ const LeaderBoardView = () => {
 
                     <div  className="leaderboardview form2">
 
-                        <img style={{ width: '50%', height: '50%' }} src="/images/questiony.png" alt="" className="leaderboardview questionimg"/>
+                        <img style={{ width: '50%', height: '50%' }} src="/src/components/views/Images/questiony.png" alt="" className="leaderboardview questionimg"/>
 
                     </div>
 

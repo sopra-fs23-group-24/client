@@ -5,6 +5,7 @@ import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import PropTypes from "prop-types";
+import QuestionImage from "./Images/questiony.png"
 
 
 /*
@@ -68,7 +69,7 @@ const TrueFalsePrompt = props => {
                 <div className="prompt container3">
                     Question 1
                     <div  className="prompt form2">
-                        <img src="/images/questiony.png" alt="" className="prompt questionimg"/>
+                        <img src={QuestionImage} alt="" className="prompt questionimg"/>
 
                     </div>
                 </div>

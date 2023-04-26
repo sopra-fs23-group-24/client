@@ -6,6 +6,8 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import PropTypes from "prop-types";
 import 'styles/views/QuizAnswer.scss';
+import QuestionImage from "./Images/questiony.png"
+
 
 
 /*
@@ -46,7 +48,7 @@ const DrawingQuizAnswer = props => {
                 <div className="quiz form">
                     <div className="quiz question-container">
                         <h1>{question.quizQuestionText}</h1>
-                        <img src="/images/questiony.png" alt="" className="quiz questionimg"/>
+                        <img src="/src/components/views/Images/questiony.png" alt="" className="quiz questionimg"/>
 
                     </div>
                     <div className="quiz button-container">
@@ -88,7 +90,7 @@ const DrawingQuizAnswer = props => {
             </div>
             <div className="prompt container3">
                 <div  className="prompt form2">
-                    <img src="/images/questiony.png" alt="" className="quiz questionimg"/>
+                    <img src={QuestionImage} alt="" className="quiz questionimg"/>
 
                 </div>
             </div>

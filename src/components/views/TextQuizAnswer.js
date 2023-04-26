@@ -6,6 +6,8 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import PropTypes from "prop-types";
 import 'styles/views/QuizAnswer.scss';
+import QuestionImage from "./Images/questiony.png"
+
 
 
 /*
@@ -86,7 +88,7 @@ const TextQuizAnswer = props => {
             </div>
             <div className="prompt container3">
                 <div  className="prompt form2">
-                    <img src="/images/questiony.png" alt="" className="quiz questionimg"/>
+                    <img src={QuestionImage} alt="" className="quiz questionimg"/>
 
                 </div>
             </div>

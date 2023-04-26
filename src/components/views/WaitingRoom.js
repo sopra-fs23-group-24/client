@@ -7,6 +7,7 @@ import 'styles/views/WaitingRoom.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import Game from "./Game";
+import QuestionImage from "./Images/questiony.png"
 
 /*
 It is possible to add multiple components inside a single file,
@@ -68,7 +69,7 @@ const WaitingRoom = props => {
         <BaseContainer>
             <div className="waitingroom container">
                 <div className="waitingroom form">
-                    <img src="/images/questiony.png" alt="" className="waitingroom questionimg"   />
+                    <img src={QuestionImage} alt="" className="waitingroom questionimg"   />
                 </div>
                 <div  className="waitingroom form2">
                     <h1>Waiting for other players to answer the questions!</h1>

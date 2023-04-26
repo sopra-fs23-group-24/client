@@ -137,7 +137,13 @@ const EndScreen = props => {
     };
 
     const leaveLobby = async() => {
-        //leave lobby code
+        const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
+        localStorage.removeItem("Token")
+        localStorage.removeItem("gamePin")
+        localStorage.removeItem("playerId")
+        localStorage.removeItem("isHost")
+        // Leaving worked successfully--> navigate to the start screen
+        history.push(`/startscreen`);
     };
 
     return (

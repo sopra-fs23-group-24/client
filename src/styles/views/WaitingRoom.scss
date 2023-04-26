@@ -103,16 +103,15 @@
     animation-duration: 3s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-
     @keyframes rotate {
       0% {
-        transform: rotate(-20deg);
+        transform: rotate(-30deg);
       }
       50% {
-        transform: rotate(20deg);
+        transform: rotate(30deg);
       }
       100% {
-        transform: rotate(-20deg);
+        transform: rotate(-30deg);
       }
     }
 
