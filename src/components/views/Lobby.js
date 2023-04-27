@@ -129,7 +129,7 @@ const Lobby = () => {
 
     };
 
-    let playerCountContent = "minimum 4 PLayers required"
+    let playerCountContent = "Minimum 4 Players required"
     if(countUsers>3){
         playerCountContent=null;
     }
@@ -152,11 +152,12 @@ const Lobby = () => {
                     <div className="lobby form">
                         <h1>Players</h1>
                         <ul>{users !== null && users.map((user, index) => {
-                            return <li key={index}>{user.playerName}
+                            return <li key={index}> <span className="leaderboardview player-name">{user.playerName}</span>
+
                                 <a
                                     style={{ marginLeft: "auto" }}
                                     onClick={() => deleteUser(user.playerId)}
-                                > X </a>
+                                > <span className="leaderboardview score" style={{color: "red"}}>X</span> </a>
                             </li>})}
                         </ul>
                         <div className="login button-container">
