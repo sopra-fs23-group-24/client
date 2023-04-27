@@ -65,13 +65,13 @@ const Lobby = () => {
                 // console.log('requested data:', response.data);
 
                 // See here to get more data.
-                //console.log(response);
+                console.log(response);
                 const responseLobby = await api.get('/games/'+ localStorage.getItem("gamePin"));
                 if (responseLobby.data.status !== 'LOBBY') {
                     history.push("/answerPrompt");
                 }
             };
-
+            createQrCode();
             const intervalId = setInterval(fetchDataLobb, 1000);
             return () => clearInterval(intervalId);
 
@@ -81,7 +81,7 @@ const Lobby = () => {
             alert("Something went wrong while fetching the users! See the console for details.");
         }
 
-        createQrCode();
+
 
 
 
@@ -115,7 +115,7 @@ const Lobby = () => {
             const options = {
                 method: 'GET',
                 url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
-                params: {type: 'url', value: 'http://localhost:3000/entername/' + localStorage.getItem('gamePin')},
+                params: {type: 'url', value: 'https://sopra-fs23-group-24-client.oa.r.appspot.com/entername/' + localStorage.getItem('gamePin')},
                 headers: {
                     'X-RapidAPI-Key': '9706f0679bmshb78281c4935e15bp14358cjsn25618d800385',
                     'X-RapidAPI-Host': 'codzz-qr-cods.p.rapidapi.com'

@@ -51,9 +51,7 @@ const AppRouter = () => {
             <Lobby/>
         </Route>
 
-        <Route exact path="/enterName">
-            <EnterName/>
-        </Route>
+
 
         <Route exact path="/enterName/:pin">
           <EnterName/>

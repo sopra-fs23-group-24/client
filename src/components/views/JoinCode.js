@@ -53,11 +53,10 @@ const JoinCode = props => {
             const game = new GameInstance(response.data);
 
             // Store the id and gamepin into the local storage.
-            localStorage.setItem('gamePin', game.gamePin);
             localStorage.setItem('isHost', "false");
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/enterName`); //TODO: find out what this is called
+            history.push(`/entername/` + game.gamePin); //TODO: find out what this is called
 
         } catch (error) {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);

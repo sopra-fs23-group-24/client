@@ -47,20 +47,22 @@ const EnterName = props => {
     const [playerName, setPlayerName] = useState(null);
     const id = localStorage.getItem("playerId");
     console.log(id);
-    const {gameID} = useParams();
+    const {pin} = useParams();
+    console.log("gameID entername: " + pin)
 
 
 
     const enterName = async () => {
         try {
-            console.log(playerName);
+            console.log(pin);
             const requestBody = JSON.stringify({playerName, isHost: localStorage.getItem("isHost")});
-            const response = await api.post('/games/' + localStorage.getItem("gamePin") +"/players", requestBody);
+            const response = await api.post('/games/' + pin +"/players", requestBody);
 
 
             const user = new User(response.data);
             localStorage.setItem('playerId', user.playerId);
             localStorage.setItem("Token", response.headers["playertoken"]);
+            localStorage.setItem('gamePin', pin);
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/lobby`); //TODO: find out what this is called

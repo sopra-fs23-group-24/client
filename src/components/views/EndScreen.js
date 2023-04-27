@@ -89,7 +89,7 @@ const EndScreen = props => {
         </div>
     }
 
-    if (localStorage.getItem("isHost") === true){
+    if (localStorage.getItem("isHost") === "true"){
         content =
             <div  className="endscreen form2">
             <div className="login button-container">
