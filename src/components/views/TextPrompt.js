@@ -80,7 +80,7 @@ const TextPrompt = props => {
                             width="100%"
                             onClick={() => handleButtonClick()}
                         >
-                            JOIN GAME
+                            Submit Answer
                         </Button>
                     </div>
 

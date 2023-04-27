@@ -42,7 +42,7 @@ const WaitingRoom = props => {
         const fetchData = async () => {
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             if (response.data.status !== 'PROMPT') {
-                history.push("/startscreen");
+                history.push("/quizAnswer");
             }
 
         };
