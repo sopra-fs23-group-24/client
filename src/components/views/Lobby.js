@@ -38,7 +38,7 @@ const Lobby = () => {
     const history = useHistory();
     const [users, setUsers] = useState(null);
     const [qrCode, setQrCode] = useState(null);
-    const [ingame, setIngame] = useState(false);
+    const [countUsers, setCountUsers] = useState(0);
 
     useEffect( () => {
 
@@ -89,23 +89,27 @@ const Lobby = () => {
     }, []);
 
     useEffect(()=> {
+
         const checkPlayers = () => {
-            let isPLayerFound = false;
-            for (let i = 0; i < users.length; i++) {
-                const user = new User(users[i]);
-                if (user.playerId.toString() === localStorage.getItem("playerId")) {
-                    isPLayerFound = true;
+            if(users!==null){
+                let isPLayerFound = false;
+                for (let i = 0; i < users.length; i++) {
+                    const user = new User(users[i]);
+                    if (user.playerId.toString() === localStorage.getItem("playerId")) {
+                        isPLayerFound = true;
+                    }
+                }
+                setCountUsers(users.length);
+                if (isPLayerFound === false) {
+                    localStorage.removeItem("playerId");
+                    localStorage.removeItem("Token");
+                    history.push("/startscreen");
                 }
             }
-            if (isPLayerFound === false) {
-                localStorage.removeItem("playerId");
-                localStorage.removeItem("Token");
-                history.push("/startscreen");
-            }
         }
-        const intervalId = setInterval(checkPlayers, 1000);
+        const intervalId = setInterval(checkPlayers, 300);
         return () => clearInterval(intervalId);
-    },[users, ingame])
+    },[users])
 
         const createQrCode = () => {
             const options = {
@@ -132,6 +136,7 @@ const Lobby = () => {
             //console.log("TOKEN:" + localStorage.getItem("Token"))
             await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
             localStorage.removeItem("Token")
+            localStorage.removeItem(("isHost"))
             // TODO: use response!!
 
             // Leaving worked successfully--> navigate to the start screen
@@ -178,6 +183,11 @@ const Lobby = () => {
 
     };
 
+    let playerCountContent = "minimum 4 PLayers required"
+    if(countUsers>3){
+        playerCountContent=null;
+    }
+
 
     if (localStorage.getItem('isHost') === 'true') {
         return ( <BaseContainer>
@@ -216,9 +226,11 @@ const Lobby = () => {
                                 style={{ marginLeft: "auto" }}
                                 width="30%"
                                 onClick={() => startGame()}
+                                disabled={countUsers<4}
                             >
                                 START
                             </Button>
+                            {playerCountContent}
                         </div>
                     </div>
 

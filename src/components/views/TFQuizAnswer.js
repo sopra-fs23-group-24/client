@@ -36,7 +36,10 @@ const TFQuizAnswer = props => {
         clickNumber(true);
         setAllDisabled(true);
     };
-
+    let TFStory = null;
+    if(question.storyToDisplay!==null){
+        TFStory = question.storyToDisplay;
+    }
 
     return (
         <div className="prompt container">
@@ -45,6 +48,7 @@ const TFQuizAnswer = props => {
                 <div className="prompt form">
                     <div className="quiz question-container">
                         <h1>{question.quizQuestionText}</h1>
+                        <h1>{TFStory}</h1>
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">

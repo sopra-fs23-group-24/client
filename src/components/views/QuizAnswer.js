@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {api, handleError} from 'helpers/api';
-import {useHistory, useParams} from 'react-router-dom';
-import {Button} from 'components/ui/Button';
+import {api} from 'helpers/api';
+import {useHistory} from 'react-router-dom';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import {Spinner} from "../ui/Spinner";
 import TextQuizAnswer from "./TextQuizAnswer";
 import TFQuizAnswer from "./TFQuizAnswer";
 import DrawingQuizAnswer from "./DrawingQuizAnswer";
@@ -24,7 +22,7 @@ const QuizAnswer = props => {
         const fetchData = async () => {
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             if (response.data.currentQuestion.questionStatus === 'FINISHED') {
-                history.push("/leaderboard");
+                history.push("/leaderboard/"+pointsEarned);
             }
 
         };
@@ -41,6 +39,7 @@ const QuizAnswer = props => {
 
     const history = useHistory();
     const [question, setQuestion] = useState(null);
+    let pointsEarned=0;
 
 
     /*
@@ -49,8 +48,8 @@ const QuizAnswer = props => {
 
     const submitAnswer = (value) => {
         const requestBody = JSON.stringify({pickedAnswerOptionId:value});
-        api.post('/games/'+ localStorage.getItem("gamePin") + '/quiz-questions/'+question.questionId+'/answers'
-            ,requestBody,{headers:{"playerToken":localStorage.getItem('Token')}})
+        pointsEarned = api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
+            , requestBody, {headers: {"playerToken": localStorage.getItem('Token')}});
     }
 
 
