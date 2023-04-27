@@ -49,7 +49,8 @@ const LeaderBoardView = () => {
 
     const nextQuestion = async () => {
         try {
-            const changeCurrentQuestion =  api.put('/games/' + localStorage.getItem("gamePin") + '/quizQuestions', {headers: {"playerToken": localStorage.getItem("Token")}});
+            const changeCurrentQuestion = await api.put('/games/' + localStorage.getItem("gamePin") + '/quizQuestions', {},{headers: {"playerToken": localStorage.getItem("Token")}});
+            console.log(changeCurrentQuestion.data)
 
         } catch (error) {
             alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);

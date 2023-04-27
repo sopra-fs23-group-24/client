@@ -39,8 +39,7 @@ const QuizAnswer = props => {
 
     const history = useHistory();
     const [question, setQuestion] = useState(null);
-    let pointsEarned=0;
-
+    const [pointsEarned, setPointsEarned] = useState(0);
 
     /*
     api.post('/games/'+ localStorage.getItem("gamePin") + 'quizQuestions')
@@ -48,9 +47,13 @@ const QuizAnswer = props => {
 
     const submitAnswer = (value) => {
         const requestBody = JSON.stringify({pickedAnswerOptionId:value});
-        pointsEarned = api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
+        const response = api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
             , requestBody, {headers: {"playerToken": localStorage.getItem('Token')}});
+        setPointsEarned(response.data)
         console.log("Points : " + pointsEarned);
+        console.log(response)
+        console.log(response.data)
+
     }
 
 
