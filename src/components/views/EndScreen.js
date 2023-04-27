@@ -26,7 +26,9 @@ const EndScreen = props => {
     //useEffect for redirecting Players to Lobby at restartgame
     useEffect(() => {
         const fetchGameState = async () => {
+
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            console.log(response.data.status)
             if (response.data.status === "LOBBY") {
                 history.push("/lobby");
             }
@@ -37,15 +39,21 @@ const EndScreen = props => {
 
     //useEffect for redirecting Players to startscreen at deletegame
     useEffect(() => {
-        const fetchGameNull = async () => {
-            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
-            if (response.status === 404) {
 
-                history.push("/startscreen");
-                localStorage.removeItem("Token");
-                localStorage.removeItem("gamePin");
-                localStorage.removeItem("playerId");
-                localStorage.removeItem("isHost");
+        const fetchGameNull = async () => {
+            try{
+            console.log("In fetchgamenull")
+            await api.get('/games/'+ localStorage.getItem("gamePin"));
+            console.log("In fetchgamenull2")
+            }catch (error){
+                if (error.response && error.response.status === 404){
+                    console.log("ist im startscreen if statement")
+                    history.push("/startscreen");
+                    localStorage.removeItem("Token");
+                    localStorage.removeItem("gamePin");
+                    localStorage.removeItem("playerId");
+                    localStorage.removeItem("isHost");
+                }else{}
             }
         }
         const intervalId = setInterval(fetchGameNull, 1000);
@@ -124,28 +132,31 @@ const EndScreen = props => {
 
 
     const restartGame = async() => {
-        const requestBody = JSON.stringify({status: "LOBBY"});
-        await api.put('/games/' + localStorage.getItem('gamePin'), requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
+        //dieser put request funktioniert nicht
+        const newState = JSON.stringify({status: "LOBBY"});
+        await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
     };
 
     const endGame = async() => {
-        console.log(localStorage.getItem('gamePin'))
+        console.log("ANFANG VON ENDGAME METHOD")
         const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
         console.log(response)
-        localStorage.removeItem("Token")
-        localStorage.removeItem("gamePin")
-        localStorage.removeItem("playerId")
-        localStorage.removeItem("isHost")
+
         //rediret with 404
     };
 
-    const leaveLobby = async() => {
-        await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
-        localStorage.removeItem("Token")
-        localStorage.removeItem("gamePin")
-        localStorage.removeItem("playerId")
-        localStorage.removeItem("isHost")
-        history.push(`/startscreen`);
+    const leaveLobby = async () => {
+        try {
+            await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
+            localStorage.removeItem("Token")
+            localStorage.removeItem("gamePin")
+            localStorage.removeItem("playerId")
+            localStorage.removeItem("isHost")
+            history.push(`/startscreen`);
+
+        } catch (error) {
+            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        }
     };
 
     return (
