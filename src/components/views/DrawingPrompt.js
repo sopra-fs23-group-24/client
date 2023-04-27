@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import User from 'models/User';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/DrawingPrompt.scss';
@@ -9,23 +8,13 @@ import PropTypes from "prop-types";
 import QuestionImage from "./Images/questiony.png"
 
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
 const FormField = props => {
     return (
         <div className="drawingprompt field">
             <label className="drawingprompt label">
                 {props.label}
             </label>
-
         </div>
-
-
-
     );
 };
 
@@ -46,7 +35,6 @@ const DrawingPrompt = props => {
         submitDrawing();
         updateCounter();
     }
-    const history = useHistory();
 
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
@@ -60,17 +48,11 @@ const DrawingPrompt = props => {
 
 
     useEffect(() => {
-
-
         const canvas = canvasRef.current;
         canvas.width = window.innerWidth ;
         canvas.height = window.innerHeight ;
         canvas.style.width = `${window.innerWidth/1.8}px`;
         canvas.style.height = `${window.innerHeight/1.5}px`;
-
-
-
-
 
 
         const context = canvas.getContext("2d")
@@ -80,8 +62,6 @@ const DrawingPrompt = props => {
         context.strokeStyle=color;
         context.lineWidth = 1.5;
         contextRef.current = context;
-
-
 
     }, [])
     const startDrawing = ({nativeEvent}) => {
@@ -130,12 +110,6 @@ const DrawingPrompt = props => {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
         }
     };
-
-
-
-
-
-
 
     return (
         <BaseContainer>
@@ -236,8 +210,4 @@ const DrawingPrompt = props => {
     );
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
 export default DrawingPrompt;

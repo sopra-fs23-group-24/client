@@ -7,14 +7,6 @@ import 'styles/views/Prompt.scss';
 import PropTypes from "prop-types";
 import QuestionImage from "./Images/questiony.png"
 
-
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-
 const FormField = props => {
     return (
         <div className="prompt field">
@@ -23,7 +15,7 @@ const FormField = props => {
             </label>
             <input
                 className="login input"
-                placeholder="Enter Name"
+                placeholder="Enter Story"
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
             />
@@ -59,8 +51,6 @@ const TrueFalsePrompt = props => {
         setSwitchValue(checked);
         console.log(switchValue)
     };
-
-    const history = useHistory();
     const [answer, setAnswer] = useState(null);
 
 
@@ -105,8 +95,4 @@ const TrueFalsePrompt = props => {
     );
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
 export default TrueFalsePrompt;

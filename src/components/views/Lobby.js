@@ -3,36 +3,10 @@ import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import User from "../../models/User";
-import user from "../../models/User";
 import QuestionImage from "./Images/questiony.png"
-
-
-
-const FormField = props => {
-    return (
-        <div className="lobby field">
-            <label className="lobby label">
-                {props.label}
-            </label>
-            <input
-                className="login input"
-                placeholder="XXXXXX"
-                value={props.value}
-                onChange={e => props.onChange(e.target.value)}
-            />
-        </div>
-    );
-};
-
-FormField.propTypes = {
-    label: PropTypes.string,
-    value: PropTypes.string,
-    onChange: PropTypes.func
-};
 
 const Lobby = () => {
     const history = useHistory();
@@ -43,36 +17,17 @@ const Lobby = () => {
     useEffect( () => {
 
         try {
-            const fetchDataLobb = async () => {
+            const fetchDataLobby = async () => {
 
                 const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
-                //correct mapping -> this should get all the users
-
-                // delays continuous execution of an async operation for 1 second.
-                // This is just a fake async call, so that the spinner can be displayed
-                // feel free to remove it :)
-                //await new Promise(resolve => setTimeout(resolve, 1000));
-
-                // Get the returned users and update the state.
                 setUsers(response.data);
-                //setUsers([{playerName: "user1"},{playerName: "user2"}])
-
-                // This is just some data for you to see what is available.
-                // Feel free to remove it.
-                // console.log('request to:', response.request.responseURL);
-                // console.log('status code:', response.status);
-                // console.log('status text:', response.statusText);
-                // console.log('requested data:', response.data);
-
-                // See here to get more data.
-                console.log(response);
                 const responseLobby = await api.get('/games/'+ localStorage.getItem("gamePin"));
                 if (responseLobby.data.status !== 'LOBBY') {
                     history.push("/answerPrompt");
                 }
             };
             createQrCode();
-            const intervalId = setInterval(fetchDataLobb, 1000);
+            const intervalId = setInterval(fetchDataLobby, 1000);
             return () => clearInterval(intervalId);
 
         } catch (error) {
@@ -80,12 +35,6 @@ const Lobby = () => {
             console.error("Details:", error);
             alert("Something went wrong while fetching the users! See the console for details.");
         }
-
-
-
-
-
-
     }, []);
 
     useEffect(()=> {
@@ -133,13 +82,10 @@ const Lobby = () => {
 
         const leaveGame = async () => {
         try {
-            //console.log("TOKEN:" + localStorage.getItem("Token"))
             await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
             localStorage.removeItem("Token")
             localStorage.removeItem(("isHost"))
-            // TODO: use response!!
 
-            // Leaving worked successfully--> navigate to the start screen
             history.push(`/startscreen`);
 
         } catch (error) {
@@ -152,7 +98,6 @@ const Lobby = () => {
         const deleteUser = async (playerId) => {
             try {
             const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + playerId, {headers: {"playerToken": localStorage.getItem("Token")}});
-            console.log(response)
 
         } catch (error) {
         alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
@@ -280,8 +225,4 @@ const Lobby = () => {
     );}
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
 export default Lobby;

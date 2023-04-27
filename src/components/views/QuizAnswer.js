@@ -9,13 +9,6 @@ import DrawingQuizAnswer from "./DrawingQuizAnswer";
 import QuestionInstance from "../../models/QuestionInstance";
 
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-
 const QuizAnswer = props => {
 
     useEffect(() => {
@@ -39,21 +32,16 @@ const QuizAnswer = props => {
 
     const history = useHistory();
     const [question, setQuestion] = useState(null);
-    const [pointsEarned, setPointsEarned] = useState(0);
+    let pointsEarned = 0;
 
-    /*
-    api.post('/games/'+ localStorage.getItem("gamePin") + 'quizQuestions')
-    */
-
-    const submitAnswer = (value) => {
+    const submitAnswer = async (value) => {
         const requestBody = JSON.stringify({pickedAnswerOptionId:value});
-        const response = api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
+        const response = await api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
             , requestBody, {headers: {"playerToken": localStorage.getItem('Token')}});
-        setPointsEarned(response.data)
-        console.log("Points : " + pointsEarned);
-        console.log(response)
-        console.log(response.data)
-
+        setPoints(response.data)
+    }
+    const setPoints=(value) => {
+        pointsEarned = value;
     }
 
 

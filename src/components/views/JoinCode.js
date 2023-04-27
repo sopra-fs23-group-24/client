@@ -6,15 +6,9 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-
 import QuestionImage from "./Images/questiony.png"
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
+
 const FormField = props => {
     return (
         <div className="joincode field">
@@ -28,9 +22,6 @@ const FormField = props => {
                 onChange={e => props.onChange(e.target.value)}
             />
         </div>
-
-
-
     );
 };
 
@@ -48,14 +39,10 @@ const JoinCode = props => {
         try {
             const response = await api.get('/games/' + gamePin);
 
-            // Get the returned user and update a new object.
-            //TODO: if it gets correct response continue with code:
             const game = new GameInstance(response.data);
 
-            // Store the id and gamepin into the local storage.
             localStorage.setItem('isHost', "false");
 
-            // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/entername/` + game.gamePin); //TODO: find out what this is called
 
         } catch (error) {
@@ -99,8 +86,4 @@ const JoinCode = props => {
     );
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
 export default JoinCode;

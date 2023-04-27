@@ -3,16 +3,9 @@ import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/LeaderBoardView.scss';
 import 'styles/views/Lobby.scss';
-
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 import React, {useEffect, useState} from "react";
-import axios from "axios";
-import User from "../../models/User";
-import user from "../../models/User";
 import QuestionImage from "./Images/questiony.png"
-
-
 
 
 const LeaderBoardView = () => {
@@ -35,13 +28,13 @@ const LeaderBoardView = () => {
 
 
         };
-        const fetchusers = async () => {
+        const fetchUsers = async () => {
             const response2 = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
             setUsers(response2.data);
         }
 
         const intervalId = setInterval(fetchData, 1000);
-        fetchusers();
+        fetchUsers();
         return () => clearInterval(intervalId);
     }, []);
 
@@ -58,7 +51,6 @@ const LeaderBoardView = () => {
     };
 
 
-//games/gamepin/quizquestions PUT
     if (localStorage.getItem('isHost') === 'true') {
         return ( <BaseContainer>
 
@@ -140,8 +132,5 @@ const LeaderBoardView = () => {
         );}
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
+
 export default LeaderBoardView;

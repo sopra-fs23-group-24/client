@@ -1,40 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import GameInstance from 'models/GameInstance';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/EndScreen.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
-import Game from "./Game";
-
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-const FormField = props => {
-    return (
-        <div className="EndScreen field">
-            <label className="EndScreen label">
-                {props.label}
-            </label>
-        </div>
-
-
-
-    );
-};
-
-
-
-FormField.propTypes = {
-    label: PropTypes.string,
-    value: PropTypes.string,
-    onChange: PropTypes.func
-};
-
 
 
 const EndScreen = props => {
@@ -133,6 +102,7 @@ const EndScreen = props => {
         const response = await api.put('/games/' + localStorage.getItem('gamePin'), requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
         history.push("/lobby");
     };
+
     const endGame = async() => {
         console.log(localStorage.getItem('gamePin'))
         const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
@@ -142,7 +112,6 @@ const EndScreen = props => {
         localStorage.removeItem("gamePin")
         localStorage.removeItem("playerId")
         localStorage.removeItem("isHost")
-
     };
 
     const leaveLobby = async() => {
@@ -151,7 +120,6 @@ const EndScreen = props => {
         localStorage.removeItem("gamePin")
         localStorage.removeItem("playerId")
         localStorage.removeItem("isHost")
-        // Leaving worked successfully--> navigate to the start screen
         history.push(`/startscreen`);
     };
 
@@ -169,8 +137,5 @@ const EndScreen = props => {
     );
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
+
 export default EndScreen;
