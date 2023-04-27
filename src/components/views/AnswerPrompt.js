@@ -18,7 +18,7 @@ const AnswerPrompt = props => {
     const [counter, setCounter] = useState(0);
     const updateCounter = () => {
         setCounter(prevCounter => prevCounter + 1);
-        if(counter > 3){
+        if(counter > 1){
             history.push("/waitingRoom");
         }
     }
@@ -35,7 +35,7 @@ const AnswerPrompt = props => {
                 }
                 let response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
                 if(response2.data.length === 0){
-                    const requestBody = JSON.stringify({textNr:2, truefalseNr:2, drawingNr:1});
+                    const requestBody = JSON.stringify({textNr:1, truefalseNr:1, drawingNr:1});
                     await api.post('/games/' + localStorage.getItem("gamePin") +"/prompts", requestBody);
                     response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
                 }
@@ -52,7 +52,7 @@ const AnswerPrompt = props => {
 
     let content = null;
 
-    if(prompts && prompts !== [] && counter <=4 ){
+    if(prompts && prompts !== [] && counter <=2 ){
 
             if (prompts[counter].promptType === 'TRUEFALSE') {
                 content =
