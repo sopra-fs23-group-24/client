@@ -13,12 +13,18 @@ const QuizAnswer = props => {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log("checking status")
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             if (response.data.currentQuestion.questionStatus === 'FINISHED') {
                 history.push("/leaderboard/"+pointsEarned);
             }
 
         };
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
+    }, [pointsEarned]);
+
+    useEffect(()=>{
         const initialize = async () => {
             let response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             const questionInstance = new QuestionInstance(response.data.currentQuestion);
@@ -26,13 +32,11 @@ const QuizAnswer = props => {
         };
 
         initialize();
-        const intervalId = setInterval(fetchData, 1000);
-        return () => clearInterval(intervalId);
-    }, []);
+    },[])
 
     const history = useHistory();
     const [question, setQuestion] = useState(null);
-    let pointsEarned = 0;
+    const [pointsEarned, setPointsEarned] = useState(0);
 
     const submitAnswer = async (value) => {
         const requestBody = JSON.stringify({pickedAnswerOptionId:value});
@@ -41,7 +45,7 @@ const QuizAnswer = props => {
         setPoints(response.data)
     }
     const setPoints=(value) => {
-        pointsEarned = value;
+        setPointsEarned(value);
     }
 
 
