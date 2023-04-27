@@ -85,19 +85,19 @@ const AnswerPrompt = props => {
 
             if (prompts[counter].promptType === 'TRUEFALSE') {
                 content =
-                    <TrueFalsePrompt prompts={prompts[counter]} updateCounter={updateCounter}>
+                    <TrueFalsePrompt prompts={prompts[counter]} updateCounter={updateCounter} counter={counter}>
 
                     </TrueFalsePrompt>
             }
             if (prompts[counter].promptType === 'TEXT') {
                 content =
-                    <TextPrompt prompts={prompts[counter]} updateCounter={updateCounter}>
+                    <TextPrompt prompts={prompts[counter]} updateCounter={updateCounter} counter={counter}>
 
                     </TextPrompt>
             }
             if (prompts[counter].promptType === 'DRAWING') {
                 content =
-                    <DrawingPrompt prompts={prompts[counter]} updateCounter={updateCounter}>
+                    <DrawingPrompt prompts={prompts[counter]} updateCounter={updateCounter} counter={counter}>
 
                     </DrawingPrompt>
             }

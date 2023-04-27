@@ -42,6 +42,7 @@ FormField.propTypes = {
 
 const TextPrompt = props => {
     const prompt = props.prompts;
+    const counter = props.counter + 1;
     const updateCounter = () => {
         props.updateCounter();
     }
@@ -61,7 +62,7 @@ const TextPrompt = props => {
     return (
         <div className="prompt container">
             <div className="prompt container3">
-                Question 1
+                Question {counter}
                 <div  className="prompt form2">
                     <img src={QuestionImage} alt="" className="prompt questionimg"/>
 
