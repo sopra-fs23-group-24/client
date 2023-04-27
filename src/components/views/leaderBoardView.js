@@ -24,19 +24,24 @@ const LeaderBoardView = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await api.put('/games/'+ localStorage.getItem("gamePin") + '/quizQuestions');
+            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            if (response.data.status === "END") {
+                history.push("/EndScreen");
+            }
+
             if (response.data.currentQuestion.questionStatus === 'NOT_FINISHED') {
                 history.push("/quizAnswer");
             }
 
+
         };
-        const fetschusers = async () => {
+        const fetchusers = async () => {
             const response2 = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
             setUsers(response2.data);
         }
 
         const intervalId = setInterval(fetchData, 1000);
-        fetschusers();
+        fetchusers();
         return () => clearInterval(intervalId);
     }, []);
 

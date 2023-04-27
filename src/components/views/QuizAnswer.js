@@ -50,6 +50,7 @@ const QuizAnswer = props => {
         const requestBody = JSON.stringify({pickedAnswerOptionId:value});
         pointsEarned = api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
             , requestBody, {headers: {"playerToken": localStorage.getItem('Token')}});
+        console.log("Points : " + pointsEarned);
     }
 
 
