@@ -15,7 +15,7 @@ const QuizAnswer = props => {
         const fetchData = async () => {
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             if (response.data.currentQuestion.questionStatus === 'FINISHED') {
-                history.push("/leaderboard/"+pointsEarned);
+                history.push("/leaderboard");
             }
 
         };
@@ -39,6 +39,7 @@ const QuizAnswer = props => {
         const response = await api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
             , requestBody, {headers: {"playerToken": localStorage.getItem('Token')}});
         setPoints(response.data)
+        localStorage.setItem('earnedPoints',response.data);
     }
     const setPoints=(value) => {
         console.log(value)
