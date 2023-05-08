@@ -7,6 +7,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import User from "../../models/User";
 import QuestionImage from "./Images/questiony.png"
+import parse from 'html-react-parser'
 
 const Lobby = () => {
     const history = useHistory();
@@ -171,7 +172,7 @@ const Lobby = () => {
                     <div className="lobby form">
                         <h1>Players</h1>
                         <ul>{users !== null && users.map((user, index) => {
-                            return <li key={index}> <span className="leaderboardview player-name">{user.playerName}</span>
+                            return <li key={index}> <span className="leaderboardview player-name">{parse(user.playerName)}</span>
 
                                 <a
                                     style={{ marginLeft: "auto" }}

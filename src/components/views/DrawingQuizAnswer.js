@@ -4,7 +4,7 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import 'styles/views/QuizAnswer.scss';
 import QuestionImage from "./Images/questiony.png"
-
+import parse from 'html-react-parser'
 
 const DrawingQuizAnswer = props => {
     const question=props.question;
@@ -33,7 +33,7 @@ const DrawingQuizAnswer = props => {
             <div className="prompt containerQuestion">
                 <div className="quiz form">
                     <div className="quiz question-container">
-                        <h1>{question.quizQuestionText}</h1>
+                        <h1>{parse(question.quizQuestionText)}</h1>
                         <img src={question.imageToDisplay} alt="" style={{height:"100%",width:"100%",objectFit:"contain"}}/>
 
                     </div>
