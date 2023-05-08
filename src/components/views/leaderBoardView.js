@@ -6,12 +6,14 @@ import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import React, {useEffect, useState} from "react";
 import QuestionImage from "./Images/questiony.png"
+import QuestionInstance from "../../models/QuestionInstance";
+import {Spinner} from "../ui/Spinner";
 
 
 const LeaderBoardView = () => {
     const history = useHistory();
     const [users, setUsers] = useState(null);
-    const {points} = useParams();
+    const [correctAnswer, setCorrectAnswer] = useState(null);
 
 
 
@@ -31,6 +33,9 @@ const LeaderBoardView = () => {
         const fetchUsers = async () => {
             const response2 = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
             setUsers(response2.data);
+            const response3 = await api.get('/games/'+ localStorage.getItem("gamePin"))
+            const currQuestion = new QuestionInstance(response3.data.currentQuestion);
+            setCorrectAnswer(currQuestion.correctAnswer);
         }
 
         const intervalId = setInterval(fetchData, 1000);
@@ -49,19 +54,23 @@ const LeaderBoardView = () => {
             alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
         }
     };
+    let content = <Spinner></Spinner>
+    if (correctAnswer){
+        content=
+            <div  className="leaderboardview form2">
+            <h1>You scored: {localStorage.getItem('earnedPoints')} Points!
+                <p>The correct Answer was: {correctAnswer.answerOptionText}</p>
+            </h1>
 
-
+            <img src={QuestionImage} alt="" className="leaderboardview questionimg"/>
+        </div>
+    }
     if (localStorage.getItem('isHost') === 'true') {
         return ( <BaseContainer>
 
                 <div className="leaderboardview container">
 
-
-                    <div  className="leaderboardview form2">
-                        <h1>You scored: {points} Points!</h1>
-
-                        <img src={QuestionImage} alt="" className="leaderboardview questionimg"/>
-                    </div>
+                    {content}
 
                     <div className="leaderboardview form">
                         <h1>RANKING</h1>
@@ -99,13 +108,7 @@ const LeaderBoardView = () => {
             <BaseContainer>
 
                 <div className="leaderboardview container">
-
-
-                    <div  className="leaderboardview form2">
-                        <h1>You scored: {points} Points!</h1>
-
-                        <img src={QuestionImage} alt="" className="leaderboardview questionimg"/>
-                    </div>
+                    {content}
 
                     <div className="leaderboardview form">
                         <h1>RANKING</h1>

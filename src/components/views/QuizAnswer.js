@@ -13,18 +13,12 @@ const QuizAnswer = props => {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("checking status")
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             if (response.data.currentQuestion.questionStatus === 'FINISHED') {
-                history.push("/leaderboard/"+pointsEarned);
+                history.push("/leaderboard");
             }
 
         };
-        const intervalId = setInterval(fetchData, 1000);
-        return () => clearInterval(intervalId);
-    }, [pointsEarned]);
-
-    useEffect(()=>{
         const initialize = async () => {
             let response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             const questionInstance = new QuestionInstance(response.data.currentQuestion);
@@ -32,7 +26,9 @@ const QuizAnswer = props => {
         };
 
         initialize();
-    },[])
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
 
     const history = useHistory();
     const [question, setQuestion] = useState(null);
@@ -43,8 +39,10 @@ const QuizAnswer = props => {
         const response = await api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
             , requestBody, {headers: {"playerToken": localStorage.getItem('Token')}});
         setPoints(response.data)
+        localStorage.setItem('earnedPoints',response.data);
     }
     const setPoints=(value) => {
+        console.log(value)
         setPointsEarned(value);
     }
 
