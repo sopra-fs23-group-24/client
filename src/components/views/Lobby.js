@@ -37,6 +37,24 @@ const Lobby = () => {
         }
     }, []);
 
+    //useEffect for redirecting Players to startscreen at deletegame
+    useEffect(() => {
+
+        const fetchGameNull = async () => {
+            try{
+                await api.get('/games/'+ localStorage.getItem("gamePin"));
+
+            }catch (error){
+
+                if (error.response.status === 404){
+                    history.push("/startscreen");
+                }
+            }
+        }
+        const intervalId = setInterval(fetchGameNull, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
+
     useEffect(()=> {
 
         const checkPlayers = () => {
@@ -83,10 +101,7 @@ const Lobby = () => {
         const leaveGame = async () => {
         try {
             await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
-            localStorage.removeItem("Token")
-            localStorage.removeItem("gamePin")
-            localStorage.removeItem("playerId")
-            localStorage.removeItem("isHost")
+
             history.push(`/startscreen`);
 
         } catch (error) {

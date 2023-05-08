@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import GameInstance from 'models/GameInstance';
 import {useHistory} from 'react-router-dom';
@@ -7,7 +7,9 @@ import 'styles/views/StartScreen.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import QuestionImageBubble from "./Images/bubbleQuest.png"
+
 import 'styles/views/Login.scss';
+import User from "../../models/User";
 
 
 /*
@@ -40,6 +42,15 @@ const StartScreen = props => {
     const [name, setName] = useState(null);
     const [username, setUsername] = useState(null);
 
+    useEffect(()=> {
+        localStorage.removeItem("playerId");
+        localStorage.removeItem("isHost");
+        localStorage.removeItem("gamePin");
+        localStorage.removeItem("Token");
+    },[])
+
+
+
     const hostGame = async () => {
         try {
             const response = await api.post('/games');
@@ -61,8 +72,7 @@ const StartScreen = props => {
 
     const joinGame = async () => {
         try {
-
-            history.push(`/joincode`);
+            history.push("/joincode")
         } catch (error) {
             alert(`Something went wrong during joining a game: \n${handleError(error)}`);
         }
@@ -89,15 +99,21 @@ const StartScreen = props => {
                         >
                             HOST GAME
                         </Button>
+
                     </div>
 
+
+
+
                     <div className="login button-container">
+
                         <Button
                             width="100%"
                             onClick={() => joinGame()}
                         >
                             JOIN VIA CODE
                         </Button>
+
                     </div>
                 </div>
 

@@ -42,18 +42,13 @@ const EndScreen = props => {
 
         const fetchGameNull = async () => {
             try{
-            console.log("In fetchgamenull")
-            await api.get('/games/'+ localStorage.getItem("gamePin"));
-            console.log("In fetchgamenull2")
+                await api.get('/games/'+ localStorage.getItem("gamePin"));
+
             }catch (error){
-                if (error.response && error.response.status === 404){
-                    console.log("ist im startscreen if statement")
+
+                if (error.response.status === 404){
                     history.push("/startscreen");
-                    localStorage.removeItem("Token");
-                    localStorage.removeItem("gamePin");
-                    localStorage.removeItem("playerId");
-                    localStorage.removeItem("isHost");
-                }else{}
+                }
             }
         }
         const intervalId = setInterval(fetchGameNull, 1000);
