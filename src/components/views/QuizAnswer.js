@@ -7,6 +7,7 @@ import TextQuizAnswer from "./TextQuizAnswer";
 import TFQuizAnswer from "./TFQuizAnswer";
 import DrawingQuizAnswer from "./DrawingQuizAnswer";
 import QuestionInstance from "../../models/QuestionInstance";
+import ImageAsAnswer from "./ImageAsAnswer";
 
 
 const QuizAnswer = props => {
@@ -56,16 +57,23 @@ const QuizAnswer = props => {
 
                     </DrawingQuizAnswer>
             } else {
-                if (question.answerOptions.length === 4) {
+                if (question.answerDisplayType === "IMAGE"){
                     content =
-                        <TextQuizAnswer question={question} submitAnswer={submitAnswer}>
-                        </TextQuizAnswer>
+                        <ImageAsAnswer question={question} submitAnswer={submitAnswer}>
+                        </ImageAsAnswer>
                 }
-                if (question.answerOptions.length === 2) {
-                    content =
-                        <TFQuizAnswer question={question} submitAnswer={submitAnswer}>
+                else {
+                    if (question.answerOptions.length === 4) {
+                        content =
+                            <TextQuizAnswer question={question} submitAnswer={submitAnswer}>
+                            </TextQuizAnswer>
+                    }
+                    if (question.answerOptions.length === 2) {
+                        content =
+                            <TFQuizAnswer question={question} submitAnswer={submitAnswer}>
 
-                        </TFQuizAnswer>
+                            </TFQuizAnswer>
+                    }
                 }
             }
         }
