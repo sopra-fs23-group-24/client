@@ -16,28 +16,32 @@ const Lobby = () => {
 
     useEffect( () => {
 
-        try {
-            const fetchDataLobby = async () => {
 
-                const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
-                setUsers(response.data);
-                const responseLobby = await api.get('/games/'+ localStorage.getItem("gamePin"));
-                if (responseLobby.data.status !== 'LOBBY') {
-                    history.push("/answerPrompt");
+            const fetchDataLobby = async () => {
+                try{
+                    const responseLobby = await api.get('/games/'+ localStorage.getItem("gamePin"));
+                    if (responseLobby.data.status !== 'LOBBY') {
+                        history.push("/answerPrompt");
+                    }
+                    const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
+                    setUsers(response.data);
+
+            }catch (error) {
+                    if (error.response.status === 404){
+                        history.push("/startscreen");
+                    }
                 }
-            };
+            }
             createQrCode();
             const intervalId = setInterval(fetchDataLobby, 1000);
             return () => clearInterval(intervalId);
 
-        } catch (error) {
-            console.error(`Something went wrong while fetching the users: \n${handleError(error)}`);
-            console.error("Details:", error);
-            alert("Something went wrong while fetching the users! See the console for details.");
-        }
+
+
     }, []);
 
     //useEffect for redirecting Players to startscreen at deletegame
+    /*
     useEffect(() => {
 
         const fetchGameNull = async () => {
@@ -53,7 +57,7 @@ const Lobby = () => {
         }
         const intervalId = setInterval(fetchGameNull, 1000);
         return () => clearInterval(intervalId);
-    }, []);
+    }, []); */
 
     useEffect(()=> {
 
