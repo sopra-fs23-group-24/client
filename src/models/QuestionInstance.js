@@ -10,6 +10,7 @@ class QuestionInstance {
         this.answerOptions = null;
         this.correctAnswer = null;
         this.questionStatus = null;
+        this.answerDisplayType = null;
         Object.assign(this, data);
     }
 }

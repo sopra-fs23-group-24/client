@@ -2,6 +2,7 @@
 
 
 .quiz {
+
   h1{
     color: black;
   }
@@ -22,6 +23,11 @@
 
   }
 
+  &.answerImage{
+    height:100%;
+    width: 100%;
+    object-fit: contain;
+  }
   &.clicked:disabled{
     opacity: 1;
     animation: glowing 1300ms infinite;
