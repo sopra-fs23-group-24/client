@@ -5,13 +5,15 @@ import 'styles/views/Prompt.scss';
 import 'styles/views/QuizAnswer.scss';
 import QuestionImage from "./Images/questiony.png"
 import parse from 'html-react-parser'
+import CountingTimer from './timer';
 
 const TextQuizAnswer = props => {
     const question=props.question;
+
     const submitAnswer=(value)=>{
         console.log(question.answerOptions[0].answerOptionId);
         console.log(value);
-        props.submitAnswer(value);
+        props.submitAnswer(value, timeLeft);
     }
     const value1=question.answerOptions[0].answerOptionId;
     const value2=question.answerOptions[1].answerOptionId;
@@ -22,6 +24,8 @@ const TextQuizAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(40); //Hier definiieren wie lange timer geht
+
 
     const handleClick = (clickNumber) => {
         clickNumber(true);
@@ -79,6 +83,8 @@ const TextQuizAnswer = props => {
             </div>
             <div className="prompt container3">
                 <div  className="prompt form2">
+                    <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+
                     <img src={QuestionImage} alt="" className="quiz questionimg"/>
 
                 </div>

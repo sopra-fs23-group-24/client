@@ -35,8 +35,8 @@ const QuizAnswer = props => {
     const [question, setQuestion] = useState(null);
     const [pointsEarned, setPointsEarned] = useState(0);
 
-    const submitAnswer = async (value) => {
-        const requestBody = JSON.stringify({pickedAnswerOptionId:value, "timer":10});
+    const submitAnswer = async (value, remainingTime) => {
+        const requestBody = JSON.stringify({pickedAnswerOptionId:value, "timer":remainingTime});
         const response = await api.post('/games/' + localStorage.getItem("gamePin") + '/quiz-questions/' + question.questionId + '/answers'
             , requestBody, {headers: {"playerToken": localStorage.getItem('Token')}});
         setPoints(response.data)
