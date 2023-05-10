@@ -80,15 +80,14 @@ const StartScreen = props => {
             setIsVisible(true);
             setIsAnimated(true);
 
-            const response = await api.post('/games');  ///WIEDER AUSKOMMENTIEREN
+            const response = await api.post('/games');
 
-            const game = new GameInstance(response.data);///WIEDER AUSKOMMENTIEREN
+            const game = new GameInstance(response.data);
 
             localStorage.setItem('isHost', "true");
 
             await new Promise(resolve => setTimeout(resolve, 3000));
-
-            history.push(`/enterName/` + game.gamePin); ///WIEDER AUSKOMMENTIEREN
+            if (await response){history.push(`/enterName/` + game.gamePin);}
         } catch (error) {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
         }
