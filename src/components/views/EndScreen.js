@@ -142,11 +142,8 @@ const EndScreen = props => {
 
     const leaveLobby = async () => {
         try {
+
             await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
-            localStorage.removeItem("Token")
-            localStorage.removeItem("gamePin")
-            localStorage.removeItem("playerId")
-            localStorage.removeItem("isHost")
             history.push(`/startscreen`);
 
         } catch (error) {

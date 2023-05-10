@@ -3,7 +3,9 @@ import {api, handleError} from 'helpers/api';
 import GameInstance from 'models/GameInstance';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
+import {Spinner} from 'components/ui/Spinner';
 import 'styles/views/StartScreen.scss';
+
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import QuestionImageBubble from "./Images/bubbleQuest.png"
@@ -41,8 +43,25 @@ const StartScreen = props => {
     const history = useHistory();
     const [name, setName] = useState(null);
     const [username, setUsername] = useState(null);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isAnimated, setIsAnimated] = useState(false);
+
+
+
 
     useEffect(()=> {
+        const myButton = document.getElementById('hostButton');
+        const myButton2 = document.getElementById('joinButton');
+
+
+        const delay = 1000;
+
+        setTimeout(() => {
+            myButton.style.display = 'block';
+        }, delay);
+        setTimeout(() => {
+            myButton2.style.display = 'block';
+        }, delay);
         localStorage.removeItem("playerId");
         localStorage.removeItem("isHost");
         localStorage.removeItem("gamePin");
@@ -53,18 +72,23 @@ const StartScreen = props => {
 
     const hostGame = async () => {
         try {
-            const response = await api.post('/games');
+            const myButton = document.getElementById('hostButton');
+            const myButton2 = document.getElementById('joinButton');
 
-            // Get the returned user and update a new object.
-            const game = new GameInstance(response.data);
+            myButton.style.display = 'none';
+            myButton2.style.display = 'none';
+            setIsVisible(true);
+            setIsAnimated(true);
 
+            const response = await api.post('/games');  ///WIEDER AUSKOMMENTIEREN
 
+            const game = new GameInstance(response.data);///WIEDER AUSKOMMENTIEREN
 
-            // Store the id and gamepin into the local storage.
             localStorage.setItem('isHost', "true");
 
-            // Login successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/enterName/` + game.gamePin); //TODO: find out what this is called
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            history.push(`/enterName/` + game.gamePin); ///WIEDER AUSKOMMENTIEREN
         } catch (error) {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
         }
@@ -72,6 +96,15 @@ const StartScreen = props => {
 
     const joinGame = async () => {
         try {
+            const myButton = document.getElementById('hostButton');
+            const myButton2 = document.getElementById('joinButton');
+
+            myButton.style.display = 'none';
+            myButton2.style.display = 'none';
+            setIsVisible(true);
+            setIsAnimated(true);
+
+            await new Promise(resolve => setTimeout(resolve, 3000));
             history.push("/joincode")
         } catch (error) {
             alert(`Something went wrong during joining a game: \n${handleError(error)}`);
@@ -86,14 +119,15 @@ const StartScreen = props => {
 
 
 
-                    <img src={QuestionImageBubble} alt="" className="startscreen questionimg"   />
+                    <img src={QuestionImageBubble} alt="" className={isAnimated ? 'startscreen questionimg' : 'startscreen question'}   />
 
 
                 </div>
 
                 <div  className="startscreen form2">
                     <div className="login button-container">
-                        <Button
+                        <Button className = "startscreen appearingButton" id="hostButton" style={{display: 'none'}}
+
                             width="100%"
                             onClick={() => hostGame()}
                         >
@@ -102,12 +136,14 @@ const StartScreen = props => {
 
                     </div>
 
+                    {isVisible && <div><h1>Loading...</h1> </div>}
 
+                    {isVisible && <div className="loading-spinner"><Spinner/> </div>}
 
 
                     <div className="login button-container">
 
-                        <Button
+                        <Button className ="startscreen appearingButton2" id="joinButton" style={{display: 'none'}}
                             width="100%"
                             onClick={() => joinGame()}
                         >

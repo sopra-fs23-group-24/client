@@ -93,6 +93,16 @@
     margin-top: 2em;
   }
 
+  &.question {
+    -ms-transform: rotate(340deg);
+    transform: rotate(340deg);
+    height: 51em;
+    width: 36em;
+    margin-bottom: 50px;
+    margin-left: -50px;
+  }
+
+
   &.questionimg {
     -ms-transform: rotate(340deg);
     transform: rotate(340deg);
@@ -100,6 +110,22 @@
     width: 36em;
     margin-bottom: 50px;
     margin-left: -50px;
+    animation-name: jump;
+    animation-duration:3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+
+    @keyframes  jump {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-200px) ;
+      }
+      100% {
+        transform: translateY(0) rotate(340deg);
+      }
+    }
 
     @media (max-width: 768px) { // Adjust for mobile screens
       width: 100%;
@@ -121,6 +147,37 @@
       margin-top: 30px;
       align-self: center; // Center the image horizontally
       margin-bottom: 2em;
+    }
+  }
+
+  &.appearingButton{
+    animation: appear 1s ease-in-out forwards;
+    opacity: 0;
+  }
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  &.appearingButton2{
+    animation: appear2 1s ease-in-out forwards;
+    opacity: 0;
+  }
+  @keyframes appear2 {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
