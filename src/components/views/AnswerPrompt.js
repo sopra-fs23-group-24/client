@@ -35,7 +35,7 @@ const AnswerPrompt = props => {
                 }
                 let response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
                 if(response2.data.length === 0){
-                    const requestBody = JSON.stringify({textNr:1, truefalseNr:1, drawingNr:1});
+                    const requestBody = JSON.stringify({textNr:1, truefalseNr:1, drawingNr:1, timer:40});
                     await api.post('/games/' + localStorage.getItem("gamePin") +"/prompts", requestBody);
                     response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
                 }
