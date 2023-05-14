@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
@@ -25,6 +25,12 @@ const TextQuizAnswer = props => {
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
     const [timeLeft, setTimeLeft] = useState(40); //Hier definiieren wie lange timer geht
+
+    useEffect(() => {
+        if (timeLeft === 0) {
+            props.submitAnswer(value1, 0);
+        }
+    }, [timeLeft]);
 
 
     const handleClick = (clickNumber) => {
