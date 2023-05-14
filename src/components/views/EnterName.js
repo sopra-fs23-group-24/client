@@ -74,15 +74,23 @@ const EnterName = props => {
                         value={playerName}
                         onChange={n => setPlayerName(n)}
                     />
+                    {playerName && playerName.length > 9 && (
+                        <div className="joincode error-message"
+                             style={{ color: "red" }}>
+
+                            Username must be 1-9 characters
+                        </div>
+                    )}
                     <div className="login button-container">
                         <Button
                             width="100%"
                             onClick={() => enterName()}
+                            disabled={playerName && playerName.length > 9}
                         >
                             JOIN GAME
                         </Button>
-
                     </div>
+
 
                 </div>
 
