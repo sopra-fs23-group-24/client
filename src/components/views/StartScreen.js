@@ -65,6 +65,7 @@ const StartScreen = props => {
         localStorage.removeItem("playerId");
         localStorage.removeItem("isHost");
         localStorage.removeItem("gamePin");
+        localStorage.removeItem("gameLastState");
         localStorage.removeItem("Token");
     },[])
 

@@ -11,6 +11,7 @@ const WaitingRoom = props => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            localStorage.setItem("gameLastState", response.data.status)
             if (response.data.status !== 'PROMPT') {
                 history.push("/quizAnswer");
             }

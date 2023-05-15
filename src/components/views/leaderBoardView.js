@@ -20,6 +20,7 @@ const LeaderBoardView = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            localStorage.setItem("gameLastState", response.data.status)
             if (response.data.status === "END") {
                 history.push("/EndScreen");
             }

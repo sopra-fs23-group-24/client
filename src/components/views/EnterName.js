@@ -54,6 +54,7 @@ const EnterName = props => {
             localStorage.setItem('playerId', user.playerId);
             localStorage.setItem("Token", response.headers["playertoken"]);
             localStorage.setItem('gamePin', pin);
+            console.log("Game pin set to: " + localStorage.getItem("gamePin"));
 
             history.push(`/lobby`); //TODO: find out what this is called
 

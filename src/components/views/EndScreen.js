@@ -29,6 +29,7 @@ const EndScreen = props => {
 
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
             console.log(response.data.status)
+            localStorage.setItem("gameLastState", response.data.status)
             if (response.data.status === "LOBBY") {
                 history.push("/lobby");
             }
@@ -47,6 +48,12 @@ const EndScreen = props => {
             }catch (error){
 
                 if (error.response.status === 404){
+                    alert("The game has been ended by the host.")
+                    localStorage.removeItem("playerId");
+                    localStorage.removeItem("isHost");
+                    localStorage.removeItem("gamePin");
+                    localStorage.removeItem("Token");
+                    localStorage.removeItem("gameLastState");
                     history.push("/startscreen");
                 }
             }
@@ -142,7 +149,6 @@ const EndScreen = props => {
 
     const leaveLobby = async () => {
         try {
-
             await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
             history.push(`/startscreen`);
 
