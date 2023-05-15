@@ -140,7 +140,7 @@ const Lobby = () => {
 
     const startGame = async () => {
         try {
-            history.push("/answerPrompt");
+            history.push("/selectionpage");
 
 
         } catch (error) {
