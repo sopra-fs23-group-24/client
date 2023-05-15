@@ -9,6 +9,7 @@ import WaitingRoom from "../../views/WaitingRoom";
 import QuizAnswer from "../../views/QuizAnswer";
 import EndScreen from "../../views/EndScreen";
 import LeaderBoardView from "../../views/leaderBoardView";
+import SelectionPage from "../../views/selectionPage";
 
 /**
  * Main router of your application.
@@ -56,6 +57,10 @@ const AppRouter = () => {
 
           <Route exact path="/leaderboard">
               <LeaderBoardView/>
+          </Route>
+
+          <Route exact path="/selectionpage">
+              <SelectionPage/>
           </Route>
 
 
