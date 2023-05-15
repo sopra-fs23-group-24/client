@@ -38,9 +38,8 @@ const EnterName = props => {
     const history = useHistory();
     const [playerName, setPlayerName] = useState(null);
     const id = localStorage.getItem("playerId");
-    console.log(id);
     const {pin} = useParams();
-    console.log("gameID entername: " + pin)
+    const [errorMessage, setErrorMessage] = useState('');
 
 
 
@@ -58,7 +57,9 @@ const EnterName = props => {
             history.push(`/lobby`); //TODO: find out what this is called
 
         } catch (error) {
-            alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
+            if (error.response && error.response.status === 400) {
+                setErrorMessage('Username is already taken');
+            }
         }
     };
 
@@ -72,13 +73,19 @@ const EnterName = props => {
                     <FormField
                         label="Enter your Name"
                         value={playerName}
-                        onChange={n => setPlayerName(n)}
+                        onChange={n => {setPlayerName(n); setErrorMessage('');}}
+
                     />
                     {playerName && playerName.length > 9 && (
                         <div className="joincode error-message"
                              style={{ color: "red" }}>
 
                             Username must be 1-9 characters
+                        </div>
+                    )}
+                    {errorMessage && (
+                        <div className="joincode error-message" style={{ color: "red" }}>
+                            {errorMessage}
                         </div>
                     )}
                     <div className="login button-container">

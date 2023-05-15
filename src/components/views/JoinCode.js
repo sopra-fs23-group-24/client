@@ -34,6 +34,7 @@ FormField.propTypes = {
 const JoinCode = props => {
     const history = useHistory();
     const [gamePin, setGamePin] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const joinGame = async () => {
         try {
@@ -43,10 +44,12 @@ const JoinCode = props => {
 
             localStorage.setItem('isHost', "false");
 
-            history.push(`/entername/` + game.gamePin); //TODO: find out what this is called
+            history.push(`/entername/` + game.gamePin);
 
         } catch (error) {
-            alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
+            if (error.response && error.response.status === 404) {
+                setErrorMessage('No game with this pin found');
+            }
         }
     };
 
@@ -60,8 +63,16 @@ const JoinCode = props => {
                     <FormField
                         label="Enter lobby-code"
                         value={gamePin}
-                        onChange={n => setGamePin(n)}
+                        onChange={(n) => {
+                            setGamePin(n);
+                            setErrorMessage('');
+                        }}
                     />
+                    {errorMessage && (
+                        <div className="joincode error-message" style={{ color: "red" }}>
+                            {errorMessage}
+                        </div>
+                    )}
                     <div className="login button-container">
                         <Button
                             width="100%"
