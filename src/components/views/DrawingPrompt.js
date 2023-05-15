@@ -49,44 +49,58 @@ const DrawingPrompt = props => {
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        canvas.width = window.innerWidth ;
-        canvas.height = window.innerHeight ;
-        canvas.style.width = `${window.innerWidth/1.8}px`;
-        canvas.style.height = `${window.innerHeight/1.5}px`;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.width = `${window.innerWidth / 1.8}px`;
+        canvas.style.height = `${window.innerHeight / 1.5}px`;
 
-
-        const context = canvas.getContext("2d")
-        context.scale(1.8,1.5);
-        canvas.id="myCanvas";
+        const context = canvas.getContext("2d");
+        context.scale(1.8, 1.5);
+        canvas.id = "myCanvas";
         context.lineCap = "round";
-        context.strokeStyle=color;
         context.lineWidth = 1.5;
         contextRef.current = context;
+    }, []);
 
-    }, [])
-    const startDrawing = ({nativeEvent}) => {
-        contextRef.current.strokeStyle = color;
+    useEffect(() => {
+        if (contextRef.current) {
+            contextRef.current.strokeStyle = color;
+        }
+    }, [color]);
 
-        const {offsetX, offsetY} = nativeEvent;
-        contextRef.current.beginPath()
-        contextRef.current.moveTo(offsetX,offsetY)
-        setIsDrawing(true)
-    }
 
     const finishDrawing = () => {
         contextRef.current.closePath()
         setIsDrawing(false);
     }
 
-    const draw = ({nativeEvent}) => {
-        contextRef.current.strokeStyle = color;
+    const startDrawing = ({ nativeEvent }) => {
+        const { offsetX, offsetY } = getCoordinatesFromEvent(nativeEvent);
+        contextRef.current.beginPath();
+        contextRef.current.moveTo(offsetX, offsetY);
+        setIsDrawing(true);
+    };
 
-        console.log("The color is" + color)
-        if(!isDrawing){ return;}
-        const {offsetX, offsetY} = nativeEvent;
-        contextRef.current.lineTo(offsetX,offsetY)
-        contextRef.current.stroke()
-    }
+    const draw = ({ nativeEvent }) => {
+        if (!isDrawing) return;
+
+        const { offsetX, offsetY } = getCoordinatesFromEvent(nativeEvent);
+        contextRef.current.lineTo(offsetX, offsetY);
+        contextRef.current.stroke();
+    };
+    const getCoordinatesFromEvent = (event) => {
+        let offsetX, offsetY;
+        if (event.changedTouches && event.changedTouches.length > 0) {
+            const touch = event.changedTouches[0];
+            offsetX = touch.clientX - canvasRef.current.getBoundingClientRect().left;
+            offsetY = touch.clientY - canvasRef.current.getBoundingClientRect().top;
+        } else {
+            offsetX = event.offsetX;
+            offsetY = event.offsetY;
+        }
+        return { offsetX, offsetY };
+    };
+
 
     const clearCanvas = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -132,12 +146,17 @@ const DrawingPrompt = props => {
 
                     <div>
                         <canvas
+
                             className="drawingprompt canvas"
                             onMouseDown={startDrawing}
                             onMouseUp={finishDrawing}
                             onMouseMove={draw}
+                            onTouchStart={startDrawing}
+                            onTouchEnd={finishDrawing}
+                            onTouchMove={draw}
                             ref={canvasRef}
                         />
+
                     </div>
 
 
