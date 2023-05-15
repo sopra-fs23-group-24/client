@@ -146,13 +146,13 @@ const Lobby = () => {
     try {
       const newState = JSON.stringify({status: "SELECTION"});
       await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
-      console.log("changed status go SELECTION");
 
       const requestBody = JSON.stringify({textNr:1, trueFalseNr:1, drawingNr:1, timer:40});
-      const response2 = await api.post('/games/' + localStorage.getItem("gamePin") +"/prompts", requestBody);
-      console.log("created prompts");
+      await api.post('/games/' + localStorage.getItem("gamePin") +"/prompts", requestBody);
+      const response2 = await api.get('/games/' + localStorage.getItem("gamePin"));
 
-      localStorage.setItem("gameLastState", "PROMPT") //TODO: FIX THIS
+      console.log(response2.data.status)
+      localStorage.setItem("gameLastState", response2.data.status)
       console.log("going to try to go to answerPrompt");
       history.push("/answerPrompt");
     } catch (error) {
