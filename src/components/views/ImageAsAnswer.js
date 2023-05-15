@@ -3,7 +3,7 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import 'styles/views/QuizAnswer.scss';
 import QuestionImage from "./Images/questiony.png"
-
+import parse from 'html-react-parser'
 
 const ImageAsAnswer = props => {
     const question=props.question;
@@ -34,7 +34,7 @@ const ImageAsAnswer = props => {
                 <div className="prompt form"
                      style={{height:"auto"}}>
                     <div className="quiz question-container">
-                        <h1>{question.quizQuestionText}</h1>
+                        <h1>{parse(question.quizQuestionText)}</h1>
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
