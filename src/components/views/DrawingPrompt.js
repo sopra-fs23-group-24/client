@@ -6,6 +6,7 @@ import 'styles/views/DrawingPrompt.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import QuestionImage from "./Images/questiony.png"
+import eraserImage from "./Images/eraser.png"
 
 
 const FormField = props => {
@@ -40,6 +41,7 @@ const DrawingPrompt = props => {
     const contextRef = useRef(null)
     const [isDrawing, setIsDrawing] = useState(false)
     const [color, setColor] = useState("black");
+    const [lineWidth, setLineWidth] = useState(1.5);
 
     let dataURL;
 
@@ -54,11 +56,11 @@ const DrawingPrompt = props => {
         canvas.style.width = `${window.innerWidth / 1.8}px`;
         canvas.style.height = `${window.innerHeight / 1.5}px`;
 
-        const context = canvas.getContext("2d");
+        const context = canvas.getContext('2d');
         context.scale(1.8, 1.5);
-        canvas.id = "myCanvas";
-        context.lineCap = "round";
-        context.lineWidth = 1.5;
+        canvas.id = 'myCanvas';
+        context.lineCap = 'round';
+        context.lineWidth = lineWidth; // Set the initial line width
         contextRef.current = context;
     }, []);
 
@@ -67,6 +69,12 @@ const DrawingPrompt = props => {
             contextRef.current.strokeStyle = color;
         }
     }, [color]);
+    useEffect(() => {
+        if (contextRef.current) {
+            contextRef.current.lineWidth = lineWidth;
+        }
+    }, [lineWidth]);
+
 
 
     const finishDrawing = () => {
@@ -85,6 +93,18 @@ const DrawingPrompt = props => {
         if (!isDrawing) return;
 
         const { offsetX, offsetY } = getCoordinatesFromEvent(nativeEvent);
+
+        // Use eraser color and line width if the eraser button is active
+        if (color === 'white') {
+            contextRef.current.globalCompositeOperation = 'destination-out';
+            contextRef.current.strokeStyle = 'rgba(0,0,0,1)';
+            contextRef.current.lineWidth = 35; // Adjust the line width for erasing
+        } else {
+            contextRef.current.globalCompositeOperation = 'source-over';
+            contextRef.current.strokeStyle = color;
+            contextRef.current.lineWidth = lineWidth;
+        }
+
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
     };
@@ -105,6 +125,15 @@ const DrawingPrompt = props => {
     const clearCanvas = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     };
+
+    const handleEraserClick = () => {
+        setColor("white");
+    };
+
+    const changeColor = (col) => {
+        setColor(col);
+        setLineWidth(1.5);
+    }
 
 
 
@@ -165,39 +194,56 @@ const DrawingPrompt = props => {
 
                             <Button
 
-                                onClick={() => setColor('blue')}
+                                onClick={() => changeColor('blue')}
                                 style={{ backgroundColor: 'blue', width: '20px', height : '20px' }}
                             >
                             </Button>
                             <Button
-                                onClick={() => setColor('red')}
+                                onClick={() => changeColor('red')}
                                 style={{ backgroundColor: 'red', width: '20px', height : '20px' }}
 
                             >
                             </Button>
                             <Button
-                                onClick={() => setColor('yellow')}
+                                onClick={() => changeColor('yellow')}
                                 style={{ backgroundColor: 'yellow', width: '20px', height : '20px' }}
                             >
                             </Button>
                             <Button
-                                onClick={() => setColor("green")}
+                                onClick={() => changeColor('green')}
                                 style={{ backgroundColor: 'green', width: '20px', height : '20px' }}
                             >
                             </Button>
                             <Button
-                                onClick={() => setColor("violet")}
+                                onClick={() => changeColor('violet')}
 
                                 style={{ backgroundColor: 'violet', width: '20px', height : '20px' }}
                             >
                             </Button>
                             <Button
-                                onClick={() => setColor("black")}
+                                onClick={() => changeColor('black')}
                                 style={{ backgroundColor: 'black', width: '20px', height : '20px' }}
                             >
                             </Button>
 
+
                         </div>
+
+                        <div className="drawingprompt button-container">
+                            <Button
+                                className="custom-button"
+                                onClick={handleEraserClick}
+                                style={{ backgroundColor: 'transparent' }}
+                            >
+                                <img
+                                    src={eraserImage}
+                                    alt="Eraser"
+                                    className="button-image"
+                                    style={{ width: '20px', height: '20px' }}
+                                />
+                            </Button>
+                        </div>
+
 
 
                         <div className="drawingprompt button-container">
