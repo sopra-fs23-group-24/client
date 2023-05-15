@@ -12,6 +12,7 @@ class User {
     this.gamePin = null;
     this.isHost = false;
     this.score = null;
+    this.latestScore = null;
     Object.assign(this, data);
   }
 }

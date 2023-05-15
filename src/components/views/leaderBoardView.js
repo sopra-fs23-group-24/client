@@ -77,11 +77,13 @@ const LeaderBoardView = () => {
                         <ul>
                             <span className="leaderboardview player-name"><h3>Player</h3></span>
                             <span className="leaderboardview score"><h3>Score</h3></span>
+                            <span className="leaderboardview latest-score"><h3>recent points</h3></span>
                         </ul>
                         <ul>{users !== null && users.map((user, index) => {
                             return <li key={index}>
                                 <span className="leaderboardview player-name">{user.playerName}</span>
                                 <span className="leaderboardview score">{user.score}</span>
+                                <span className="leaderboardview latest-score">{user.latestScore}</span>
                             </li>})}
                         </ul>
                         <div className="login button-container">
@@ -113,13 +115,16 @@ const LeaderBoardView = () => {
                     <div className="leaderboardview form">
                         <h1>RANKING</h1>
                         <ul>
-                        <span className="leaderboardview player-name"><h3>Player</h3></span>
-                        <span className="leaderboardview score"><h3>Score</h3></span>
+                            <span className="leaderboardview player-name"><h3>Player</h3></span>
+                            <span className="leaderboardview score"><h3>Score</h3></span>
+                            <span className="leaderboardview latest-score"><h3>recent points</h3></span>
+
                         </ul>
                         <ul>{users !== null && users.map((user, index) => {
                             return <li key={index}>
                                 <span className="leaderboardview player-name">{user.playerName}</span>
                                 <span className="leaderboardview score">{user.score}</span>
+                                <span className="leaderboardview latest-score">{user.latestScore}</span>
                             </li>})}
                         </ul>
                         <div className="login button-container">
