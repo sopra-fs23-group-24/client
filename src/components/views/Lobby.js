@@ -21,13 +21,17 @@ const Lobby = () => {
             const fetchDataLobby = async () => {
                 try{
                     const responseLobby = await api.get('/games/'+ localStorage.getItem("gamePin"));
-                    if (responseLobby.data.status !== 'LOBBY') {
+                    if (responseLobby.data.status === 'PROMPT') { // changed it so that the users only get redirected
+                        // when the host is done setting up the selection, bc otherwise users were put into answerPrompt
+                        // since the host has put the game into SELECTION, but was not yet finished with it.
+                        // could maybe change it to go to waiting room and then from there on further... but hm
                         history.push("/answerPrompt");
                     }
                     const response = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
                     setUsers(response.data);
 
             }catch (error) {
+                    // somehow this did not work after ending the game...
                     if (error.response.status === 404){
                         history.push("/startscreen");
                     }
@@ -121,7 +125,7 @@ const Lobby = () => {
             const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + playerId, {headers: {"playerToken": localStorage.getItem("Token")}});
 
         } catch (error) {
-        alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+        alert(`Something went wrong trying to kick the user from the game: \n${handleError(error)}`);
     }
 
 };
@@ -133,7 +137,7 @@ const Lobby = () => {
             console.log(response)
 
         } catch (error) {
-            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+            alert(`Something went wrong trying to end the game: \n${handleError(error)}`);
         }
 
     };
@@ -144,7 +148,7 @@ const Lobby = () => {
 
 
         } catch (error) {
-            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+            alert(`Something went wrong trying to go to the selection stage: \n${handleError(error)}`);
         }
 
     };

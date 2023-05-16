@@ -30,7 +30,7 @@ const SelectionPage = props => {
             }
         }
         catch (error) {
-            alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
+            alert(`Something went wrong trying to setup the prompt selection for the game: \n${handleError(error)}`);
         }
     }, []);
 
@@ -60,6 +60,10 @@ const SelectionPage = props => {
                 try {
                     await updatePrompts();
                     history.push("/answerprompt");
+
+                    //need to change the stage for all users... - especially the non-hosts
+                    const newState = JSON.stringify({status: "PROMPT"});
+                    await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
                 } catch (error) {
                     alert(`Something went wrong trying to start the game: \n${handleError(error)}`);
                 }
