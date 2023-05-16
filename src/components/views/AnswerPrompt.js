@@ -18,13 +18,14 @@ const AnswerPrompt = props => {
     const [counter, setCounter] = useState(0);
     const updateCounter = () => {
         setCounter(prevCounter => prevCounter + 1);
-        if(counter > 1){
+        if(counter > promptNr-2){
             history.push("/waitingRoom");
         }
     }
 
     const history = useHistory();
     const [prompts, setPrompts] = useState(null);
+    const [promptNr, setPromptNr] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,7 +46,8 @@ const AnswerPrompt = props => {
                 }
 
                  */
-                console.log(response2);
+                console.log(response2.data);
+                setPromptNr(response2.data.length)
 
                 setPrompts(response2.data);
             } catch (error) {
@@ -58,7 +60,7 @@ const AnswerPrompt = props => {
 
     let content = null;
 
-    if(prompts && prompts !== [] && counter <=2 ){
+    if(prompts && prompts !== [] && counter <=promptNr-1 ){
 
             if (prompts[counter].promptType === 'TRUEFALSE') {
                 content =
