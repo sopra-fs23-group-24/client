@@ -3,13 +3,16 @@ import StartScreen from "../../views/StartScreen";
 import JoinCode from "../../views/JoinCode";
 import Lobby from "components/views/Lobby";
 import EnterName from "../../views/EnterName";
-import DrawingPrompt from "../../views/DrawingPrompt";
 import AnswerPrompt from "../../views/AnswerPrompt";
 import WaitingRoom from "../../views/WaitingRoom";
 import QuizAnswer from "../../views/QuizAnswer";
 import EndScreen from "../../views/EndScreen";
 import LeaderBoardView from "../../views/leaderBoardView";
-import SelectionPage from "../../views/selectionPage";
+import {LoginGuard} from "../routeProtectors/LoginGuard";
+import {LobbyGuard} from "../routeProtectors/LobbyGuard";
+import {PromptsGuard} from "../routeProtectors/PromptsGuard";
+import {QuizGuard} from "../routeProtectors/QuizGuard";
+import {EndGuard} from "../routeProtectors/EndGuard";
 
 /**
  * Main router of your application.
@@ -25,57 +28,94 @@ const AppRouter = () => {
     <BrowserRouter>
       <Switch>
 
+        {/*Before joining game*/}
         <Route exact path="/startscreen">
+          <LoginGuard>
             <StartScreen/>
+          </LoginGuard>
+        </Route>
+
+        <Route exact path="/start">
+          <LoginGuard>
+            <StartScreen/>
+          </LoginGuard>
+        </Route>
+
+        <Route exact path="/home">
+          <LoginGuard>
+            <StartScreen/>
+          </LoginGuard>
         </Route>
 
         <Route exact path="/joincode">
+          <LoginGuard>
             <JoinCode/>
+          </LoginGuard>
         </Route>
-
-        <Route exact path="/drawingprompt">
-            <DrawingPrompt/>
-        </Route>
-
-        <Route exact path="/lobby">
-            <Lobby/>
-        </Route>
-
-
 
         <Route exact path="/enterName/:pin">
-          <EnterName/>
+          <LoginGuard>
+            <EnterName/>
+          </LoginGuard>
+        </Route>
+
+        {/*Joining game*/}
+        <Route exact path="/lobby">
+          <LobbyGuard>
+            <Lobby/>
+          </LobbyGuard>
+        </Route>
+
+
+        {/*Filling out prompts*/}
+        <Route exact path="/answerPrompt">
+          <PromptsGuard>
+            <AnswerPrompt/>
+          </PromptsGuard>
+        </Route>
+
+        <Route exact path="/prompts">
+          <PromptsGuard>
+            <AnswerPrompt/>
+          </PromptsGuard>
         </Route>
 
         <Route exact path="/waitingRoom">
-          <WaitingRoom/>
+          <PromptsGuard>
+            <WaitingRoom/>
+          </PromptsGuard>
         </Route>
 
-          <Route exact path="/EndScreen">
-              <EndScreen/>
-          </Route>
 
-          <Route exact path="/leaderboard">
-              <LeaderBoardView/>
-          </Route>
-
-          <Route exact path="/selectionpage">
-              <SelectionPage/>
-          </Route>
-
-
-
-          <Route exact path="/answerPrompt">
-          <AnswerPrompt/>
+        {/*Quiz*/}
+        <Route exact path="/quizAnswer">
+          <QuizGuard>
+            <QuizAnswer/>
+          </QuizGuard>
         </Route>
 
-          <Route exact path="/quizAnswer">
-              <QuizAnswer/>
-          </Route>
+        <Route exact path="/leaderboard">
+          <QuizGuard>
+            <LeaderBoardView/>
+          </QuizGuard>
+        </Route>
 
+
+        {/*End of game*/}
+        <Route exact path="/EndScreen">
+          <EndGuard>
+            <EndScreen/>
+          </EndGuard>
+        </Route>
+
+
+        {/*Base*/}
         <Route exact path="/">
-          <Redirect to="/startscreen"/>
+          <LoginGuard>
+            <Redirect to="/startscreen"/>
+          </LoginGuard>
         </Route>
+
       </Switch>
     </BrowserRouter>
   );

@@ -39,6 +39,7 @@ const JoinCode = props => {
     const joinGame = async () => {
         try {
             const response = await api.get('/games/' + gamePin);
+            localStorage.setItem("gameLastState", response.data.status)
 
             const game = new GameInstance(response.data);
 
