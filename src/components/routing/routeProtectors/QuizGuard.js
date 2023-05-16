@@ -14,11 +14,11 @@ import {api} from "../../../helpers/api";
 export const QuizGuard = props => {
   if (localStorage.getItem("gamePin")) {
     console.log("game Pin found")
-    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && !localStorage.getItem("isHost")) || !localStorage.getItem("gameLastState")){
+    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'false') || !localStorage.getItem("gameLastState")){
       console.log("trying to go to lobby")
       return <Redirect to="/lobby"/>;
     }
-    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost")){
+    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'true'){
       console.log("trying to go to selection")
       return <Redirect to="/selectionpage"/>;
     }

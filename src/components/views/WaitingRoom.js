@@ -10,12 +10,23 @@ const WaitingRoom = props => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
-            localStorage.setItem("gameLastState", response.data.status)
-            if (response.data.status !== 'PROMPT') {
-                history.push("/quizAnswer");
+            try{
+                const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+                localStorage.setItem("gameLastState", response.data.status)
+                if (response.data.status !== 'PROMPT') {
+                    history.push("/quizAnswer");
+                }
+            }catch (error) {
+                if (error.response.status === 404) {
+                    alert("The game has been ended by the host.")
+                    localStorage.removeItem("playerId");
+                    localStorage.removeItem("isHost");
+                    localStorage.removeItem("gamePin");
+                    localStorage.removeItem("Token");
+                    localStorage.removeItem("gameLastState");
+                    history.push("/startscreen");
+                }
             }
-
         };
 
         const intervalId = setInterval(fetchData, 1000);

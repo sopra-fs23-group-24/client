@@ -11,14 +11,14 @@ import {api} from "../../../helpers/api";
  * @Guard
  * @param props
  */
-export const PromptsGuard = props => {
+export const SelectionGuard = props => {
   if (localStorage.getItem("gamePin")) {
     console.log("game Pin found")
-    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && !localStorage.getItem("isHost")) || !localStorage.getItem("gameLastState")){
+    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'false') || !localStorage.getItem("gameLastState")){
       console.log("trying to go to lobby")
       return <Redirect to="/lobby"/>;
     }
-    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost")){
+    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'true'){
       console.log("accepted as selection")
       return props.children;
     }
@@ -38,6 +38,6 @@ export const PromptsGuard = props => {
   return <Redirect to="/startscreen"/>;
 };
 
-PromptsGuard.propTypes = {
+SelectionGuard.propTypes = {
   children: PropTypes.node
 };

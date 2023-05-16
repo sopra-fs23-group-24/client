@@ -14,11 +14,11 @@ import {api} from "../../../helpers/api";
 export const LobbyGuard = props => {
   if (localStorage.getItem("gamePin")) {
     console.log("game Pin found")
-    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && !localStorage.getItem("isHost")) || !localStorage.getItem("gameLastState")){
+    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'false') || !localStorage.getItem("gameLastState")){
       console.log("accepted as lobby")
       return props.children;
     }
-    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost")){
+    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'true'){
       console.log("trying to go to selection")
       return <Redirect to="/selectionpage"/>;
     }

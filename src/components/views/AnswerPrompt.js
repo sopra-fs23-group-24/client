@@ -30,28 +30,21 @@ const AnswerPrompt = props => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                /*if(localStorage.getItem("isHost")==="true") {
-
-                    const newState = JSON.stringify({status: "SELECTION"});
-                    await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
-
-
-                }*/
                 let response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
-                /*
-                if(response2.data.length === 0){
-                    const requestBody = JSON.stringify({textNr:1, trueFalseNr:1, drawingNr:1, timer:40});
-                    await api.post('/games/' + localStorage.getItem("gamePin") +"/prompts", requestBody);
-                    response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
-                }
-
-                 */
                 console.log(response2.data);
                 setPromptNr(response2.data.length)
 
                 setPrompts(response2.data);
             } catch (error) {
-                alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
+                if (error.response.status === 404) {
+                    alert("The game has been ended by the host.")
+                    localStorage.removeItem("playerId");
+                    localStorage.removeItem("isHost");
+                    localStorage.removeItem("gamePin");
+                    localStorage.removeItem("Token");
+                    localStorage.removeItem("gameLastState");
+                    history.push("/startscreen");
+                }
             }
         };
         fetchData();
