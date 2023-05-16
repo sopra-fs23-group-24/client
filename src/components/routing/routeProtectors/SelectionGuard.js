@@ -11,7 +11,7 @@ import {api} from "../../../helpers/api";
  * @Guard
  * @param props
  */
-export const QuizGuard = props => {
+export const PromptsGuard = props => {
   if (localStorage.getItem("gamePin")) {
     console.log("game Pin found")
     if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && !localStorage.getItem("isHost")) || !localStorage.getItem("gameLastState")){
@@ -19,16 +19,16 @@ export const QuizGuard = props => {
       return <Redirect to="/lobby"/>;
     }
     else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost")){
-      console.log("trying to go to selection")
-      return <Redirect to="/selectionpage"/>;
+      console.log("accepted as selection")
+      return props.children;
     }
     else if(localStorage.getItem("gameLastState") === "PROMPT"){
       console.log("trying to go to prompt")
       return <Redirect to="/answerPrompt"/>;
     }
     else if(localStorage.getItem("gameLastState") === "QUIZ"){
-      console.log("accepted as quiz")
-      return props.children;
+      console.log("trying to go to quiz")
+      return <Redirect to="/quizAnswer"/>;
     }
     else if(localStorage.getItem("gameLastState") === "END"){
       console.log("trying to go to end")
@@ -38,6 +38,6 @@ export const QuizGuard = props => {
   return <Redirect to="/startscreen"/>;
 };
 
-QuizGuard.propTypes = {
+PromptsGuard.propTypes = {
   children: PropTypes.node
 };

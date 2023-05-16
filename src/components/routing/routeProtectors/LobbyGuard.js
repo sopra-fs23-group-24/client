@@ -14,9 +14,13 @@ import {api} from "../../../helpers/api";
 export const LobbyGuard = props => {
   if (localStorage.getItem("gamePin")) {
     console.log("game Pin found")
-    if(localStorage.getItem("gameLastState") === "LOBBY" || !localStorage.getItem("gameLastState")){
+    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && !localStorage.getItem("isHost")) || !localStorage.getItem("gameLastState")){
       console.log("accepted as lobby")
       return props.children;
+    }
+    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost")){
+      console.log("trying to go to selection")
+      return <Redirect to="/selectionpage"/>;
     }
     else if(localStorage.getItem("gameLastState") === "PROMPT"){
       console.log("trying to go to prompts")
@@ -31,7 +35,6 @@ export const LobbyGuard = props => {
       return <Redirect to="/EndScreen"/>;
     }
   }
-  console.log("could not redirect properly, trying to go to start")
   return <Redirect to="/startscreen"/>;
 };
 

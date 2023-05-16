@@ -14,9 +14,13 @@ import {api} from "../../../helpers/api";
 export const EndGuard = props => {
   if (localStorage.getItem("gamePin")) {
     console.log("game Pin found")
-    if(localStorage.getItem("gameLastState") === "LOBBY" || !localStorage.getItem("gameLastState")){
+    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && !localStorage.getItem("isHost")) || !localStorage.getItem("gameLastState")){
       console.log("trying to go to lobby")
       return <Redirect to="/lobby"/>;
+    }
+    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost")){
+      console.log("trying to go to selection")
+      return <Redirect to="/selectionpage"/>;
     }
     else if(localStorage.getItem("gameLastState") === "PROMPT"){
       console.log("trying to go to prompt")

@@ -10,9 +10,11 @@ import EndScreen from "../../views/EndScreen";
 import LeaderBoardView from "../../views/leaderBoardView";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
 import {LobbyGuard} from "../routeProtectors/LobbyGuard";
+import {SelectionGuard} from "../routeProtectors/SelectionGuard";
 import {PromptsGuard} from "../routeProtectors/PromptsGuard";
 import {QuizGuard} from "../routeProtectors/QuizGuard";
 import {EndGuard} from "../routeProtectors/EndGuard";
+import SelectionPage from "../../views/selectionPage";
 
 /**
  * Main router of your application.
@@ -64,6 +66,13 @@ const AppRouter = () => {
           <LobbyGuard>
             <Lobby/>
           </LobbyGuard>
+        </Route>
+
+        {/*Selecting prompt numbers*/}
+        <Route exact path="/selectionpage">
+          <SelectionGuard>
+            <SelectionPage/>
+          </SelectionGuard>
         </Route>
 
 
