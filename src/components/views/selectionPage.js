@@ -61,9 +61,14 @@ const SelectionPage = props => {
                     await updatePrompts();
                     history.push("/answerprompt");
                 } catch (error) {
-                    alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+                    alert(`Something went wrong trying to start the game: \n${handleError(error)}`);
                 }
             };
+
+        let QuestionCountContent = "Please select at least one question type"
+        if(textNr>0 || drawingNr>0 || trueFalseNr>0){
+            QuestionCountContent=null;
+        }
 
             return (
                 <BaseContainer>
@@ -75,13 +80,15 @@ const SelectionPage = props => {
                                     <Button
                                         style={{marginLeft: "auto"}}
                                         width='5%'
-                                        onClick={() => changeTFQuestions(-1)}>
+                                        onClick={() => changeTFQuestions(-1)}
+                                        disabled={trueFalseNr<1}>
                                         -
                                     </Button>
                                     <Button
                                         style={{marginLeft: "auto"}}
                                         width='5%'
-                                        onClick={() => changeTFQuestions(1)}>
+                                        onClick={() => changeTFQuestions(1)}
+                                        disabled={trueFalseNr>5}>
                                         +
                                     </Button>
                                 </h1>
@@ -91,13 +98,15 @@ const SelectionPage = props => {
                                 <Button
                                     style={{marginLeft: "auto"}}
                                     width='5%'
-                                    onClick={() => changeTextQuestions(-1)}>
+                                    onClick={() => changeTextQuestions(-1)}
+                                    disabled={textNr<1}>
                                     -
                                 </Button>
                                 <Button
                                     style={{marginLeft: "auto"}}
                                     width='5%'
-                                    onClick={() => changeTextQuestions(1)}>
+                                    onClick={() => changeTextQuestions(1)}
+                                    disabled={textNr>5}>
                                     +
                                 </Button>
                                 </h1>
@@ -105,13 +114,15 @@ const SelectionPage = props => {
                                 <Button
                                     style={{marginLeft: "auto"}}
                                     width='5%'
-                                    onClick={() => changeDrawingQuestion(-1)}>
+                                    onClick={() => changeDrawingQuestion(-1)}
+                                    disabled={drawingNr<1}>
                                     -
                                 </Button>
                                 <Button
                                     style={{marginLeft: "auto"}}
                                     width='5%'
-                                    onClick={() => changeDrawingQuestion(1)}>
+                                    onClick={() => changeDrawingQuestion(1)}
+                                    disabled={drawingNr>5}>
                                     +
                                 </Button>
                                 </h1>
@@ -122,9 +133,11 @@ const SelectionPage = props => {
                                         style={{marginRight: "auto"}}
                                         width="20%"
                                         onClick={() => startGame()}
+                                        disabled={drawingNr===0 && textNr===0 && trueFalseNr===0}
                                 >
                                     START GAME
                                 </Button>
+                                {QuestionCountContent}
                             </div>
                         </div>
                     </div>
