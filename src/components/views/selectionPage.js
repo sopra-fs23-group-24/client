@@ -21,8 +21,9 @@ const SelectionPage = props => {
     const [timer, setTimer] = useState(40);
     let selectionSent = false;
 
-    useEffect(async () => {
-        try {
+    //unnecessary - needs to happen before going to this page!
+    /*useEffect(async () => {
+      try {
             if (localStorage.getItem("isHost") === "true") {
                 const newState = JSON.stringify({status: "SELECTION"});
                 await api.put('/games/' + localStorage.getItem("gamePin"), newState, {headers: {"playerToken": localStorage.getItem('Token')}});
@@ -32,112 +33,115 @@ const SelectionPage = props => {
         catch (error) {
             alert(`Something went wrong trying to setup the prompt selection for the game: \n${handleError(error)}`);
         }
-    }, []);
+    }, []);*/
 
-            async function changeTFQuestions(value) {
-                setTrueFalseNr(trueFalseNr + value);
-            }
+    async function changeTFQuestions(value) {
+      setTrueFalseNr(trueFalseNr + value);
+    }
 
-            async function changeTextQuestions(value) {
-                setTextNr(textNr + value);
-            }
+    async function changeTextQuestions(value) {
+      setTextNr(textNr + value);
+    }
 
-            async function changeDrawingQuestion(value) {
-                setDrawingNr(drawingNr + value);
-            }
+    async function changeDrawingQuestion(value) {
+      setDrawingNr(drawingNr + value);
+    }
 
-            async function updatePrompts() {
-                const requestBody = JSON.stringify({
-                    textNr: textNr,
-                    trueFalseNr: trueFalseNr,
-                    drawingNr: drawingNr,
-                    timer: timer
-                });
-                await api.post('/games/' + localStorage.getItem("gamePin") + "/prompts", requestBody);
-            }
+    async function updatePrompts() {
+      const requestBody = JSON.stringify({
+        textNr: textNr,
+        trueFalseNr: trueFalseNr,
+        drawingNr: drawingNr,
+        timer: timer
+      });
+      await api.post('/games/' + localStorage.getItem("gamePin") + "/prompts", requestBody);
+    }
 
-            const startGame = async () => {
-                try {
-                    await updatePrompts();
-                    history.push("/answerprompt");
+    const startGame = async () => {
+      try {
+        await updatePrompts();
+        //need to change the stage for all users... - especially the non-hosts
+        //NO - happens automatically when prompts are set!
+        //const newState = JSON.stringify({status: "PROMPT"});
+        //await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
 
-                    //need to change the stage for all users... - especially the non-hosts
-                    const newState = JSON.stringify({status: "PROMPT"});
-                    await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
-                } catch (error) {
-                    alert(`Something went wrong trying to start the game: \n${handleError(error)}`);
-                }
-            };
+        const responseLobby = await api.get('/games/' + localStorage.getItem("gamePin"));
+        localStorage.setItem("gameLastState", responseLobby.data.status)
+        history.push("/answerprompt");
+      } catch (error) {
+        alert(`Something went wrong trying to set the prompts: \n${handleError(error)}`);
+      }
+    };
 
-            return (
-                <BaseContainer>
-                    <div className="drawingprompt container">
-                        <div className="drawingprompt form">
-                            <div>
-                                <h1>
-                                    {trueFalseNr} TRUE OR FALSE QUESTIONS
-                                    <Button
-                                        style={{marginLeft: "auto"}}
-                                        width='5%'
-                                        onClick={() => changeTFQuestions(-1)}>
-                                        -
-                                    </Button>
-                                    <Button
-                                        style={{marginLeft: "auto"}}
-                                        width='5%'
-                                        onClick={() => changeTFQuestions(1)}>
-                                        +
-                                    </Button>
-                                </h1>
-
-
-                                <h1>{textNr} TEXT QUESTIONS
-                                <Button
-                                    style={{marginLeft: "auto"}}
-                                    width='5%'
-                                    onClick={() => changeTextQuestions(-1)}>
-                                    -
-                                </Button>
-                                <Button
-                                    style={{marginLeft: "auto"}}
-                                    width='5%'
-                                    onClick={() => changeTextQuestions(1)}>
-                                    +
-                                </Button>
-                                </h1>
-                                <h1>{drawingNr} DRAWING QUESTIONS
-                                <Button
-                                    style={{marginLeft: "auto"}}
-                                    width='5%'
-                                    onClick={() => changeDrawingQuestion(-1)}>
-                                    -
-                                </Button>
-                                <Button
-                                    style={{marginLeft: "auto"}}
-                                    width='5%'
-                                    onClick={() => changeDrawingQuestion(1)}>
-                                    +
-                                </Button>
-                                </h1>
-                            </div>
-
-                            <div className="button-container">
-                                <Button className='primary-button'
-                                        style={{marginRight: "auto"}}
-                                        width="20%"
-                                        onClick={() => startGame()}
-                                >
-                                    START GAME
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </BaseContainer>
-
-            );
-
-        }
-        ;
+    return (
+      <BaseContainer>
+        <div className="drawingprompt container">
+          <div className="drawingprompt form">
+            <div>
+              <h1>
+                {trueFalseNr} TRUE OR FALSE QUESTIONS
+                <Button
+                  style={{marginLeft: "auto"}}
+                  width='5%'
+                  onClick={() => changeTFQuestions(-1)}>
+                  -
+                </Button>
+                <Button
+                  style={{marginLeft: "auto"}}
+                  width='5%'
+                  onClick={() => changeTFQuestions(1)}>
+                  +
+                </Button>
+              </h1>
 
 
-        export default SelectionPage;
+              <h1>{textNr} TEXT QUESTIONS
+                <Button
+                  style={{marginLeft: "auto"}}
+                  width='5%'
+                  onClick={() => changeTextQuestions(-1)}>
+                  -
+                </Button>
+                <Button
+                  style={{marginLeft: "auto"}}
+                  width='5%'
+                  onClick={() => changeTextQuestions(1)}>
+                  +
+                </Button>
+              </h1>
+              <h1>{drawingNr} DRAWING QUESTIONS
+                <Button
+                  style={{marginLeft: "auto"}}
+                  width='5%'
+                  onClick={() => changeDrawingQuestion(-1)}>
+                  -
+                </Button>
+                <Button
+                  style={{marginLeft: "auto"}}
+                  width='5%'
+                  onClick={() => changeDrawingQuestion(1)}>
+                  +
+                </Button>
+              </h1>
+            </div>
+
+            <div className="button-container">
+              <Button className='primary-button'
+                      style={{marginRight: "auto"}}
+                      width="20%"
+                      onClick={() => startGame()}
+              >
+                START GAME
+              </Button>
+            </div>
+          </div>
+        </div>
+      </BaseContainer>
+
+    );
+
+  }
+;
+
+
+export default SelectionPage;

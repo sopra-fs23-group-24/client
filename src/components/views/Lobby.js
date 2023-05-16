@@ -21,7 +21,7 @@ const Lobby = () => {
       try {
         const responseLobby = await api.get('/games/' + localStorage.getItem("gamePin"));
         localStorage.setItem("gameLastState", responseLobby.data.status)
-        if (responseLobby.data.status !== 'LOBBY') {
+        if (responseLobby.data.status === 'PROMPTS') {
             //TODO: make it so players don't get redirected until prompts ready
             history.push("/answerPrompt");
         }
