@@ -95,6 +95,8 @@
     margin-top: 2em;
 
     @media (max-width: 768px) {
+      visibility: hidden;
+      display: none;
       height: 20em;
       width: 14em;
     }
