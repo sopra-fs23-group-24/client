@@ -67,6 +67,7 @@ const SelectionPage = props => {
 
         const responseLobby = await api.get('/games/' + localStorage.getItem("gamePin"));
         localStorage.setItem("gameLastState", responseLobby.data.status)
+        localStorage.setItem("promptCounter", "0")
         history.push("/answerprompt");
       } catch (error) {
         alert(`Something went wrong trying to set the prompts: \n${handleError(error)}`);
