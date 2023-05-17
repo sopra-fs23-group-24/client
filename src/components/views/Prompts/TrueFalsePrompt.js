@@ -5,7 +5,7 @@ import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import PropTypes from "prop-types";
-import QuestionImage from "./Images/questiony.png"
+import QuestionImage from "../Images/questiony.png"
 
 const FormField = props => {
     return (
@@ -18,6 +18,7 @@ const FormField = props => {
                 placeholder="Enter Story"
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
+                onKeyDown={props.onKeyDown}
             />
         </div>
     );
@@ -26,7 +27,8 @@ const FormField = props => {
 FormField.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
 };
 
 const TrueFalsePrompt = props => {
@@ -41,6 +43,13 @@ const TrueFalsePrompt = props => {
         const requestBody = JSON.stringify({associatedPromptNr: prompt.promptNr, answerText: answer, answerBoolean:switchValue});
         await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/tf", requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
     }
+
+    const handleKeyDown = event => {
+        if(event.key === "Enter"){
+            submitAnswer();
+            updateCounter();
+        }
+    };
 
     const handleButtonClick=() => {
         submitAnswer();
@@ -71,6 +80,7 @@ const TrueFalsePrompt = props => {
                         label={prompt.promptText}
                         value={answer}
                         onChange={n => setAnswer(n)}
+                        onKeyDown={handleKeyDown}
                     />
                     <Switch
                         checked={switchValue}

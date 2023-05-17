@@ -6,7 +6,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import TextQuizAnswer from "./TextQuizAnswer";
 import TFQuizAnswer from "./TFQuizAnswer";
 import DrawingQuizAnswer from "./DrawingQuizAnswer";
-import QuestionInstance from "../../models/QuestionInstance";
+import QuestionInstance from "../../../models/QuestionInstance";
 import ImageAsAnswer from "./ImageAsAnswer";
 
 

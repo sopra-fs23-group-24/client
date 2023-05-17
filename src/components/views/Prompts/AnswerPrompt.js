@@ -6,7 +6,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import DrawingPrompt from "./DrawingPrompt";
 import TrueFalsePrompt from "./TrueFalsePrompt";
 import TextPrompt from "./TextPrompt";
-import PromptInstance from "../../models/PromptInstance";
+import PromptInstance from "../../../models/PromptInstance";
 
 /*
 It is possible to add multiple components inside a single file,

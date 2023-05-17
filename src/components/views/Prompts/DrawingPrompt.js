@@ -5,8 +5,8 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/DrawingPrompt.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import QuestionImage from "./Images/questiony.png"
-import eraserImage from "./Images/eraser.png"
+import QuestionImage from "../Images/questiony.png"
+import eraserImage from "../Images/eraser.png"
 
 
 const FormField = props => {
@@ -134,9 +134,6 @@ const DrawingPrompt = props => {
         setColor(col);
         setLineWidth(1.5);
     }
-
-
-
 
     const submitDrawing = async () => {
         try {

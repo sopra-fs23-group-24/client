@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import {Button} from "../ui/Button";
+import {Button} from "../../ui/Button";
 import {useHistory} from "react-router-dom";
 
 

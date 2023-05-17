@@ -6,7 +6,7 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import QuestionImage from "./Images/questiony.png"
+import QuestionImage from "../Images/questiony.png"
 
 
 const FormField = props => {
@@ -20,6 +20,7 @@ const FormField = props => {
                 placeholder="XXXXXX"
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
+                onKeyDown={props.onKeyDown}
             />
         </div>
     );
@@ -28,13 +29,20 @@ const FormField = props => {
 FormField.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
 };
 
 const JoinCode = props => {
     const history = useHistory();
     const [gamePin, setGamePin] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const handleKeyDown = event => {
+        if(event.key === "Enter"){
+            joinGame();
+        }
+    };
 
     const joinGame = async () => {
         try {
@@ -68,6 +76,7 @@ const JoinCode = props => {
                             setGamePin(n);
                             setErrorMessage('');
                         }}
+                        onKeyDown={handleKeyDown}
                     />
                     {errorMessage && (
                         <div className="joincode error-message" style={{ color: "red" }}>

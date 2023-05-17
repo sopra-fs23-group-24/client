@@ -1,20 +1,20 @@
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import StartScreen from "../../views/StartScreen";
-import JoinCode from "../../views/JoinCode";
-import Lobby from "components/views/Lobby";
-import EnterName from "../../views/EnterName";
-import AnswerPrompt from "../../views/AnswerPrompt";
-import WaitingRoom from "../../views/WaitingRoom";
-import QuizAnswer from "../../views/QuizAnswer";
-import EndScreen from "../../views/EndScreen";
-import LeaderBoardView from "../../views/leaderBoardView";
+import StartScreen from "../../views/GameSetup/StartScreen";
+import JoinCode from "../../views/GameSetup/JoinCode";
+import Lobby from "components/views/GameSetup/Lobby";
+import EnterName from "../../views/GameSetup/EnterName";
+import AnswerPrompt from "../../views/Prompts/AnswerPrompt";
+import WaitingRoom from "../../views/Prompts/WaitingRoom";
+import QuizAnswer from "../../views/Quiz/QuizAnswer";
+import EndScreen from "../../views/Quiz/EndScreen";
+import LeaderBoardView from "../../views/Quiz/leaderBoardView";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
 import {LobbyGuard} from "../routeProtectors/LobbyGuard";
 import {SelectionGuard} from "../routeProtectors/SelectionGuard";
 import {PromptsGuard} from "../routeProtectors/PromptsGuard";
 import {QuizGuard} from "../routeProtectors/QuizGuard";
 import {EndGuard} from "../routeProtectors/EndGuard";
-import SelectionPage from "../../views/selectionPage";
+import SelectionPage from "../../views/GameSetup/selectionPage";
 
 /**
  * Main router of your application.

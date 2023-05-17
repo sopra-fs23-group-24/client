@@ -4,7 +4,7 @@ import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import PropTypes from "prop-types";
-import QuestionImage from "./Images/questiony.png"
+import QuestionImage from "../Images/questiony.png"
 
 
 const FormField = props => {
@@ -18,6 +18,7 @@ const FormField = props => {
                 placeholder="Enter Text"
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
+                onKeyDown={props.onKeyDown}
             />
         </div>
     );
@@ -26,7 +27,8 @@ const FormField = props => {
 FormField.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
 };
 
 const TextPrompt = props => {
@@ -35,6 +37,13 @@ const TextPrompt = props => {
     const updateCounter = () => {
         props.updateCounter();
     }
+
+    const handleKeyDown = event => {
+        if(event.key === "Enter"){
+            submitAnswer();
+            updateCounter();
+        }
+    };
 
     const [answer, setAnswer] = useState(null);
     const submitAnswer=async () => {
@@ -63,6 +72,7 @@ const TextPrompt = props => {
                         label={prompt.promptText}
                         value={answer}
                         onChange={n => setAnswer(n)}
+                        onKeyDown={handleKeyDown}
                     />
                     <div className="login button-container">
                         <Button

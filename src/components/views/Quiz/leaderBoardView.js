@@ -5,10 +5,10 @@ import 'styles/views/LeaderBoardView.scss';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import React, {useEffect, useState} from "react";
-import QuestionImage from "./Images/questiony.png"
-import QuestionInstance from "../../models/QuestionInstance";
-import {Spinner} from "../ui/Spinner";
-import user from "../../models/User";
+import QuestionImage from "../Images/questiony.png"
+import QuestionInstance from "../../../models/QuestionInstance";
+import {Spinner} from "../../ui/Spinner";
+import user from "../../../models/User";
 
 
 const LeaderBoardView = () => {
