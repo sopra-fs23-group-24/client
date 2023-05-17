@@ -14,6 +14,7 @@ const FormField = props => {
                 {props.label}
             </label>
             <input
+                autoFocus
                 className="login input"
                 placeholder="Enter Story"
                 value={props.value}
