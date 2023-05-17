@@ -5,8 +5,8 @@ import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import User from "../../models/User";
-import QuestionImage from "./Images/questiony.png"
+import User from "../../../models/User";
+import QuestionImage from "../Images/questiony.png"
 import parse from 'html-react-parser'
 
 const Lobby = () => {

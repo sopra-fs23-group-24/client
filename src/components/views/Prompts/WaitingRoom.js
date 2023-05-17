@@ -3,7 +3,7 @@ import {api, handleError} from 'helpers/api';
 import {useHistory} from 'react-router-dom';
 import 'styles/views/WaitingRoom.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import QuestionImage from "./Images/questiony.png"
+import QuestionImage from "../Images/questiony.png"
 
 const WaitingRoom = props => {
     const history = useHistory();

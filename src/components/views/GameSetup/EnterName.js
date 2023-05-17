@@ -6,7 +6,7 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import QuestionImage from "./Images/questiony.png"
+import QuestionImage from "../Images/questiony.png"
 
 
 
@@ -21,6 +21,7 @@ const FormField = props => {
                 placeholder="Enter Name"
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
+                onKeyDown={props.onKeyDown}
             />
         </div>
 
@@ -30,7 +31,8 @@ const FormField = props => {
 FormField.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
 };
 
 const EnterName = props => {
@@ -41,7 +43,11 @@ const EnterName = props => {
     const {pin} = useParams();
     const [errorMessage, setErrorMessage] = useState('');
 
-
+    const handleKeyDown = event => {
+        if(event.key === "Enter"){
+            enterName();
+        }
+    };
 
     const enterName = async () => {
         try {
@@ -55,7 +61,7 @@ const EnterName = props => {
             localStorage.setItem('gamePin', pin);
             console.log("Game pin set to: " + localStorage.getItem("gamePin"));
 
-            history.push(`/lobby`); //TODO: find out what this is called
+            history.push(`/lobby`);
 
         } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -63,7 +69,6 @@ const EnterName = props => {
             }
         }
     };
-
 
 
     return (
@@ -75,7 +80,7 @@ const EnterName = props => {
                         label="Enter your Name"
                         value={playerName}
                         onChange={n => {setPlayerName(n); setErrorMessage('');}}
-
+                        onKeyDown={handleKeyDown}
                     />
                     {playerName && playerName.length > 9 && (
                         <div className="joincode error-message"

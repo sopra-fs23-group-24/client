@@ -8,10 +8,10 @@ import 'styles/views/StartScreen.scss';
 
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import QuestionImageBubble from "./Images/bubbleQuest.png"
+import QuestionImageBubble from "../Images/bubbleQuest.png"
 
 import 'styles/views/Login.scss';
-import User from "../../models/User";
+import User from "../../../models/User";
 
 
 /*
