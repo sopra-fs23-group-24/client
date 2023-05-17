@@ -27,8 +27,8 @@ FormField.propTypes = {
 
 
 const DrawingPrompt = props => {
-    const prompt = props.prompts;
-    const counter = props.counter + 1
+    const prompt = props.prompt;
+    const counterDisplay = props.counter + 1
     const updateCounter = () => {
         props.updateCounter();
     }
@@ -159,7 +159,7 @@ const DrawingPrompt = props => {
 
             <div className="drawingprompt container">
                 <div className="prompt container3">
-                 Question {counter}
+                 Question {counterDisplay}
                 <div className="drawingprompt form2">
                     <img src={QuestionImage} alt="" className="drawingprompt questionimg"/>
 
