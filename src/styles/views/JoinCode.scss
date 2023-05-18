@@ -1,9 +1,8 @@
-@import 'styles/theme';
+@import 'src/styles/theme';
 
 .joincode {
   &.container {
     margin-top: 2em;
-    min-height: 300px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -44,13 +43,14 @@
     justify-content: center;
     width: 100%;
     max-width: 30em;
-    height: 30em;
+    max-height: 30em;
     font-size: 16px;
     font-weight: 300;
     padding-left: 37px;
     padding-right: 37px;
     border-radius: 0.75em;
     transition: opacity 0.5s ease, transform 0.5s ease;
+    overflow: hidden;
 
     @media (max-width: 768px) {
       margin-top: 1em;
@@ -90,8 +90,8 @@
   &.questionimg {
     -ms-transform: rotate(20deg);
     transform: rotate(20deg);
-    height: 43em;
-    width: 30em;
+    max-height: 43em;
+    width: auto;
     margin-top: 2em;
 
     @media (max-width: 768px) {

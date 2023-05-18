@@ -1,4 +1,4 @@
-@import 'styles/theme';
+@import 'src/styles/theme';
 
 .header {
   &.container {
@@ -13,5 +13,7 @@
 }
 .navbar{
   background-color: #5C188E;
-  margin-bottom: 5rem;
+  @media (min-width: 768px) { // Adjust for mobile screens
+    margin-bottom: 5rem;
+  }
 }

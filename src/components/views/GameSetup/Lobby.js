@@ -8,6 +8,7 @@ import axios from "axios";
 import User from "../../../models/User";
 import QuestionImage from "../Images/questiony.png"
 import parse from 'html-react-parser'
+import {Dialog, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
 const Lobby = () => {
   const history = useHistory();
@@ -73,6 +74,14 @@ const Lobby = () => {
     const intervalId = setInterval(checkPlayers, 300);
     return () => clearInterval(intervalId);
   }, [users])
+  const [openQR, setOpenQR] = React.useState(false);
+  const showQR = () => {
+    setOpenQR(true);
+  }
+
+  const handleHelperClose = () => {
+    setOpenQR(false);
+  }
 
   const createQrCode = () => {
     const options = {
@@ -172,11 +181,12 @@ const Lobby = () => {
 
           <div className="lobby form2">
             <h1>GAME: {localStorage.getItem("gamePin")}</h1>
-            <div>
+            <div className="lobby QRandQuestionImg">
               <div style={{float: 'left', width: '50%'}}>{qrCode !== null &&
                 <img style={{width: 125, height: 125, marginTop: 40}} src={qrCode.url} alt="qr code"/>}</div>
-              <div style={{float: 'right', width: '50%'}}><img style={{width: 250, height: 250}} src={QuestionImage}
-                                                               alt="" className="lobby questionimg"/>
+              <div style={{float: 'right', width: '50%'}}>
+                <img src={QuestionImage}
+                     alt="" className="lobby questionimg"/>
               </div>
             </div>
           </div>
@@ -210,9 +220,23 @@ const Lobby = () => {
               >
                 START
               </Button>
-              {playerCountContent}
             </div>
+            <b style={{textAlign:"right",color:"red"}}>{playerCountContent}</b>
           </div>
+          <Button className="QRButton" onClick={()=> showQR()}>Show Lobby QR Code</Button>
+          <Dialog open={openQR}
+                  onClose={handleHelperClose}
+                  aria-labelledby="alert-dialog-help"
+                  aria-describedby="alert-dialog-text">
+            <DialogTitle id="alert-dialog-title">
+              {qrCode !== null &&<img style={{width: 125, height: 125, marginTop: 40}} src={qrCode.url} alt="qr code"/>}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-text">
+                GAME: {localStorage.getItem("gamePin")}
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
         </div>
 
       </BaseContainer>
@@ -227,11 +251,11 @@ const Lobby = () => {
 
           <div className="lobby form2">
             <h1>GAME: {localStorage.getItem("gamePin")}</h1>
-            <div>
+            <div className="lobby QRandQuestionImg">
               <div style={{float: 'left', width: '50%'}}>{qrCode !== null &&
                 <img style={{width: 125, height: 125, marginTop: 40}} src={qrCode.url} alt="qr code"/>}</div>
-              <div style={{float: 'right', width: '50%'}}><img style={{width: 250, height: 250}} src={QuestionImage}
-                                                               alt="" className="lobby questionimg"/></div>
+              <div style={{float: 'right', width: '50%'}}>
+                <img src={QuestionImage} alt="" className="lobby questionimg"/></div>
             </div>
           </div>
 
@@ -251,6 +275,20 @@ const Lobby = () => {
               </Button>
             </div>
           </div>
+          <Button className="QRButton" onClick={()=> showQR()}>Show Lobby QR Code</Button>
+          <Dialog open={openQR}
+                  onClose={handleHelperClose}
+                  aria-labelledby="alert-dialog-help"
+                  aria-describedby="alert-dialog-text">
+            <DialogTitle id="alert-dialog-title">
+              {qrCode !== null &&<img style={{width: 125, height: 125, marginTop: 40}} src={qrCode.url} alt="qr code"/>}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-text">
+                GAME: {localStorage.getItem("gamePin")}
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
 
 
         </div>
