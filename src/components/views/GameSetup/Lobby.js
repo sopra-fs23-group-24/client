@@ -192,7 +192,10 @@ const Lobby = () => {
           </div>
 
           <div className="lobby form">
-            <h1>Players</h1>
+            <div className="lobby title">
+              <h1>Lobby {window.innerWidth < 768 && localStorage.getItem("gamePin")}</h1>
+            </div>
+            <div className="lobby playersList">
             <ul>{users !== null && users.map((user, index) => {
               return <li key={index}><span className="leaderboardview player-name">{parse(user.playerName)}</span>
 
@@ -203,7 +206,9 @@ const Lobby = () => {
               </li>
             })}
             </ul>
-            <div className="login button-container">
+            </div>
+
+            <div className="lobby button-container">
               <Button className='secondary-button'
                       style={{marginLeft: "auto"}}
                       width="30%"
@@ -260,12 +265,17 @@ const Lobby = () => {
           </div>
 
           <div className="lobby form">
-            <h1>Players</h1>
+            <div className="lobby title">
+              <h1>Lobby {window.innerWidth < 768 && localStorage.getItem("gamePin")}</h1>
+            </div>
+            <div className="lobby playersList">
             <ul>{users !== null && users.map((user, index) => {
               return <li key={index}>{user.playerName}</li>
             })}
             </ul>
-            <div className="login button-container">
+            </div>
+
+            <div className="lobby button-container">
               <Button className='secondary-button'
                       style={{marginLeft: "auto"}}
                       width="30%"

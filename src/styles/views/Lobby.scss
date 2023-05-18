@@ -25,7 +25,6 @@
   &.form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 100%;
     max-width: 30em;
     height: 30em;
@@ -37,6 +36,14 @@
     background-color: #F4CE7C; //color of yellow form
     transition: opacity 0.5s ease, transform 0.5s ease;
     box-shadow: $dropShadow;
+  }
+  &.title{
+    margin-top:2rem;
+    border-bottom: 1px solid black;
+
+  }
+  &.playersList{
+    margin-top: 2rem;
   }
 
   &.form2 {
@@ -53,6 +60,9 @@
     padding-right: 37px;
     border-radius: 0.75em;
     transition: opacity 0.5s ease, transform 0.5s ease;
+    @media (max-width: 768px) { // Adjust for mobile screens
+      display:none;
+    }
   }
   &.field {
     display: flex;
@@ -77,8 +87,9 @@
   }
   &.button-container {
     display: flex;
-    justify-content: center;
-    margin-top: 2em;
+    align-items: flex-end;
+    height: 100%;
+    margin-bottom: 2rem;
   }
 
   &.questionimg {
