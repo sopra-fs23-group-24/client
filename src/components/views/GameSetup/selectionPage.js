@@ -80,7 +80,7 @@ const SelectionPage = props => {
           <div className="drawingprompt form">
             <div>
               <h1>
-                {trueFalseNr} TRUE OR FALSE QUESTIONS
+                {trueFalseNr} TRUE-FALSE QUESTIONS
                 <Button
                   style={{marginLeft: "auto"}}
                   width='5%'
