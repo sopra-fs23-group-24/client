@@ -39,16 +39,10 @@ const TextPrompt = props => {
         props.updateCounter();
     }
 
-    const handleKeyDown = event => {
-        if(event.key === "Enter"){
-            submitAnswer();
-            updateCounter();
-        }
-    };
-
     const [answer, setAnswer] = useState(null);
     const submitAnswer=async () => {
         const requestBody = JSON.stringify({associatedPromptNr: prompt.promptNr, answer: answer});
+        setAnswer("");
         await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/text", requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
     }
     const handleButtonClick=() => {
@@ -56,6 +50,12 @@ const TextPrompt = props => {
         updateCounter();
     }
 
+    const handleKeyDown = event => {
+        if(event.key === "Enter"){
+            submitAnswer();
+            updateCounter();
+        }
+    };
 
     return (
         <div className="prompt container">

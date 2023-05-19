@@ -44,8 +44,6 @@ const Lobby = () => {
     createQrCode();
     const intervalId = setInterval(fetchDataLobby, 1000);
     return () => clearInterval(intervalId);
-
-
   }, []);
 
   useEffect(() => {
