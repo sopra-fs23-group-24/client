@@ -3,13 +3,16 @@ import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import 'styles/views/QuizAnswer.scss';
-import QuestionImage from "./Images/questiony.png"
+import QuestionImage from "../Images/questiony.png"
 import parse from 'html-react-parser'
-import CountingTimer from "./timer";
+import CountingTimer from './timer';
 
-const DrawingQuizAnswer = props => {
+const TextQuizAnswer = props => {
     const question=props.question;
+
     const submitAnswer=(value)=>{
+        console.log(question.answerOptions[0].answerOptionId);
+        console.log(value);
         props.submitAnswer(value, timeLeft);
     }
     const value1=question.answerOptions[0].answerOptionId;
@@ -29,33 +32,35 @@ const DrawingQuizAnswer = props => {
         }
     }, [timeLeft]);
 
+
     const handleClick = (clickNumber) => {
         clickNumber(true);
         setAllDisabled(true);
     };
-
-
+    let TFStory = null;
+    if(question.storyToDisplay!==null){
+        TFStory = question.storyToDisplay;
+    }
     return (
         <div className="prompt container">
 
             <div className="prompt containerQuestion">
-                <div className="quiz form">
+                <div className="prompt form">
                     <div className="quiz question-container">
                         <h1>{parse(question.quizQuestionText)}</h1>
-                        <img src={question.imageToDisplay} alt="" style={{height:"100%",width:"100%",objectFit:"contain"}}/>
-
+                        <h1>{TFStory}</h1>
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">
                             <Button className={isClicked1 ? 'quiz clicked' : ''}
-                                    width="50%"
-                                    disabled={allDisabled}
-                                    onClick={()=>{submitAnswer(value1); handleClick(setIsClicked1)}}>
+                                width="50%"
+                                disabled={allDisabled}
+                                onClick={()=>{submitAnswer(value1); handleClick(setIsClicked1)}}>
                                 {question.answerOptions[0].answerOptionText}
                             </Button>
                             <Button className={isClicked2 ? 'quiz clicked' : ''}
-                                    width="50%"
-                                    disabled={allDisabled}
+                                width="50%"
+                                disabled={allDisabled}
                                     onClick={()=>{submitAnswer(value2); handleClick(setIsClicked2)}}>
                                 {question.answerOptions[1].answerOptionText}
                             </Button>
@@ -63,15 +68,15 @@ const DrawingQuizAnswer = props => {
 
                         <div className="quiz upperButtons">
                             <Button className={isClicked3 ? 'quiz clicked' : ''}
-                                    width="50%"
-                                    disabled={allDisabled}
+                                width="50%"
+                                disabled={allDisabled}
                                     onClick={()=>{submitAnswer(value3); handleClick(setIsClicked3)}}>
                                 {question.answerOptions[2].answerOptionText}
                             </Button>
                             <Button className={isClicked4 ? 'quiz clicked' : ''}
-                                    width="50%"
-                                    disabled={allDisabled}
-                                    onClick={()=>{submitAnswer(value4); handleClick(setIsClicked4)}}>
+                                width="50%"
+                                disabled={allDisabled}
+                                onClick={()=>{submitAnswer(value4); handleClick(setIsClicked4)}}>
                                 {question.answerOptions[3].answerOptionText}
                             </Button>
                         </div>
@@ -94,5 +99,4 @@ const DrawingQuizAnswer = props => {
     );
 };
 
-
-export default DrawingQuizAnswer;
+export default TextQuizAnswer;

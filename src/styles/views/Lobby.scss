@@ -9,13 +9,22 @@
     @include center;
     display: flex;
     flex-direction: row;
-  }
 
+    @media (max-width: 768px) { // Adjust for mobile screens
+      flex-direction: column;
+      }
+
+    }
+
+  &.QRandQuestionImg{
+    @media (max-width: 768px) { // Adjust for mobile screens
+      display:none;
+      }
+    }
 
   &.form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 100%;
     max-width: 30em;
     height: 30em;
@@ -23,11 +32,18 @@
     font-weight: 300;
     padding-left: 37px;
     padding-right: 37px;
-    margin-right: 20px;
     border-radius: 0.75em;
     background-color: #F4CE7C; //color of yellow form
     transition: opacity 0.5s ease, transform 0.5s ease;
     box-shadow: $dropShadow;
+  }
+  &.title{
+    margin-top:2rem;
+    border-bottom: 1px solid black;
+
+  }
+  &.playersList{
+    margin-top: 2rem;
   }
 
   &.form2 {
@@ -37,13 +53,16 @@
     justify-content: center;
     width: 100%;
     max-width: 30em;
-    height: 30em;
+    max-height: 30em;
     font-size: 16px;
     font-weight: 300;
     padding-left: 37px;
     padding-right: 37px;
     border-radius: 0.75em;
     transition: opacity 0.5s ease, transform 0.5s ease;
+    @media (max-width: 768px) { // Adjust for mobile screens
+      display:none;
+    }
   }
   &.field {
     display: flex;
@@ -68,19 +87,26 @@
   }
   &.button-container {
     display: flex;
-    justify-content: center;
-    margin-top: 2em;
+    align-items: flex-end;
+    height: 100%;
+    margin-bottom: 2rem;
   }
 
   &.questionimg {
+    object-fit: cover;
     -ms-transform: rotate(20deg);
     transform: rotate(20deg);
-    max-width: 80%;
-    height: 43em;
-    width: 30em;
+    width: 200px;
+    height:auto;
 
 
   }
 
 
+}
+.QRButton{
+  margin: 2rem;
+  @media (min-width: 768px) { // Adjust for mobile screens
+  display:none;
+  }
 }

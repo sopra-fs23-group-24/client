@@ -6,7 +6,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import TextQuizAnswer from "./TextQuizAnswer";
 import TFQuizAnswer from "./TFQuizAnswer";
 import DrawingQuizAnswer from "./DrawingQuizAnswer";
-import QuestionInstance from "../../models/QuestionInstance";
+import QuestionInstance from "../../../models/QuestionInstance";
 import ImageAsAnswer from "./ImageAsAnswer";
 
 
@@ -14,11 +14,24 @@ const QuizAnswer = props => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
-            if (response.data.currentQuestion.questionStatus === 'FINISHED') {
-                history.push("/leaderboard");
-            }
-
+            try {
+                console.log("try");
+                const response = await api.get('/games/' + localStorage.getItem("gamePin"));
+                localStorage.setItem("gameLastState", response.data.status)
+                if (response.data.currentQuestion.questionStatus === 'FINISHED') {
+                    history.push("/leaderboard");
+                }
+            } catch (error) {
+                    if (error.response.status === 404) {
+                        alert("The game has been ended by the host.")
+                        localStorage.removeItem("playerId");
+                        localStorage.removeItem("isHost");
+                        localStorage.removeItem("gamePin");
+                        localStorage.removeItem("Token");
+                        localStorage.removeItem("gameLastState");
+                        history.push("/startscreen");
+                    }
+                }
         };
         const initialize = async () => {
             let response = await api.get('/games/'+ localStorage.getItem("gamePin"));
@@ -26,9 +39,21 @@ const QuizAnswer = props => {
             setQuestion(questionInstance);
         };
 
-        initialize();
-        const intervalId = setInterval(fetchData, 1000);
-        return () => clearInterval(intervalId);
+        try{
+            initialize();
+            const intervalId = setInterval(fetchData, 1000);
+            return () => clearInterval(intervalId);
+        }catch (error) {
+            if (error.response.status === 404) {
+                alert("The game has been ended by the host.")
+                localStorage.removeItem("playerId");
+                localStorage.removeItem("isHost");
+                localStorage.removeItem("gamePin");
+                localStorage.removeItem("Token");
+                localStorage.removeItem("gameLastState");
+                history.push("/startscreen");
+            }
+        }
     }, []);
 
     const history = useHistory();

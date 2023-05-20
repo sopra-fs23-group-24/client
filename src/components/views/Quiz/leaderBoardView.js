@@ -5,10 +5,10 @@ import 'styles/views/LeaderBoardView.scss';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import React, {useEffect, useState} from "react";
-import QuestionImage from "./Images/questiony.png"
-import QuestionInstance from "../../models/QuestionInstance";
-import {Spinner} from "../ui/Spinner";
-import user from "../../models/User";
+import QuestionImage from "../Images/questiony.png"
+import QuestionInstance from "../../../models/QuestionInstance";
+import {Spinner} from "../../ui/Spinner";
+import user from "../../../models/User";
 
 
 const LeaderBoardView = () => {
@@ -24,6 +24,7 @@ const LeaderBoardView = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            localStorage.setItem("gameLastState", response.data.status)
             if (response.data.status === "END") {
                 history.push("/EndScreen");
             }

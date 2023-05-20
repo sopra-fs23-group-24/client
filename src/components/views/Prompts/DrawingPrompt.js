@@ -5,8 +5,8 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/DrawingPrompt.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import QuestionImage from "./Images/questiony.png"
-import eraserImage from "./Images/eraser.png"
+import QuestionImage from "../Images/questiony.png"
+import eraserImage from "../Images/eraser.png"
 
 
 const FormField = props => {
@@ -27,8 +27,8 @@ FormField.propTypes = {
 
 
 const DrawingPrompt = props => {
-    const prompt = props.prompts;
-    const counter = props.counter + 1
+    const prompt = props.prompt;
+    const counterDisplay = props.counter + 1
     const updateCounter = () => {
         props.updateCounter();
     }
@@ -62,6 +62,7 @@ const DrawingPrompt = props => {
         context.lineCap = 'round';
         context.lineWidth = lineWidth; // Set the initial line width
         contextRef.current = context;
+
     }, []);
 
     useEffect(() => {
@@ -135,9 +136,6 @@ const DrawingPrompt = props => {
         setLineWidth(1.5);
     }
 
-
-
-
     const submitDrawing = async () => {
         try {
             const canvas = document.getElementById('myCanvas');
@@ -145,10 +143,9 @@ const DrawingPrompt = props => {
             console.log(dataURL);
             const requestBody = JSON.stringify({ associatedPromptNr: prompt.promptNr, answerDrawing: dataURL }); // stringifien und dann schicken
 
-
+            //clear canvas after stringifying
+            clearCanvas();
             await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/drawing", requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
-
-
         } catch (error) {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
         }
@@ -159,7 +156,7 @@ const DrawingPrompt = props => {
 
             <div className="drawingprompt container">
                 <div className="prompt container3">
-                 Question {counter}
+                 Question {counterDisplay}
                 <div className="drawingprompt form2">
                     <img src={QuestionImage} alt="" className="drawingprompt questionimg"/>
 

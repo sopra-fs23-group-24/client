@@ -6,11 +6,12 @@ import PropTypes from "prop-types";
  * Another way to export directly your functional component.
  */
 export const LoginGuard = props => {
-  if (!localStorage.getItem("token")) {
+  if (!localStorage.getItem("gamePin")) {
+    console.log("no game Pin found")
     return props.children;
   }
   // if user is already logged in, redirects to the main /app
-  return <Redirect to="/game"/>;
+  return <Redirect to="/lobby"/>;
 };
 
 LoginGuard.propTypes = {

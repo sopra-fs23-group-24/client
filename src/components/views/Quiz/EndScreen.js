@@ -17,6 +17,7 @@ const EndScreen = props => {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log("fetchData called");
             const response = await api.get('/games/' + localStorage.getItem('gamePin') + '/players', { headers: { "playerToken": localStorage.getItem("Token") } });
             setPlayerList(response.data);
         };
@@ -26,35 +27,29 @@ const EndScreen = props => {
     //useEffect for redirecting Players to Lobby at restartgame
     useEffect(() => {
         const fetchGameState = async () => {
-
-            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
-            console.log(response.data.status)
-            if (response.data.status === "LOBBY") {
-                history.push("/lobby");
+            console.log("fetchGameState called");
+            try{
+                const gameStateResponse = await api.get('/games/'+ localStorage.getItem("gamePin"));
+                console.log(gameStateResponse.data.status)
+                localStorage.setItem("gameLastState", gameStateResponse.data.status)
+                if (gameStateResponse.data.status === "LOBBY") {
+                    history.push("/lobby");
+                }
+            }catch (error) {
+                if (error.response.status === 404) {
+                    alert("The game has been ended by the host.")
+                    localStorage.removeItem("playerId");
+                    localStorage.removeItem("isHost");
+                    localStorage.removeItem("gamePin");
+                    localStorage.removeItem("Token");
+                    localStorage.removeItem("gameLastState");
+                    history.push("/startscreen");
+                }
             }
         }
         const intervalId = setInterval(fetchGameState, 1000);
         return () => clearInterval(intervalId);
     }, []);
-
-    //useEffect for redirecting Players to startscreen at deletegame
-    useEffect(() => {
-
-        const fetchGameNull = async () => {
-            try{
-                await api.get('/games/'+ localStorage.getItem("gamePin"));
-
-            }catch (error){
-
-                if (error.response.status === 404){
-                    history.push("/startscreen");
-                }
-            }
-        }
-        const intervalId = setInterval(fetchGameNull, 1000);
-        return () => clearInterval(intervalId);
-    }, []);
-
 
 
 
@@ -114,7 +109,7 @@ const EndScreen = props => {
                 <div className="login button-container">
                     <Button className = "endscreen button"
                             width="300px"
-                            onClick={() => leaveLobby()}
+                            onClick={() => leaveGame()}
                     >
                         Leave Lobby
                     </Button>
@@ -140,12 +135,16 @@ const EndScreen = props => {
         //rediret with 404
     };
 
-    const leaveLobby = async () => {
+    const leaveGame = async () => {
         try {
-
             await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + localStorage.getItem("playerId"), {headers: {"playerToken": localStorage.getItem("Token")}});
-            history.push(`/startscreen`);
+            localStorage.removeItem("playerId");
+            localStorage.removeItem("isHost");
+            localStorage.removeItem("gamePin");
+            localStorage.removeItem("gameLastState");
+            localStorage.removeItem("Token");
 
+            history.push(`/startscreen`);
         } catch (error) {
             alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
         }

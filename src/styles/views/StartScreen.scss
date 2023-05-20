@@ -1,4 +1,4 @@
-@import 'styles/theme';
+@import 'src/styles/theme';
 
 .startscreen {
   &.container {
@@ -19,10 +19,10 @@
     flex-direction: column;
     justify-content: center;
     max-width: 30em;
-    height: 30em;
+    max-height: 30em;
     font-size: 16px;
     font-weight: 300;
-    padding-left: 0px;
+    padding-left: 0;
     margin-right: 20px;
     border-radius: 0.75em;
     background-color: #F4CE7C; //color of yellow form
@@ -33,9 +33,10 @@
 
     @media (max-width: 768px) { // Adjust for mobile screens
       margin-right: 0;
-      margin-bottom: 2em;
       width: 100%;
-      max-width: none;
+      overflow-x: hidden;
+      overflow-y: visible;
+
     }
   }
 
@@ -100,6 +101,15 @@
     width: 36em;
     margin-bottom: 50px;
     margin-left: -50px;
+    transform-origin: center center;
+
+    @media (max-width: 768px) { // Adjust for mobile screens
+      width: 100%;
+      height: auto;
+      max-width: none;
+      margin-bottom: 4em;
+      margin-left: 10%;
+    }
   }
 
 
@@ -129,6 +139,7 @@
 
     @media (max-width: 768px) { // Adjust for mobile screens
       width: 100%;
+      height: auto;
       max-width: none;
       margin-bottom: 4em;
       margin-left: 10%;
