@@ -63,7 +63,7 @@ const Header = props => {
                         <p>Welcome to <i>"Who Said That?"</i>, the social party quiz made for you and your friends!</p>
                         <p>You need <b>at least 4 people</b> to play. In a first stage, everyone will have to <b>answer some prompts</b> by themselves.
                         Then, you will battle against your friends in a series of <b>quiz questions based on the answers everyone gave</b>.
-                        The person that guesses the most questions correctly the fastest will win he game! And don't worry, you can play again as often as you'd like ;)</p>
+                        The person that guesses the most questions correctly the fastest will win the game! And don't worry, you can play again as often as you'd like ;)</p>
                         <p>Enjoy your time and get creative with your responses!</p>
                         <Accordion>
                             <AccordionSummary
@@ -162,6 +162,22 @@ const Header = props => {
                                     There will be <b>at least two questions per prompt</b>. Since everyone is allowed to answer every quiz question, <b>each player will have their prompt answers
                                     as the chosen correct one the same number of times</b>, to ensure no unfair advantage for anyone. <br/>
                                     For example: 4 players & 3 prompts => 8 quiz questions.
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion>
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                              aria-controls="panel6a-content"
+                              id="panel6a-header"
+                            >
+                                <Typography><b>One of the players left and now we're all stuck...</b></Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography>
+                                    Great friends you got there! But don't worry, you can solve this by <b>deleting your
+                                    browser cache</b> and reloading whatever page you're on. This should lead you to the startpage, where
+                                    you can begin a new round with better friends.
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
