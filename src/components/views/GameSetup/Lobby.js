@@ -169,6 +169,11 @@ const Lobby = () => {
     playerCountContent = null;
   }
 
+  let hostSelects = null;
+  if (localStorage.getItem("gameLastState") !== "LOBBY") {
+    hostSelects = "Please wait, host is setting up the game!"
+  }
+
 
   if (localStorage.getItem('isHost') === 'true') {
     return (
@@ -278,9 +283,12 @@ const Lobby = () => {
                       style={{marginLeft: "auto"}}
                       width="30%"
                       onClick={() => leaveGame()}
+                      disabled={localStorage.getItem("gameLastState") !== "LOBBY"}
               >
                 LEAVE
               </Button>
+              <b style={{textAlign:"right",color:"red"}}>{hostSelects}</b>
+
             </div>
           </div>
           <Button className="QRButton" onClick={()=> showQR()}>Show Lobby QR Code</Button>
