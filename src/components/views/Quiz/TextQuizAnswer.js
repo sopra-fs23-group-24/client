@@ -25,6 +25,8 @@ const TextQuizAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
+    let timerYes = true;
+    let timerContent = null;
     const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
     useEffect(() => {
@@ -36,6 +38,8 @@ const TextQuizAnswer = props => {
         const setTimer = async () => {
             const response = await api.get('/games/' + localStorage.getItem("gamePin"));
             setTimeLeft(response.data.timer)
+            if (response.data.timer <0){timerYes = false;}
+
         }
         setTimer();
     }, []);
@@ -45,6 +49,11 @@ const TextQuizAnswer = props => {
         clickNumber(true);
         setAllDisabled(true);
     };
+
+    if (timerYes === true){
+        timerContent =
+            <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+    }else{timerContent = <h1>No Timer</h1>}
     let TFStory = null;
     if(question.storyToDisplay!==null){
         TFStory = question.storyToDisplay;
@@ -97,7 +106,7 @@ const TextQuizAnswer = props => {
             </div>
             <div className="prompt container3">
                 <div  className="prompt form2">
-                    <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+                    {timerContent}
 
                     <img src={QuestionImage} alt="" className="quiz questionimg"/>
 
