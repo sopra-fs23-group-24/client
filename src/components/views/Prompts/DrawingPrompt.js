@@ -42,6 +42,7 @@ const DrawingPrompt = props => {
     const [isDrawing, setIsDrawing] = useState(false)
     const [color, setColor] = useState("black");
     const [lineWidth, setLineWidth] = useState(1.5);
+    const [isEmpty, setIsEmpty] = useState(true);
 
     let dataURL;
 
@@ -50,18 +51,28 @@ const DrawingPrompt = props => {
 
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas.style.width = `${window.innerWidth / 1.8}px`;
-        canvas.style.height = `${window.innerHeight / 1.5}px`;
+        const resizeCanvas = () => {
+            const canvas = canvasRef.current;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.width = `${window.innerWidth / 1.5}px`;
+            canvas.style.height = `${window.innerHeight / 1.5}px`;
 
-        const context = canvas.getContext('2d');
-        context.scale(1.8, 1.5);
-        canvas.id = 'myCanvas';
-        context.lineCap = 'round';
-        context.lineWidth = lineWidth; // Set the initial line width
-        contextRef.current = context;
+            const context = canvas.getContext('2d');
+            context.scale(1.5, 1.5);
+            canvas.id = 'myCanvas';
+            context.lineCap = 'round';
+            context.lineWidth = lineWidth; // Set the initial line width
+            contextRef.current = context;
+        }
+
+        resizeCanvas();
+
+        window.addEventListener('resize', resizeCanvas);
+
+        return () => {
+            window.removeEventListener('resize', resizeCanvas)
+        }
 
     }, []);
 
@@ -88,6 +99,8 @@ const DrawingPrompt = props => {
         contextRef.current.beginPath();
         contextRef.current.moveTo(offsetX, offsetY);
         setIsDrawing(true);
+        setIsEmpty(false);
+        nativeEvent.preventDefault();
     };
 
     const draw = ({ nativeEvent }) => {
@@ -108,6 +121,7 @@ const DrawingPrompt = props => {
 
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
+        nativeEvent.preventDefault();
     };
     const getCoordinatesFromEvent = (event) => {
         let offsetX, offsetY;
@@ -125,6 +139,7 @@ const DrawingPrompt = props => {
 
     const clearCanvas = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        setIsEmpty(true);
     };
 
     const handleEraserClick = () => {
@@ -152,25 +167,61 @@ const DrawingPrompt = props => {
     };
 
     return (
-        <BaseContainer>
-
             <div className="drawingprompt container">
-                <div className="prompt container3">
-                 Question {counterDisplay}
-                <div className="drawingprompt form2">
-                    <img src={QuestionImage} alt="" className="drawingprompt questionimg"/>
-
-                </div>
-                </div>
                 <div className="drawingprompt form">
+                    <div className="drawingprompt canvasHeader">
+                        <h1>{prompt.promptText}</h1>
+                        <div className="drawingprompt colorbutton-container">
+                            <Button
+                                onClick={() => changeColor('blue')}
+                                style={{ backgroundColor: 'blue'}}
+                            >
+                            </Button>
+                            <Button
+                                onClick={() => changeColor('red')}
+                                style={{ backgroundColor: 'red'}}
 
-                    <FormField
-                        label={prompt.promptText}
+                            >
+                            </Button>
+                            <Button
+                                onClick={() => changeColor('yellow')}
+                                style={{ backgroundColor: 'yellow'}}
+                            >
+                            </Button>
+                            <Button
+                                onClick={() => changeColor('green')}
+                                style={{ backgroundColor: 'green'}}
+                            >
+                            </Button>
+                            <Button
+                                onClick={() => changeColor('violet')}
 
-                    />
+                                style={{ backgroundColor: 'violet'}}
+                            >
+                            </Button>
+                            <Button
+                                onClick={() => changeColor('black')}
+                                style={{ backgroundColor: 'black'}}
+                            >
+                            </Button>
+                            <Button
+                                className="custom-button"
+                                onClick={handleEraserClick}
+                                style={{ backgroundColor: 'transparent' }}
+                            >
+                                <img
+                                    src={eraserImage}
+                                    alt="Eraser"
+                                    className="button-image"
+                                    style={{ width: '20px', height: '20px' }}
+                                />
+                            </Button>
+
+                        </div>
+                    </div>
                     <div className = "drawingprompt row">
 
-                    <div>
+                    <div className="drawingprompt canvasBox">
                         <canvas
 
                             className="drawingprompt canvas"
@@ -187,61 +238,6 @@ const DrawingPrompt = props => {
 
 
                     <div className = "drawingprompt column">
-                        <div className="drawingprompt colorbutton-container">
-
-                            <Button
-
-                                onClick={() => changeColor('blue')}
-                                style={{ backgroundColor: 'blue', width: '20px', height : '20px' }}
-                            >
-                            </Button>
-                            <Button
-                                onClick={() => changeColor('red')}
-                                style={{ backgroundColor: 'red', width: '20px', height : '20px' }}
-
-                            >
-                            </Button>
-                            <Button
-                                onClick={() => changeColor('yellow')}
-                                style={{ backgroundColor: 'yellow', width: '20px', height : '20px' }}
-                            >
-                            </Button>
-                            <Button
-                                onClick={() => changeColor('green')}
-                                style={{ backgroundColor: 'green', width: '20px', height : '20px' }}
-                            >
-                            </Button>
-                            <Button
-                                onClick={() => changeColor('violet')}
-
-                                style={{ backgroundColor: 'violet', width: '20px', height : '20px' }}
-                            >
-                            </Button>
-                            <Button
-                                onClick={() => changeColor('black')}
-                                style={{ backgroundColor: 'black', width: '20px', height : '20px' }}
-                            >
-                            </Button>
-
-
-                        </div>
-
-                        <div className="drawingprompt button-container">
-                            <Button
-                                className="custom-button"
-                                onClick={handleEraserClick}
-                                style={{ backgroundColor: 'transparent' }}
-                            >
-                                <img
-                                    src={eraserImage}
-                                    alt="Eraser"
-                                    className="button-image"
-                                    style={{ width: '20px', height: '20px' }}
-                                />
-                            </Button>
-                        </div>
-
-
 
                         <div className="drawingprompt button-container">
 
@@ -259,6 +255,7 @@ const DrawingPrompt = props => {
                             <Button
                                 width="100%"
                                 onClick={() => handleButtonClick()}
+                                disabled={isEmpty===true}
                             >
                                 Submit Drawing
                             </Button>
@@ -267,8 +264,6 @@ const DrawingPrompt = props => {
                 </div>
                 </div>
             </div>
-        </BaseContainer>
-
     );
 };
 

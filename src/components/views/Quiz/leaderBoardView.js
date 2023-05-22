@@ -1,11 +1,12 @@
 import {api, handleError} from 'helpers/api';
-import {useHistory, useParams} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/LeaderBoardView.scss';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import React, {useEffect, useState} from "react";
 import QuestionImage from "../Images/questiony.png"
+import QuestionImageWrong from "../Images/sad_question_mark.png"
 import QuestionInstance from "../../../models/QuestionInstance";
 import {Spinner} from "../../ui/Spinner";
 import user from "../../../models/User";
@@ -15,15 +16,13 @@ const LeaderBoardView = () => {
     const history = useHistory();
     const [users, setUsers] = useState(null);
     const [correctAnswer, setCorrectAnswer] = useState(null);
-
-
-
-
+    const [isImage, setIsImage] = useState(false);
+    const [imageContent, setImageContent] = useState(QuestionImage);
 
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await api.get('/games/'+ localStorage.getItem("gamePin"));
+            const response = await api.get('/games/' + localStorage.getItem("gamePin"));
             localStorage.setItem("gameLastState", response.data.status)
             if (response.data.status === "END") {
                 history.push("/EndScreen");
@@ -38,8 +37,12 @@ const LeaderBoardView = () => {
         const fetchUsers = async () => {
             const response2 = await api.get('/games/' + localStorage.getItem("gamePin") + '/players');
             setUsers(response2.data);
-            const response3 = await api.get('/games/'+ localStorage.getItem("gamePin"))
+            const response3 = await api.get('/games/' + localStorage.getItem("gamePin"))
             const currQuestion = new QuestionInstance(response3.data.currentQuestion);
+            if (currQuestion.answerDisplayType === "IMAGE") {
+                setIsImage(true);
+            }
+
             setCorrectAnswer(currQuestion.correctAnswer);
         }
 
@@ -49,10 +52,9 @@ const LeaderBoardView = () => {
     }, []);
 
 
-
     const nextQuestion = async () => {
         try {
-            const changeCurrentQuestion = await api.put('/games/' + localStorage.getItem("gamePin") + '/quizQuestions', {},{headers: {"playerToken": localStorage.getItem("Token")}});
+            const changeCurrentQuestion = await api.put('/games/' + localStorage.getItem("gamePin") + '/quizQuestions', {}, {headers: {"playerToken": localStorage.getItem("Token")}});
             console.log(changeCurrentQuestion.data)
 
         } catch (error) {
@@ -70,92 +72,117 @@ const LeaderBoardView = () => {
         }
     }
 
+    function getImage(score) {
 
+        if (score <= 0) {
+            return <img src={QuestionImageWrong} alt="" className="leaderboardview questionimg"/>
 
-    let content = <Spinner></Spinner>
-    if (correctAnswer){
-        content=
-            <div  className="leaderboardview form2">
-            <h1>You scored: {localStorage.getItem('earnedPoints')} Points!
-                <p>The correct Answer was: {correctAnswer.answerOptionText}</p>
-            </h1>
-
-            <img src={QuestionImage} alt="" className="leaderboardview questionimg"/>
-        </div>
+        } else if (score >0){
+            return <img src={QuestionImage} alt="" className="leaderboardview questionimg"/>
+        }
     }
-    if (localStorage.getItem('isHost') === 'true') {
-        return ( <BaseContainer>
 
-                <div className="leaderboardview container">
 
-                    {content}
+        let content = <Spinner></Spinner>
+        if (correctAnswer) {
+            if (isImage) {
+                content =
+                    <div className="leaderboardview form2">
+                        <h1>You scored: {localStorage.getItem('earnedPoints')} Points!
+                            <p>The correct Answer was: <img src={correctAnswer.answerOptionText} alt=""
+                                                            className="quiz answerImage"/></p>
+                        </h1>
 
-                    <div className="leaderboardview form">
-                        <h1>RANKING</h1>
-                        <ul>
-                            <span className="leaderboardview player-name"><h3>Player</h3></span>
-                            <span className="leaderboardview score"><h3>Score</h3></span>
+                        {getImage(localStorage.getItem('earnedPoints'))}
+                    </div>
+            } else {
+                content =
+                    <div className="leaderboardview form2">
+                        <h1>You scored: {localStorage.getItem('earnedPoints')} Points!
+                            <p>The correct Answer was: {correctAnswer.answerOptionText}</p>
+                        </h1>
 
-                        </ul>
-                        <ul>{users !== null && users.map((user, index) => {
-                            return <li key={index}>
-                                <span className="leaderboardview player-name">{user.playerName}</span>
-                                <span className="leaderboardview score">{user.score}</span>
-                                <span className="leaderboardview latest-score" style={{color: getColor(user.latestScore)}}>{"+ " + user.latestScore}</span>
-                            </li>})}
-                        </ul>
-                        <div className="login button-container">
-                            <Button className='secondary-button'
-                                    style={{ marginLeft: "auto" }}
-                                    width="30%"
-                                    onClick={() => nextQuestion()}
-                            >
-                                NEXT QUESTION
-                            </Button>
+                        {getImage(localStorage.getItem('earnedPoints'))}
+                    </div>
+            }
+        }
+        if (localStorage.getItem('isHost') === 'true') {
+            return (<BaseContainer>
 
+                    <div className="leaderboardview container">
+
+                        {content}
+
+                        <div className="leaderboardview form">
+                            <h1>RANKING</h1>
+                            <ul>
+                                <span className="leaderboardview player-name"><h3>Player</h3></span>
+                                <span className="leaderboardview score"><h3>Score</h3></span>
+
+                            </ul>
+                            <ul>{users !== null && users.map((user, index) => {
+                                return <li key={index}>
+                                    <span className="leaderboardview player-name">{user.playerName}</span>
+                                    <span className="leaderboardview score">{user.score}</span>
+                                    <span className="leaderboardview latest-score"
+                                          style={{color: getColor(user.latestScore)}}>{"+ " + user.latestScore}</span>
+                                </li>
+                            })}
+                            </ul>
+                            <div className="login button-container">
+                                <Button className='secondary-button'
+                                        style={{marginLeft: "auto"}}
+                                        width="30%"
+                                        onClick={() => nextQuestion()}
+                                >
+                                    NEXT QUESTION
+                                </Button>
+
+                            </div>
                         </div>
+
+
                     </div>
 
+                </BaseContainer>
 
-                </div>
+            );
+        } else {
+            return (
+                <BaseContainer>
 
-            </BaseContainer>
+                    <div className="leaderboardview container">
+                        {content}
 
-        );
-    }
-    else {
-        return (
-            <BaseContainer>
+                        <div className="leaderboardview form">
+                            <h1>RANKING</h1>
+                            <ul>
+                                <span className="leaderboardview player-name"><h3>Player</h3></span>
+                                <span className="leaderboardview score"><h3>Score</h3></span>
 
-                <div className="leaderboardview container">
-                    {content}
+                            </ul>
+                            <ul>{users !== null && users.map((user, index) => {
+                                return <li key={index}>
+                                    <span className="leaderboardview player-name">{user.playerName}</span>
+                                    <span className="leaderboardview score">{user.score}</span>
+                                    <span className="leaderboardview latest-score"
+                                          style={{color: getColor(user.latestScore)}}>{"+ " + user.latestScore}</span>
+                                </li>
+                            })}
+                            </ul>
+                            <div className="login button-container">
 
-                    <div className="leaderboardview form">
-                        <h1>RANKING</h1>
-                        <ul>
-                            <span className="leaderboardview player-name"><h3>Player</h3></span>
-                            <span className="leaderboardview score"><h3>Score</h3></span>
-
-                        </ul>
-                        <ul>{users !== null && users.map((user, index) => {
-                            return <li key={index}>
-                                <span className="leaderboardview player-name">{user.playerName}</span>
-                                <span className="leaderboardview score">{user.score}</span>
-                                <span className="leaderboardview latest-score" style={{color: getColor(user.latestScore)}}>{"+ " + user.latestScore}</span>
-                            </li>})}
-                        </ul>
-                        <div className="login button-container">
-
+                            </div>
                         </div>
+
+
                     </div>
 
+                </BaseContainer>
 
-                </div>
-
-            </BaseContainer>
-
-        );}
-};
+            );
+        }
+    }
 
 
-export default LeaderBoardView;
+    export default LeaderBoardView;

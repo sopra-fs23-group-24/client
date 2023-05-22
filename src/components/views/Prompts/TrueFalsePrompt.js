@@ -13,6 +13,7 @@ const FormField = props => {
             <label className="prompt label">
                 {props.label}
             </label>
+
             <input
                 autoFocus
                 className="login input"
@@ -21,6 +22,8 @@ const FormField = props => {
                 onChange={e => props.onChange(e.target.value)}
                 onKeyDown={props.onKeyDown}
             />
+            <p style={{fontStyle: "italic", fontSize: "smaller", marginTop: -18, textAlign: "right"}}>{props.value.length} / 150</p>
+
         </div>
     );
 };
@@ -47,7 +50,7 @@ const TrueFalsePrompt = props => {
     }
 
     const handleKeyDown = event => {
-        if(event.key === "Enter"){
+        if(event.key === "Enter" && answer.length>0){
             submitAnswer();
             updateCounter();
         }
@@ -62,7 +65,7 @@ const TrueFalsePrompt = props => {
         setSwitchValue(checked);
         console.log(switchValue)
     };
-    const [answer, setAnswer] = useState(null);
+    const [answer, setAnswer] = useState("");
 
 
 
@@ -83,6 +86,7 @@ const TrueFalsePrompt = props => {
                         value={answer}
                         onChange={n => setAnswer(n)}
                         onKeyDown={handleKeyDown}
+
                     />
                     <Switch
                         checked={switchValue}
@@ -93,6 +97,8 @@ const TrueFalsePrompt = props => {
                         <Button
                             width="100%"
                             onClick={() => handleButtonClick()}
+                            disabled={answer.length <= 0 || answer.length>150}
+
                         >
                             Submit Answer
                         </Button>

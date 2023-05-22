@@ -17,8 +17,9 @@ const CountingTimer = ({timeLeft, setTimeLeft}) => {
     }, [timeLeft]);
 
     return (
+
         <div>
-            Timer: {timeLeft}
+            Time: {timeLeft}
         </div>
     );
 };

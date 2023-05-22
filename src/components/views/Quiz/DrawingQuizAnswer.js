@@ -6,6 +6,8 @@ import 'styles/views/QuizAnswer.scss';
 import QuestionImage from "../Images/questiony.png"
 import parse from 'html-react-parser'
 import CountingTimer from "./timer";
+import {api} from "../../../helpers/api";
+
 
 const DrawingQuizAnswer = props => {
     const question=props.question;
@@ -21,7 +23,9 @@ const DrawingQuizAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(40); //Hier definiieren wie lange timer geht
+    const [timerYes, setTimerYes] = useState(true);
+    let timerContent = null;
+    const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
     useEffect(() => {
         if (timeLeft === 0) {
@@ -29,10 +33,24 @@ const DrawingQuizAnswer = props => {
         }
     }, [timeLeft]);
 
+    useEffect(() => {
+        const setTimer = async () => {
+            const response = await api.get('/games/' + localStorage.getItem("gamePin"));
+            setTimeLeft(Number(response.data.timer))
+            if (Number(response.data.timer) <0){setTimerYes(false);}
+        }
+        setTimer();
+    }, []);
+
     const handleClick = (clickNumber) => {
         clickNumber(true);
         setAllDisabled(true);
     };
+
+    if (timerYes === true){
+        timerContent =
+            <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+    }
 
 
     return (
@@ -84,7 +102,7 @@ const DrawingQuizAnswer = props => {
             </div>
             <div className="prompt container3">
                 <div  className="prompt form2">
-                    <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+                    {timerContent}
 
                     <img src={QuestionImage} alt="" className="quiz questionimg"/>
 

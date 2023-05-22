@@ -6,6 +6,7 @@ import 'styles/views/QuizAnswer.scss';
 import QuestionImage from "../Images/questiony.png"
 import parse from 'html-react-parser'
 import CountingTimer from './timer';
+import {api} from "../../../helpers/api";
 
 const TextQuizAnswer = props => {
     const question=props.question;
@@ -24,19 +25,37 @@ const TextQuizAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(40); //Hier definiieren wie lange timer geht
+    const [timerYes, setTimerYes] = useState(true);
+    let timerContent = null;
+    const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
     useEffect(() => {
         if (timeLeft === 0) {
             props.submitAnswer(value1, 0);
         }
     }, [timeLeft]);
+    useEffect(() => {
+        const setTimer = async () => {
+            const response = await api.get('/games/' + localStorage.getItem("gamePin"));
+            setTimeLeft(Number(response.data.timer))
+            if (Number(response.data.timer) <0){console.log("timerYes set to false");setTimerYes(false); }
+
+        }
+        setTimer();
+    }, []);
 
 
     const handleClick = (clickNumber) => {
         clickNumber(true);
         setAllDisabled(true);
     };
+
+    if (timerYes === true){
+        console.log("entered Timeryes");
+        timerContent =
+            <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+    }
+
     let TFStory = null;
     if(question.storyToDisplay!==null){
         TFStory = question.storyToDisplay;
@@ -89,7 +108,7 @@ const TextQuizAnswer = props => {
             </div>
             <div className="prompt container3">
                 <div  className="prompt form2">
-                    <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+                    {timerContent}
 
                     <img src={QuestionImage} alt="" className="quiz questionimg"/>
 
