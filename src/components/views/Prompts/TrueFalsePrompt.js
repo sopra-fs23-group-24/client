@@ -47,7 +47,7 @@ const TrueFalsePrompt = props => {
     }
 
     const handleKeyDown = event => {
-        if(event.key === "Enter"){
+        if(event.key === "Enter" && answer.length>0){
             submitAnswer();
             updateCounter();
         }
@@ -62,7 +62,7 @@ const TrueFalsePrompt = props => {
         setSwitchValue(checked);
         console.log(switchValue)
     };
-    const [answer, setAnswer] = useState(null);
+    const [answer, setAnswer] = useState("");
 
 
 
@@ -93,6 +93,8 @@ const TrueFalsePrompt = props => {
                         <Button
                             width="100%"
                             onClick={() => handleButtonClick()}
+                            disabled={answer.length <= 0}
+
                         >
                             Submit Answer
                         </Button>

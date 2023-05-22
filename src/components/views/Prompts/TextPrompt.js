@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import PropTypes from "prop-types";
@@ -39,19 +38,25 @@ const TextPrompt = props => {
         props.updateCounter();
     }
 
-    const [answer, setAnswer] = useState(null);
-    const submitAnswer=async () => {
-        const requestBody = JSON.stringify({associatedPromptNr: prompt.promptNr, answer: answer});
-        setAnswer("");
-        await api.post('/games/' + localStorage.getItem("gamePin") +"/prompt-answers/text", requestBody, { headers: { "playerToken": localStorage.getItem("Token") } });
+    const [answer, setAnswer] = useState("");
+    const submitAnswer = async () => {
+        try {
+            const requestBody = JSON.stringify({associatedPromptNr: prompt.promptNr, answer: answer});
+            setAnswer("");
+            await api.post('/games/' + localStorage.getItem("gamePin") + "/prompt-answers/text", requestBody, {headers: {"playerToken": localStorage.getItem("Token")}});
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                alert(`Cannot submit empty prompt \n${handleError(error)}`);
+            }
+        }
     }
-    const handleButtonClick=() => {
+    const handleButtonClick = () => {
         submitAnswer();
         updateCounter();
     }
 
     const handleKeyDown = event => {
-        if(event.key === "Enter"){
+        if (event.key === "Enter" && answer.length>0) {
             submitAnswer();
             updateCounter();
         }
@@ -61,7 +66,7 @@ const TextPrompt = props => {
         <div className="prompt container">
             <div className="prompt container3">
                 Question {counterDisplay}
-                <div  className="prompt form2">
+                <div className="prompt form2">
                     <img src={QuestionImage} alt="" className="prompt questionimg"/>
 
                 </div>
@@ -79,13 +84,13 @@ const TextPrompt = props => {
                         <Button
                             width="100%"
                             onClick={() => handleButtonClick()}
+                            disabled={answer.length <= 0}
                         >
                             Submit Answer
                         </Button>
                     </div>
 
                 </div>
-
 
 
             </div>

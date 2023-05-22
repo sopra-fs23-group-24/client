@@ -42,6 +42,7 @@ const DrawingPrompt = props => {
     const [isDrawing, setIsDrawing] = useState(false)
     const [color, setColor] = useState("black");
     const [lineWidth, setLineWidth] = useState(1.5);
+    const [isEmpty, setIsEmpty] = useState(true);
 
     let dataURL;
 
@@ -88,6 +89,7 @@ const DrawingPrompt = props => {
         contextRef.current.beginPath();
         contextRef.current.moveTo(offsetX, offsetY);
         setIsDrawing(true);
+        setIsEmpty(false);
     };
 
     const draw = ({ nativeEvent }) => {
@@ -125,6 +127,7 @@ const DrawingPrompt = props => {
 
     const clearCanvas = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        setIsEmpty(true);
     };
 
     const handleEraserClick = () => {
@@ -259,6 +262,7 @@ const DrawingPrompt = props => {
                             <Button
                                 width="100%"
                                 onClick={() => handleButtonClick()}
+                                disabled={isEmpty===true}
                             >
                                 Submit Drawing
                             </Button>
