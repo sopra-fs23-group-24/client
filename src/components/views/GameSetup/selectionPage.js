@@ -5,6 +5,8 @@ import BaseContainer from "components/ui/BaseContainer";
 import {Button} from "../../ui/Button";
 import {useHistory} from "react-router-dom";
 import Select from "react-select";
+import 'styles/views/Selection.scss';
+
 
 
 /*
@@ -97,21 +99,18 @@ const SelectionPage = props => {
 
     return (
         <BaseContainer>
-            <div className="drawingprompt container">
-                <div className="drawingprompt form">
-                    <div>
+            <div className="Selection container">
+                <div className="Selection form">
+                    <div className="Selection questionSelection">
                         <p>
-                            {trueFalseNr} TRUE OR FALSE QUESTIONS
+                            <b>{trueFalseNr}</b> TRUE OR FALSE QUESTIONS
+                            <br/>
                             <Button
-                                style={{marginLeft: "auto"}}
-                                width='5%'
                                 onClick={() => changeTFQuestions(-1)}
                                 disabled={trueFalseNr<1}>
                                 -
                             </Button>
                             <Button
-                                style={{marginLeft: "auto"}}
-                                width='5%'
                                 onClick={() => changeTFQuestions(1)}
                                 disabled={trueFalseNr>5}>
                                 +
@@ -119,33 +118,27 @@ const SelectionPage = props => {
                         </p>
 
 
-                        <p>{textNr} TEXT QUESTIONS
+                        <p><b>{textNr}</b> TEXT QUESTIONS
+                            <br/>
                             <Button
-                                style={{marginLeft: "auto"}}
-                                width='5%'
                                 onClick={() => changeTextQuestions(-1)}
                                 disabled={textNr<1}>
                                 -
                             </Button>
                             <Button
-                                style={{marginLeft: "auto"}}
-                                width='5%'
                                 onClick={() => changeTextQuestions(1)}
                                 disabled={textNr>5}>
                                 +
                             </Button>
                         </p>
-                        <p>{drawingNr} DRAWING QUESTIONS
+                        <p><b>{drawingNr}</b> DRAWING QUESTIONS
+                            <br/>
                             <Button
-                                style={{marginLeft: "auto"}}
-                                width='5%'
                                 onClick={() => changeDrawingQuestion(-1)}
                                 disabled={drawingNr<1}>
                                 -
                             </Button>
                             <Button
-                                style={{marginLeft: "auto"}}
-                                width='5%'
                                 onClick={() => changeDrawingQuestion(1)}
                                 disabled={drawingNr>5}>
                                 +
@@ -177,10 +170,8 @@ const SelectionPage = props => {
                         </div>
                     </>
 
-                    <div className="button-container">
-                        <Button className='primary-button'
-                                style={{marginRight: "auto"}}
-                                width="20%"
+                    <div className="Selection button-container">
+                        <Button
                                 onClick={() => startGame()}
                                 disabled={drawingNr===0 && textNr===0 && trueFalseNr===0}
                         >
