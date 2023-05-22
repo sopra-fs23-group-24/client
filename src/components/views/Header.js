@@ -177,7 +177,7 @@ const Header = props => {
                                 <Typography>
                                     Great friends you got there! But don't worry, you can solve this by <b>deleting your
                                     browser cache</b> and reloading whatever page you're on. This should lead you to the startpage, where
-                                    you can begin a new round with better friends.
+                                    you can begin a new round.
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
