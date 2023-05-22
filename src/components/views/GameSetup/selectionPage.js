@@ -161,6 +161,7 @@ const SelectionPage = props => {
                             defaultValue={timerOptions[0]}
                             name="timer"
                             options={timerOptions}
+                            onChange={(e) => selectChange(e)}
                         />
 
                         <div
