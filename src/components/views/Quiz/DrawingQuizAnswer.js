@@ -6,6 +6,8 @@ import 'styles/views/QuizAnswer.scss';
 import QuestionImage from "../Images/questiony.png"
 import parse from 'html-react-parser'
 import CountingTimer from "./timer";
+import {api} from "../../../helpers/api";
+
 
 const DrawingQuizAnswer = props => {
     const question=props.question;
@@ -21,13 +23,21 @@ const DrawingQuizAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(40); //Hier definiieren wie lange timer geht
+    const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
     useEffect(() => {
         if (timeLeft === 0) {
             props.submitAnswer(value1, 0);
         }
     }, [timeLeft]);
+
+    useEffect(() => {
+        const setTimer = async () => {
+            const response = await api.get('/games/' + localStorage.getItem("gamePin"));
+            setTimeLeft(response.data.timer)
+        }
+        setTimer();
+    }, []);
 
     const handleClick = (clickNumber) => {
         clickNumber(true);

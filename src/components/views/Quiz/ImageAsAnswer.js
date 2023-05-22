@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import 'styles/views/QuizAnswer.scss';
 import QuestionImage from "../Images/questiony.png"
 import parse from 'html-react-parser'
 import CountingTimer from "./timer";
+import {api} from "../../../helpers/api";
 
 
 const ImageAsAnswer = props => {
@@ -22,13 +23,20 @@ const ImageAsAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(40); //Hier definiieren wie lange timer geht
+    const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
 
     const handleClick = (clickNumber) => {
         clickNumber(true);
         setAllDisabled(true);
     };
+    useEffect(() => {
+        const setTimer = async () => {
+            const response = await api.get('/games/' + localStorage.getItem("gamePin"));
+            setTimeLeft(response.data.timer)
+        }
+        setTimer();
+    }, []);
 
     return (
         <div className="prompt container">
