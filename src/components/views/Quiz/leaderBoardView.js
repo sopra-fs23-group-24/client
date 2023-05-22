@@ -15,6 +15,7 @@ const LeaderBoardView = () => {
     const history = useHistory();
     const [users, setUsers] = useState(null);
     const [correctAnswer, setCorrectAnswer] = useState(null);
+    const [isImage, setIsImage] = useState(false);
 
 
 
@@ -40,6 +41,8 @@ const LeaderBoardView = () => {
             setUsers(response2.data);
             const response3 = await api.get('/games/'+ localStorage.getItem("gamePin"))
             const currQuestion = new QuestionInstance(response3.data.currentQuestion);
+            if (currQuestion.answerDisplayType === "IMAGE"){setIsImage(true);}
+
             setCorrectAnswer(currQuestion.correctAnswer);
         }
 
@@ -72,8 +75,19 @@ const LeaderBoardView = () => {
 
 
 
+
     let content = <Spinner></Spinner>
     if (correctAnswer){
+        if(isImage){
+            content=
+                <div  className="leaderboardview form2">
+                    <h1>You scored: {localStorage.getItem('earnedPoints')} Points!
+                        <p>The correct Answer was: <img src ={correctAnswer.answerOptionText} alt = "" className="quiz answerImage"/> </p>
+                    </h1>
+
+                    <img src={QuestionImage} alt="" className="leaderboardview questionimg"/>
+                </div>
+        }else{
         content=
             <div  className="leaderboardview form2">
             <h1>You scored: {localStorage.getItem('earnedPoints')} Points!
@@ -81,7 +95,7 @@ const LeaderBoardView = () => {
             </h1>
 
             <img src={QuestionImage} alt="" className="leaderboardview questionimg"/>
-        </div>
+        </div>}
     }
     if (localStorage.getItem('isHost') === 'true') {
         return ( <BaseContainer>
