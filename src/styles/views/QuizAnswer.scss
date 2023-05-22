@@ -53,6 +53,11 @@
     flex-direction: column;
     justify-content: center;
     margin-top: 2em;
+    &.images{
+      button{
+        background: rgba(90, 0, 147, 0.4);
+      }
+    }
   }
 
   &.question-container{

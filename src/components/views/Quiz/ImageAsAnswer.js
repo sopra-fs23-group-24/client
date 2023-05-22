@@ -59,7 +59,7 @@ const ImageAsAnswer = props => {
                     <div className="quiz question-container">
                         <h1>{parse(question.quizQuestionText)}</h1>
                     </div>
-                    <div className="quiz button-container">
+                    <div className="quiz button-container images">
                         <div className="quiz upperButtons">
                             <Button className={isClicked1 ? 'quiz clicked' : ''}
                                     width="50%"
