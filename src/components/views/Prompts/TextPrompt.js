@@ -20,6 +20,8 @@ const FormField = props => {
                 onChange={e => props.onChange(e.target.value)}
                 onKeyDown={props.onKeyDown}
             />
+            <p style={{fontStyle: "italic", fontSize: "smaller", marginTop: -18, textAlign: "right"}}>{props.value.length} / 60</p>
+
         </div>
     );
 };
@@ -84,7 +86,7 @@ const TextPrompt = props => {
                         <Button
                             width="100%"
                             onClick={() => handleButtonClick()}
-                            disabled={answer.length <= 0}
+                            disabled={answer.length <= 0 || answer.length > 60}
                         >
                             Submit Answer
                         </Button>
