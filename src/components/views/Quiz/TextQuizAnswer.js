@@ -25,7 +25,7 @@ const TextQuizAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
-    let timerYes = true;
+    const [timerYes, setTimerYes] = useState(true);
     let timerContent = null;
     const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
@@ -37,8 +37,8 @@ const TextQuizAnswer = props => {
     useEffect(() => {
         const setTimer = async () => {
             const response = await api.get('/games/' + localStorage.getItem("gamePin"));
-            setTimeLeft(response.data.timer)
-            if (response.data.timer <0){timerYes = false;}
+            setTimeLeft(Number(response.data.timer))
+            if (Number(response.data.timer) <0){console.log("timerYes set to false");setTimerYes(false); }
 
         }
         setTimer();
@@ -51,9 +51,11 @@ const TextQuizAnswer = props => {
     };
 
     if (timerYes === true){
+        console.log("entered Timeryes");
         timerContent =
             <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
-    }else{timerContent = <h1>No Timer</h1>}
+    }
+
     let TFStory = null;
     if(question.storyToDisplay!==null){
         TFStory = question.storyToDisplay;

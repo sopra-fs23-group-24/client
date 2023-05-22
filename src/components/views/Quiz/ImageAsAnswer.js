@@ -23,7 +23,7 @@ const ImageAsAnswer = props => {
     const [isClicked3, setIsClicked3] = useState(false);
     const [isClicked4, setIsClicked4] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
-    let timerYes = true;
+    const [timerYes, setTimerYes] = useState(true);
     let timerContent = null;
     const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
@@ -33,20 +33,22 @@ const ImageAsAnswer = props => {
         setAllDisabled(true);
     };
 
-    if (timerYes === true){
-        timerContent =
-            <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
-    }else{timerContent = <h1>No Timer</h1>}
+
 
     useEffect(() => {
         const setTimer = async () => {
             const response = await api.get('/games/' + localStorage.getItem("gamePin"));
-            setTimeLeft(response.data.timer)
-            if (response.data.timer <0){timerYes = false;}
+            setTimeLeft(Number(response.data.timer))
+            if (Number(response.data.timer) <0){setTimerYes(false); }
 
         }
         setTimer();
     }, []);
+
+    if (timerYes === true){
+        timerContent =
+            <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+    }
 
     return (
         <div className="prompt container">
