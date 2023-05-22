@@ -4,6 +4,7 @@ import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import {Button} from "../ui/Button";
 import {useHistory} from "react-router-dom";
+import Select from 'react-select';
 
 
 /*
@@ -13,13 +14,19 @@ As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
 
-const SelectionPage = props => {
+const Random = props => {
     const history = useHistory();
     const [trueFalseNr, setTrueFalseNr] = useState(1);
     const [textNr , setTextNr] = useState(1);
     const [drawingNr, setDrawingNr] = useState(1);
     const [timer, setTimer] = useState(40);
-    let selectionSent = false;
+    const timerOptions = [
+            { value: 20, label: '20 seconds'},
+            { value: 40, label: '40 seconds'},
+            { value: 60, label: '60 seconds'},
+            { value: -1, label: 'no time limit'}
+
+        ];
 
     useEffect(async () => {
         try {
@@ -74,12 +81,19 @@ const SelectionPage = props => {
             QuestionCountContent=null;
         }
 
+        /*const Checkbox = ({ children, ...props }: JSX.IntrinsicElements['input']) => (
+            <label style={{ marginRight: '1em' }}>
+                <input type="checkbox" {...props} />
+                {children}
+            </label>
+        );*/
+
             return (
                 <BaseContainer>
                     <div className="drawingprompt container">
                         <div className="drawingprompt form">
                             <div>
-                                <h1>
+                                <p>
                                     {trueFalseNr} TRUE OR FALSE QUESTIONS
                                     <Button
                                         style={{marginLeft: "auto"}}
@@ -95,10 +109,10 @@ const SelectionPage = props => {
                                         disabled={trueFalseNr>5}>
                                         +
                                     </Button>
-                                </h1>
+                                </p>
 
 
-                                <h1>{textNr} TEXT QUESTIONS
+                                <p>{textNr} TEXT QUESTIONS
                                 <Button
                                     style={{marginLeft: "auto"}}
                                     width='5%'
@@ -113,8 +127,8 @@ const SelectionPage = props => {
                                     disabled={textNr>5}>
                                     +
                                 </Button>
-                                </h1>
-                                <h1>{drawingNr} DRAWING QUESTIONS
+                                </p>
+                                <p>{drawingNr} DRAWING QUESTIONS
                                 <Button
                                     style={{marginLeft: "auto"}}
                                     width='5%'
@@ -129,8 +143,31 @@ const SelectionPage = props => {
                                     disabled={drawingNr>5}>
                                     +
                                 </Button>
-                                </h1>
+                                </p>
                             </div>
+
+                            <>
+                                <p>Timer:</p>
+                                <Select
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    defaultValue={timerOptions[0]}
+                                    name="timer"
+                                    options={timerOptions}
+                                />
+
+                                <div
+                                    style={{
+                                        color: 'hsl(48,85%,82%)',
+                                        display: 'inline-block',
+                                        fontSize: 12,
+                                        fontStyle: 'italic',
+                                        marginTop: '1em',
+                                    }}
+                                >
+
+                                </div>
+                            </>
 
                             <div className="button-container">
                                 <Button className='primary-button'
@@ -153,4 +190,4 @@ const SelectionPage = props => {
         ;
 
 
-        export default SelectionPage;
+        export default Random;

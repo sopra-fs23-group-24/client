@@ -4,6 +4,7 @@ import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import {Button} from "../../ui/Button";
 import {useHistory} from "react-router-dom";
+import Select from "react-select";
 
 
 /*
@@ -19,7 +20,13 @@ const SelectionPage = props => {
     const [textNr , setTextNr] = useState(1);
     const [drawingNr, setDrawingNr] = useState(1);
     const [timer, setTimer] = useState(40);
-    let selectionSent = false;
+    const timerOptions = [
+        { value: 20, label: '20 seconds'},
+        { value: 40, label: '40 seconds'},
+        { value: 60, label: '60 seconds'},
+        { value: -1, label: 'no time limit'}
+
+    ];
 
     //unnecessary - needs to happen before going to this page!
     /*useEffect(async () => {
@@ -34,6 +41,8 @@ const SelectionPage = props => {
             alert(`Something went wrong trying to setup the prompt selection for the game: \n${handleError(error)}`);
         }
     }, []);*/
+
+
 
     async function changeTFQuestions(value) {
       setTrueFalseNr(trueFalseNr + value);
@@ -57,6 +66,11 @@ const SelectionPage = props => {
       await api.post('/games/' + localStorage.getItem("gamePin") + "/prompts", requestBody);
     }
 
+    const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.value;
+        setTimer(value);
+    };
+
     const startGame = async () => {
       try {
         await updatePrompts();
@@ -74,70 +88,108 @@ const SelectionPage = props => {
       }
     };
 
+    let QuestionCountContent = "Please select at least one question type"
+    if(textNr>0 || drawingNr>0 || trueFalseNr>0){
+        QuestionCountContent=null;
+    }
+
+
+
     return (
-      <BaseContainer>
-        <div className="drawingprompt container">
-          <div className="drawingprompt form">
-            <div>
-              <h1>
-                {trueFalseNr} TRUE-FALSE QUESTIONS
-                <Button
-                  style={{marginLeft: "auto"}}
-                  width='5%'
-                  onClick={() => changeTFQuestions(-1)}>
-                  -
-                </Button>
-                <Button
-                  style={{marginLeft: "auto"}}
-                  width='5%'
-                  onClick={() => changeTFQuestions(1)}>
-                  +
-                </Button>
-              </h1>
+        <BaseContainer>
+            <div className="drawingprompt container">
+                <div className="drawingprompt form">
+                    <div>
+                        <p>
+                            {trueFalseNr} TRUE OR FALSE QUESTIONS
+                            <Button
+                                style={{marginLeft: "auto"}}
+                                width='5%'
+                                onClick={() => changeTFQuestions(-1)}
+                                disabled={trueFalseNr<1}>
+                                -
+                            </Button>
+                            <Button
+                                style={{marginLeft: "auto"}}
+                                width='5%'
+                                onClick={() => changeTFQuestions(1)}
+                                disabled={trueFalseNr>5}>
+                                +
+                            </Button>
+                        </p>
 
 
-              <h1>{textNr} TEXT QUESTIONS
-                <Button
-                  style={{marginLeft: "auto"}}
-                  width='5%'
-                  onClick={() => changeTextQuestions(-1)}>
-                  -
-                </Button>
-                <Button
-                  style={{marginLeft: "auto"}}
-                  width='5%'
-                  onClick={() => changeTextQuestions(1)}>
-                  +
-                </Button>
-              </h1>
-              <h1>{drawingNr} DRAWING QUESTIONS
-                <Button
-                  style={{marginLeft: "auto"}}
-                  width='5%'
-                  onClick={() => changeDrawingQuestion(-1)}>
-                  -
-                </Button>
-                <Button
-                  style={{marginLeft: "auto"}}
-                  width='5%'
-                  onClick={() => changeDrawingQuestion(1)}>
-                  +
-                </Button>
-              </h1>
+                        <p>{textNr} TEXT QUESTIONS
+                            <Button
+                                style={{marginLeft: "auto"}}
+                                width='5%'
+                                onClick={() => changeTextQuestions(-1)}
+                                disabled={textNr<1}>
+                                -
+                            </Button>
+                            <Button
+                                style={{marginLeft: "auto"}}
+                                width='5%'
+                                onClick={() => changeTextQuestions(1)}
+                                disabled={textNr>5}>
+                                +
+                            </Button>
+                        </p>
+                        <p>{drawingNr} DRAWING QUESTIONS
+                            <Button
+                                style={{marginLeft: "auto"}}
+                                width='5%'
+                                onClick={() => changeDrawingQuestion(-1)}
+                                disabled={drawingNr<1}>
+                                -
+                            </Button>
+                            <Button
+                                style={{marginLeft: "auto"}}
+                                width='5%'
+                                onClick={() => changeDrawingQuestion(1)}
+                                disabled={drawingNr>5}>
+                                +
+                            </Button>
+                        </p>
+                    </div>
+
+                    <>
+                        <p>Timer:</p>
+                        <Select
+                            className="basic-single"
+                            classNamePrefix="select"
+                            defaultValue={timerOptions[0]}
+                            name="timer"
+                            options={timerOptions}
+                        />
+
+                        <div
+                            style={{
+                                color: 'hsl(48,85%,82%)',
+                                display: 'inline-block',
+                                fontSize: 12,
+                                fontStyle: 'italic',
+                                marginTop: '1em',
+                            }}
+                        >
+
+                        </div>
+                    </>
+
+                    <div className="button-container">
+                        <Button className='primary-button'
+                                style={{marginRight: "auto"}}
+                                width="20%"
+                                onClick={() => startGame()}
+                                disabled={drawingNr===0 && textNr===0 && trueFalseNr===0}
+                        >
+                            START GAME
+                        </Button>
+                        {QuestionCountContent}
+                    </div>
+                </div>
             </div>
-
-            <div className="button-container">
-              <Button className='primary-button'
-                      style={{marginRight: "auto"}}
-                      width="20%"
-                      onClick={() => startGame()}
-              >
-                START GAME
-              </Button>
-            </div>
-          </div>
-        </div>
-      </BaseContainer>
+        </BaseContainer>
 
     );
 
