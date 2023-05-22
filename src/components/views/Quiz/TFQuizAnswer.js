@@ -62,7 +62,7 @@ const TFQuizAnswer = props => {
                 <div className="prompt form">
                     <div className="quiz question-container">
                         <h1>{parse(question.quizQuestionText)}</h1>
-                        <h1>{TFStory}</h1>
+                        <h2>{TFStory}</h2>
                     </div>
                     <div className="quiz button-container">
                         <div className="quiz upperButtons">

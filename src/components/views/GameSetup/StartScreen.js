@@ -151,6 +151,8 @@ const StartScreen = props => {
                         </Button>
 
                     </div>
+                    <h4 style={{paddingTop: 100}}>First time here? Click on the question mark (top-right corner) for further informations!</h4>
+
                 </div>
 
 
