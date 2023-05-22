@@ -19,7 +19,7 @@ const SelectionPage = props => {
     const [trueFalseNr, setTrueFalseNr] = useState(1);
     const [textNr , setTextNr] = useState(1);
     const [drawingNr, setDrawingNr] = useState(1);
-    const [timer, setTimer] = useState(40);
+    const [timer, setTimer] = useState(20);
     const timerOptions = [
         { value: 20, label: '20 seconds'},
         { value: 40, label: '40 seconds'},
