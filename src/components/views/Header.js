@@ -42,7 +42,7 @@ const Header = props => {
         console.log(open)
     }
 
-    const HelperContent = <HelpIcon onClick={handleHelperOpen} sx={{ fontSize: 75 }} color="primary"></HelpIcon>;
+    const HelperContent = <HelpIcon onClick={handleHelperOpen} sx={{ color:"#5fc2cf", fontSize: 75, "& :hover":{color:"yellow"}}}></HelpIcon>;
     return (
         <nav className="navbar navbar-dark">
             <div className="container-fluid">
