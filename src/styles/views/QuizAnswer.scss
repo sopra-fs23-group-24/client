@@ -6,6 +6,73 @@
   h1{
     color: black;
   }
+  &.container {
+    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+
+    @media (max-width: 768px) { // Adjust for mobile screens
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+  }
+  &.form2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 30em;
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 37px;
+    padding-right: 37px;
+    border-radius: 0.75em;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    @media (max-width: 768px) {
+      min-height: 0;
+    }
+  }
+  &.containerQuestion{
+    margin-top: 2em;
+    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+
+    @media (max-width: 768px) { // Adjust for mobile screens
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 60em;
+    min-height: 30em;
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 37px;
+    padding-right: 37px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-radius: 0.75em;
+    background-color: #F4CE7C; //color of yellow form
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: $dropShadow;
+
+    @media (max-width: 768px) {
+      margin-right: 0;
+      margin-bottom: 1em;
+    }
+  }
   &.upperButtons{
 
     display:flex;
@@ -77,32 +144,10 @@
     margin-top: 2em;
 
     @media (max-width: 768px) {
-      height: 20em;
-      width: 14em;
+      display: none;
     }
   }
 
-  &.form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    max-width: 60em;
-    font-size: 16px;
-    font-weight: 300;
-    padding-left: 37px;
-    padding-right: 37px;
-    margin-right: 20px;
-    border-radius: 0.75em;
-    background-color: #F4CE7C; //color of yellow form
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    box-shadow: $dropShadow;
-
-    @media (max-width: 768px) {
-      margin-right: 0;
-      margin-bottom: 1em;
-    }
-  }
 
 
 

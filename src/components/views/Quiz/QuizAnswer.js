@@ -107,7 +107,7 @@ const QuizAnswer = props => {
     return (
         <BaseContainer>
 
-            <div className="prompt container">
+            <div className="quiz container">
                 {content}
             </div>
 

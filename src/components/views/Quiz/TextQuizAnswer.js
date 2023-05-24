@@ -61,10 +61,10 @@ const TextQuizAnswer = props => {
         TFStory = question.storyToDisplay;
     }
     return (
-        <div className="prompt container">
+        <div className="quiz container">
 
-            <div className="prompt containerQuestion">
-                <div className="prompt form">
+            <div className="quiz containerQuestion">
+                <div className="quiz form">
                     <div className="quiz question-container">
                         <h1>{parse(question.quizQuestionText)}</h1>
                         <h1>{TFStory}</h1>
@@ -107,7 +107,7 @@ const TextQuizAnswer = props => {
 
             </div>
             <div className="prompt container3">
-                <div  className="prompt form2">
+                <div  className="quiz form2">
                     {timerContent}
 
                     <img src={QuestionImage} alt="" className="quiz questionimg"/>

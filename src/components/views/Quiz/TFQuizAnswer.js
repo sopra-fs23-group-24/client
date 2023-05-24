@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory, useParams} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Prompt.scss';
 import 'styles/views/QuizAnswer.scss';
@@ -56,10 +55,10 @@ const TFQuizAnswer = props => {
     }
 
     return (
-        <div className="prompt container">
+        <div className="quiz container">
 
-            <div className="prompt containerQuestion">
-                <div className="prompt form">
+            <div className="quiz containerQuestion">
+                <div className="quiz form">
                     <div className="quiz question-container">
                         <h1>{parse(question.quizQuestionText)}</h1>
                         <h2>{TFStory}</h2>
@@ -87,7 +86,7 @@ const TFQuizAnswer = props => {
 
             </div>
             <div className="prompt container3">
-                <div  className="prompt form2">
+                <div  className="quiz form2">
                     {timerContent}
                     <img src={QuestionImage} alt="" className="quiz questionimg"/>
 
