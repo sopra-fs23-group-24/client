@@ -4,7 +4,6 @@
   button{
     min-width: 10rem;
     margin: 10px;
-
     @media (max-width: 768px) { // Adjust for mobile screens
       min-width: 5rem;
     }
@@ -52,6 +51,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    button{
+      font-size: 1.5rem;
+    }
 
   }
 
