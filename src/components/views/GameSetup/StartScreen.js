@@ -39,8 +39,6 @@ FormField.propTypes = {
 
 const StartScreen = props => {
     const history = useHistory();
-    const [name, setName] = useState(null);
-    const [username, setUsername] = useState(null);
     const [isVisible, setIsVisible] = useState(false);
     const [isAnimated, setIsAnimated] = useState(false);
 

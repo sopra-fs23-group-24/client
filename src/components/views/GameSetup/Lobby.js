@@ -123,7 +123,7 @@ const Lobby = () => {
 
     const deleteUser = async (playerId) => {
         try {
-            const response = await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + playerId, {headers: {"playerToken": localStorage.getItem("Token")}});
+            await api.delete('/games/' + localStorage.getItem("gamePin") + '/players/' + playerId, {headers: {"playerToken": localStorage.getItem("Token")}});
 
         } catch (error) {
             alert(`Something went wrong trying to delete the user: \n${handleError(error)}`);
@@ -133,7 +133,7 @@ const Lobby = () => {
 
     const endGame = async () => {
         try {
-            const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
+            await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
             localStorage.removeItem("playerId");
             localStorage.removeItem("isHost");
             localStorage.removeItem("gamePin");

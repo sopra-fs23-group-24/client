@@ -16,7 +16,6 @@ const LeaderBoardView = () => {
     const [users, setUsers] = useState(null);
     const [correctAnswer, setCorrectAnswer] = useState(null);
     const [isImage, setIsImage] = useState(false);
-    const [imageContent, setImageContent] = useState(QuestionImage);
 
 
     useEffect(() => {

@@ -39,7 +39,6 @@ const EnterName = props => {
 
     const history = useHistory();
     const [playerName, setPlayerName] = useState(null);
-    const id = localStorage.getItem("playerId");
     const {pin} = useParams();
     const [errorMessage, setErrorMessage] = useState('');
 

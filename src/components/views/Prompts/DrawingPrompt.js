@@ -25,7 +25,6 @@ FormField.propTypes = {
 
 const DrawingPrompt = props => {
     const prompt = props.prompt;
-    const counterDisplay = props.counter + 1
     const updateCounter = () => {
         props.updateCounter();
     }

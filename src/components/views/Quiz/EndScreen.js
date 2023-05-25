@@ -8,8 +8,6 @@ import BaseContainer from "components/ui/BaseContainer";
 
 const EndScreen = props => {
     const history = useHistory();
-    const [name, setName] = useState(null);
-    const [username, setUsername] = useState(null);
     const [playerList, setPlayerList] = useState(null);
     let content = null;
     let contentPodium = null;
@@ -124,7 +122,7 @@ const EndScreen = props => {
     };
 
     const endGame = async () => {
-        const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
+        await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
 
     };
 
