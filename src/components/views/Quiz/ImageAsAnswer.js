@@ -13,6 +13,7 @@ const ImageAsAnswer = props => {
     const submitAnswer=(value)=>{
         console.log(question.answerOptions[0].answerOptionId);
         props.submitAnswer(value, timeLeft);
+        answered = true;
     }
     const value1=question.answerOptions[0].answerOptionId;
     const value2=question.answerOptions[1].answerOptionId;
@@ -25,9 +26,14 @@ const ImageAsAnswer = props => {
     const [allDisabled, setAllDisabled] = useState(false);
     const [timerYes, setTimerYes] = useState(true);
     let timerContent = null;
+    let answered = false;
     const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
 
-
+    useEffect(() => {
+        if (timeLeft === 0) {
+            if(answered === false){props.submitAnswer(value1, 0);}
+        }
+    }, [timeLeft]);
     const handleClick = (clickNumber) => {
         clickNumber(true);
         setAllDisabled(true);
