@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import "styles/views/Header.scss";
 import "bootstrap/dist/css/bootstrap.css"; // Import Bootstrap CSS
 import HelpIcon from '@mui/icons-material/Help';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import {
     Accordion,
     AccordionDetails,
@@ -32,6 +34,9 @@ function ExpandMoreIcon() {
 
 const Header = props => {
     const [open, setOpen] = React.useState(false);
+    const [music, setMusic] = React.useState(new Audio("http://docs.google.com/uc?export=open&id=1dgZsB8Z06xfJcViDMP3aA9tZ_QR1pOY1"));
+    const [musicIsPlaying, setIsPlaying] = React.useState(false);
+
     const handleHelperOpen = () => {
         setOpen(true);
     }
@@ -39,16 +44,45 @@ const Header = props => {
     const handleHelperClose = () => {
         setOpen(false);
     }
+    const toggleMusic = () => {
+        if (music.paused) {
+            if (typeof music.loop == 'boolean') {
+                music.loop = true;
+            } else {
+                music.addEventListener('ended', function () {
+                    this.currentTime = 0;
+                    this.play();
+                }, false);
+            }
+            setIsPlaying(true);
+            music.currentTime = 0;
+            music.play();
+        } else {
+            setIsPlaying(false)
+            music.pause();
+        }
 
+
+    }
+    let MusicContent = null;
+    if (musicIsPlaying){
+        MusicContent = <VolumeUpIcon onClick={toggleMusic} sx={{fontSize: {xs:50, sm:75}}} color="primary"></VolumeUpIcon>;
+    }else {
+        MusicContent = <VolumeOffIcon onClick={toggleMusic} sx={{fontSize: {xs:50, sm:75}}} color="primary"></VolumeOffIcon>;
+    }
     const HelperContent = <HelpIcon onClick={handleHelperOpen}
-                                    sx={{color: "#5fc2cf", fontSize: 75, "& :hover": {color: "yellow"}}}></HelpIcon>;
+                                    sx={{fontSize: {xs:50, sm:75}, "& :hover": {color: "yellow"}}} color="primary"></HelpIcon>;
     return (
         <nav className="navbar navbar-dark">
             <div className="container-fluid">
                 <a className="navbar-brand mb-0 h1">
                     <h1>Who said that?</h1>
                 </a>
+                <div>
+                {MusicContent}
                 {HelperContent}
+                </div>
+
             </div>
             <Dialog open={open}
                     onClose={handleHelperClose}

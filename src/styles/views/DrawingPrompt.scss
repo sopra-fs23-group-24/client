@@ -131,6 +131,9 @@
 
   }
   &.canvasBox{
+    display:flex;
+    justify-content: center;
+    touch-action: none;
   }
 
   &.canvasHeader{
@@ -156,10 +159,10 @@
     width: 50%;
 
     button{
-      width: 5rem;
+      min-width: 5rem;
       margin: 5px;
       @media (max-width: 768px) {
-        width: 3rem;
+        min-width: 2rem;
         margin: 3px;
       }
     }
