@@ -14,4 +14,5 @@ class QuestionInstance {
         Object.assign(this, data);
     }
 }
+
 export default QuestionInstance;

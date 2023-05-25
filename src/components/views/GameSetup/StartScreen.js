@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
 import QuestionImageBubble from "../Images/bubbleQuest.png"
 
 import 'styles/views/Login.scss';
-import User from "../../../models/User";
 
 
 /*
@@ -27,7 +26,6 @@ const FormField = props => {
                 {props.label}
             </label>
         </div>
-
 
 
     );
@@ -47,9 +45,7 @@ const StartScreen = props => {
     const [isAnimated, setIsAnimated] = useState(false);
 
 
-
-
-    useEffect(()=> {
+    useEffect(() => {
         const myButton = document.getElementById('hostButton');
         const myButton2 = document.getElementById('joinButton');
 
@@ -67,8 +63,7 @@ const StartScreen = props => {
         localStorage.removeItem("gamePin");
         localStorage.removeItem("gameLastState");
         localStorage.removeItem("Token");
-    },[])
-
+    }, [])
 
 
     const hostGame = async () => {
@@ -88,7 +83,9 @@ const StartScreen = props => {
             localStorage.setItem('isHost', "true");
 
             await new Promise(resolve => setTimeout(resolve, 3000));
-            if (await response){history.push(`/enterName/` + game.gamePin);}
+            if (await response) {
+                history.push(`/enterName/` + game.gamePin);
+            }
         } catch (error) {
             alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
         }
@@ -117,41 +114,41 @@ const StartScreen = props => {
                 <div className="startscreen form">
 
 
-
-
-                    <img src={QuestionImageBubble} alt="" className={isAnimated ? 'startscreen questionimg' : 'startscreen question'}   />
+                    <img src={QuestionImageBubble} alt=""
+                         className={isAnimated ? 'startscreen questionimg' : 'startscreen question'}/>
 
 
                 </div>
 
-                <div  className="startscreen form2">
+                <div className="startscreen form2">
                     <div className="login button-container">
-                        <Button className = "startscreen appearingButton" id="hostButton" style={{display: 'none'}}
+                        <Button className="startscreen appearingButton" id="hostButton" style={{display: 'none'}}
 
-                            width="100%"
-                            onClick={() => hostGame()}
+                                width="100%"
+                                onClick={() => hostGame()}
                         >
                             HOST GAME
                         </Button>
 
                     </div>
 
-                    {isVisible && <div><h1>Loading...</h1> </div>}
+                    {isVisible && <div><h1>Loading...</h1></div>}
 
-                    {isVisible && <div className="loading-spinner"><Spinner/> </div>}
+                    {isVisible && <div className="loading-spinner"><Spinner/></div>}
 
 
                     <div className="login button-container">
 
-                        <Button className ="startscreen appearingButton2" id="joinButton" style={{display: 'none'}}
-                            width="100%"
-                            onClick={() => joinGame()}
+                        <Button className="startscreen appearingButton2" id="joinButton" style={{display: 'none'}}
+                                width="100%"
+                                onClick={() => joinGame()}
                         >
                             JOIN VIA CODE
                         </Button>
 
                     </div>
-                    <h4 style={{paddingTop: 100}}>First time here? Click on the question mark (top-right corner) for further informations!</h4>
+                    <h4 style={{paddingTop: 100}}>First time here? Click on the question mark (top-right corner) for
+                        further informations!</h4>
 
                 </div>
 

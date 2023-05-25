@@ -17,8 +17,7 @@ const EndScreen = props => {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("fetchData called");
-            const response = await api.get('/games/' + localStorage.getItem('gamePin') + '/players', { headers: { "playerToken": localStorage.getItem("Token") } });
+            const response = await api.get('/games/' + localStorage.getItem('gamePin') + '/players', {headers: {"playerToken": localStorage.getItem("Token")}});
             setPlayerList(response.data);
         };
         fetchData();
@@ -27,15 +26,13 @@ const EndScreen = props => {
     //useEffect for redirecting Players to Lobby at restartgame
     useEffect(() => {
         const fetchGameState = async () => {
-            console.log("fetchGameState called");
-            try{
-                const gameStateResponse = await api.get('/games/'+ localStorage.getItem("gamePin"));
-                console.log(gameStateResponse.data.status)
+            try {
+                const gameStateResponse = await api.get('/games/' + localStorage.getItem("gamePin"));
                 localStorage.setItem("gameLastState", gameStateResponse.data.status)
                 if (gameStateResponse.data.status === "LOBBY") {
                     history.push("/lobby");
                 }
-            }catch (error) {
+            } catch (error) {
                 if (error.response.status === 404) {
                     alert("The game has been ended by the host.")
                     localStorage.removeItem("playerId");
@@ -52,62 +49,64 @@ const EndScreen = props => {
     }, []);
 
 
-
-    if (playerList){
+    if (playerList) {
         contentPodium =
             <div className="endscreen form">
 
-            <div className="endscreen displayName">
-                <h1 style={{fontSize: "4vw"}} >{playerList[1].playerName}</h1>
-                <div
-                    className = "endscreen podiumForm" style={{ height: "250px" }}> <h2>{playerList[1].score}</h2> <h3>SECOND PLACE!</h3>
+                <div className="endscreen displayName">
+                    <h1 style={{fontSize: "4vw"}}>{playerList[1].playerName}</h1>
+                    <div
+                        className="endscreen podiumForm" style={{height: "250px"}}><h2>{playerList[1].score}</h2>
+                        <h3>SECOND PLACE!</h3>
+                    </div>
                 </div>
-            </div>
 
 
-            <div className="endscreen displayName">
-                <h1 style={{fontSize: "5vw"}}>{playerList[0].playerName}</h1>
-                <div
-                    className = "endscreen podiumForm" style={{ height: "300px" }}> <h2>{playerList[0].score}</h2> <h2>FIRST PLACE!</h2>
+                <div className="endscreen displayName">
+                    <h1 style={{fontSize: "5vw"}}>{playerList[0].playerName}</h1>
+                    <div
+                        className="endscreen podiumForm" style={{height: "300px"}}><h2>{playerList[0].score}</h2>
+                        <h2>FIRST PLACE!</h2>
+                    </div>
                 </div>
-            </div>
 
-            <div className="endscreen displayName">
-                <h1 style={{fontSize: "3vw"}}>{playerList[2].playerName}</h1>
-                <div
-                    className = "endscreen podiumForm" style={{ height: "200px" }}> <h2>{playerList[2].score}</h2> <h4>Third PLACE!</h4>
+                <div className="endscreen displayName">
+                    <h1 style={{fontSize: "3vw"}}>{playerList[2].playerName}</h1>
+                    <div
+                        className="endscreen podiumForm" style={{height: "200px"}}><h2>{playerList[2].score}</h2>
+                        <h4>THIRD PLACE!</h4>
+                    </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
     }
 
-    if (localStorage.getItem("isHost") === "true"){
+    if (localStorage.getItem("isHost") === "true") {
         content =
-            <div  className="endscreen form2">
-            <div className="login button-container">
-                <Button className = "endscreen button"
-                        width="300px"
-                        onClick={() => restartGame()}
-                >
-                    Restart Game
-                </Button>
-            </div>
-
-            <div className="login button-container">
-                <Button className = "endscreen button"
-                        width="300px"
-                        onClick={() => endGame()}
-                >
-                    End Game
-                </Button>
-            </div>
-        </div>
-    } else{
-        content =
-            <div  className="endscreen form2">
+            <div className="endscreen form2">
                 <div className="login button-container">
-                    <Button className = "endscreen button"
+                    <Button className="endscreen button"
+                            width="300px"
+                            onClick={() => restartGame()}
+                    >
+                        Restart Game
+                    </Button>
+                </div>
+
+                <div className="login button-container">
+                    <Button className="endscreen button"
+                            width="300px"
+                            onClick={() => endGame()}
+                    >
+                        End Game
+                    </Button>
+                </div>
+            </div>
+    } else {
+        content =
+            <div className="endscreen form2">
+                <div className="login button-container">
+                    <Button className="endscreen button"
                             width="300px"
                             onClick={() => leaveGame()}
                     >
@@ -118,21 +117,15 @@ const EndScreen = props => {
     }
 
 
-
-
-
-    const restartGame = async() => {
+    const restartGame = async () => {
         //dieser put request funktioniert nicht
         const newState = JSON.stringify({status: "LOBBY"});
-        await api.put('/games/'+ localStorage.getItem("gamePin"), newState, {headers:{"playerToken":localStorage.getItem('Token')}});
+        await api.put('/games/' + localStorage.getItem("gamePin"), newState, {headers: {"playerToken": localStorage.getItem('Token')}});
     };
 
-    const endGame = async() => {
-        console.log("ANFANG VON ENDGAME METHOD")
+    const endGame = async () => {
         const response = await api.delete('/games/' + localStorage.getItem("gamePin"), {headers: {"playerToken": localStorage.getItem("Token")}});
-        console.log(response)
 
-        //rediret with 404
     };
 
     const leaveGame = async () => {
