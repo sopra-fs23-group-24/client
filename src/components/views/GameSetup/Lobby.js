@@ -141,7 +141,7 @@ const Lobby = () => {
             localStorage.removeItem("Token");
 
         } catch (error) {
-            alert(`Something went wrong trying to leave the game: \n${handleError(error)}`);
+            alert(`Something went wrong trying to end the game: \n${handleError(error)}`);
         }
 
     };

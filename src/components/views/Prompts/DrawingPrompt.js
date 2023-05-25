@@ -157,7 +157,7 @@ const DrawingPrompt = props => {
             clearCanvas();
             await api.post('/games/' + localStorage.getItem("gamePin") + "/prompt-answers/drawing", requestBody, {headers: {"playerToken": localStorage.getItem("Token")}});
         } catch (error) {
-            alert(`Something went wrong trying to host the game: \n${handleError(error)}`);
+            alert(`Something went wrong trying to submit drawing: \n${handleError(error)}`);
         }
     };
 
