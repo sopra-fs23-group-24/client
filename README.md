@@ -59,7 +59,7 @@ Our quiz game revolves around the participants themselves and tests their knowle
   - The project is set up to automatically deploy, each time you push onto the main branch. This is done via the GitHub workflow in [main.yml](.github%2Fworkflows%2Fmain.yml)
 
 
-## Description: 
+## Illustration: 
 
 Our game flow is protected by guards. After the StartScreen, redirection is automatic or initiated by the host.
 
