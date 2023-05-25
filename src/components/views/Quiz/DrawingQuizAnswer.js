@@ -12,6 +12,7 @@ const DrawingQuizAnswer = props => {
     const question=props.question;
     const submitAnswer=(value)=>{
         props.submitAnswer(value, timeLeft);
+        setAnswered(true);
     }
     const value1=question.answerOptions[0].answerOptionId;
     const value2=question.answerOptions[1].answerOptionId;
@@ -25,10 +26,12 @@ const DrawingQuizAnswer = props => {
     const [timerYes, setTimerYes] = useState(true);
     let timerContent = null;
     const [timeLeft, setTimeLeft] = useState(null); //Hier definiieren wie lange timer geht
+    const [answered, setAnswered] = useState(false);
 
     useEffect(() => {
+
         if (timeLeft === 0) {
-            props.submitAnswer(value1, 0);
+            if(answered === false){props.submitAnswer(value1, 0);}
         }
     }, [timeLeft]);
 
