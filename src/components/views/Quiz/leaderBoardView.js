@@ -96,8 +96,8 @@ const LeaderBoardView = () => {
         } else {
             content =
                 <div className="leaderboardview form2">
-                    <h1>You scored: {localStorage.getItem('earnedPoints')} Points!
-                        <p>The correct Answer was: {correctAnswer.answerOptionText}</p>
+                    <h1>You scored: <u>{localStorage.getItem('earnedPoints')}</u> points!
+                        <p>The correct Answer was: <u>{correctAnswer.answerOptionText}</u></p>
                     </h1>
 
                     {getImage(localStorage.getItem('earnedPoints'))}
