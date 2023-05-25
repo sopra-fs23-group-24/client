@@ -63,7 +63,7 @@ const EnterName = props => {
 
         } catch (error) {
             if (error.response && error.response.status === 400) {
-                setErrorMessage('Username is already taken');
+                setErrorMessage('Username is already taken or game is already running');
             }
         }
     };
