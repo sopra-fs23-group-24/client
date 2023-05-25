@@ -51,8 +51,8 @@ const DrawingPrompt = props => {
 
 
     useEffect(() => {
-        const resizeCanvas = () => {
-            const canvas = canvasRef.current;
+        const canvas = canvasRef.current;
+        const setCanvas = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             canvas.style.width = `${window.innerWidth / 1.5}px`;
@@ -66,7 +66,11 @@ const DrawingPrompt = props => {
             contextRef.current = context;
         }
 
-        resizeCanvas();
+        setCanvas();
+        const resizeCanvas = () => {
+            canvas.style.width = `${window.innerWidth / 1.5}px`;
+            canvas.style.height = `${window.innerHeight / 1.5}px`;
+        }
 
         window.addEventListener('resize', resizeCanvas);
 
