@@ -4,6 +4,7 @@ import "styles/views/Header.scss";
 import "bootstrap/dist/css/bootstrap.css"; // Import Bootstrap CSS
 import HelpIcon from '@mui/icons-material/Help';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import {
     Accordion,
     AccordionDetails,
@@ -63,10 +64,14 @@ const Header = props => {
 
 
     }
+    let MusicContent = null;
+    if (musicIsPlaying){
+        MusicContent = <VolumeUpIcon onClick={toggleMusic} sx={{fontSize: {xs:50, sm:75}}} color="primary"></VolumeUpIcon>;
+    }else {
+        MusicContent = <VolumeOffIcon onClick={toggleMusic} sx={{fontSize: {xs:50, sm:75}}} color="primary"></VolumeOffIcon>;
+    }
     const HelperContent = <HelpIcon onClick={handleHelperOpen}
-                                    sx={{color: "#5fc2cf", fontSize: 75, "& :hover": {color: "yellow"}}}></HelpIcon>;
-
-    const MusicContent = <VolumeUpIcon onClick={toggleMusic} sx={{fontSize: 75}} color="primary"></VolumeUpIcon>;
+                                    sx={{fontSize: {xs:50, sm:75}, "& :hover": {color: "yellow"}}} color="primary"></HelpIcon>;
     return (
         <nav className="navbar navbar-dark">
             <div className="container-fluid">
