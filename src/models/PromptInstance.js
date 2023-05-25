@@ -10,4 +10,5 @@ class PromptInstance {
         Object.assign(this, data);
     }
 }
+
 export default PromptInstance;

@@ -8,16 +8,14 @@ import CountingTimer from "./timer";
 import {api} from "../../../helpers/api";
 
 const TFQuizAnswer = props => {
-    const question=props.question;
+    const question = props.question;
 
-    const submitAnswer=(value)=>{
-        console.log(question.answerOptions[0].answerOptionId);
-        console.log(value);
+    const submitAnswer = (value) => {
         props.submitAnswer(value, timeLeft);
         setAnswered(true);
     }
-    const value1=question.answerOptions[0].answerOptionId;
-    const value2=question.answerOptions[1].answerOptionId;
+    const value1 = question.answerOptions[0].answerOptionId;
+    const value2 = question.answerOptions[1].answerOptionId;
     const [isClicked1, setIsClicked1] = useState(false);
     const [isClicked2, setIsClicked2] = useState(false);
     const [allDisabled, setAllDisabled] = useState(false);
@@ -28,7 +26,9 @@ const TFQuizAnswer = props => {
 
     useEffect(() => {
         if (timeLeft === 0) {
-            if(answered === false){props.submitAnswer(value1, 0);}
+            if (answered === false) {
+                props.submitAnswer(value1, 0);
+            }
         }
     }, [timeLeft]);
 
@@ -36,7 +36,9 @@ const TFQuizAnswer = props => {
         const setTimer = async () => {
             const response = await api.get('/games/' + localStorage.getItem("gamePin"));
             setTimeLeft(Number(response.data.timer))
-            if (Number(response.data.timer) <0){setTimerYes(false); }
+            if (Number(response.data.timer) < 0) {
+                setTimerYes(false);
+            }
 
         }
         setTimer();
@@ -47,12 +49,12 @@ const TFQuizAnswer = props => {
         setAllDisabled(true);
     };
 
-    if (timerYes === true){
+    if (timerYes === true) {
         timerContent =
-            <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} /> </h1>
+            <h1><CountingTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft}/></h1>
     }
     let TFStory = null;
-    if(question.storyToDisplay!==null){
+    if (question.storyToDisplay !== null) {
         TFStory = question.storyToDisplay;
     }
 
@@ -70,13 +72,19 @@ const TFQuizAnswer = props => {
                             <Button className={isClicked1 ? 'quiz clicked' : ''}
                                     width="50%"
                                     disabled={allDisabled}
-                                    onClick={()=>{submitAnswer(value1); handleClick(setIsClicked1)}}>
+                                    onClick={() => {
+                                        submitAnswer(value1);
+                                        handleClick(setIsClicked1)
+                                    }}>
                                 {question.answerOptions[0].answerOptionText}
                             </Button>
                             <Button className={isClicked2 ? 'quiz clicked' : ''}
                                     width="50%"
                                     disabled={allDisabled}
-                                    onClick={()=>{submitAnswer(value2); handleClick(setIsClicked2)}}>
+                                    onClick={() => {
+                                        submitAnswer(value2);
+                                        handleClick(setIsClicked2)
+                                    }}>
                                 {question.answerOptions[1].answerOptionText}
                             </Button>
                         </div>
@@ -85,10 +93,9 @@ const TFQuizAnswer = props => {
                 </div>
 
 
-
             </div>
             <div className="prompt container3">
-                <div  className="quiz form2">
+                <div className="quiz form2">
                     {timerContent}
                     <img src={QuestionImage} alt="" className="quiz questionimg"/>
 

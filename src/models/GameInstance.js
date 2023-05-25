@@ -10,4 +10,5 @@ class GameInstance {
         Object.assign(this, data);
     }
 }
+
 export default GameInstance;

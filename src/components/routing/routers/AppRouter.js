@@ -26,108 +26,108 @@ import SelectionPage from "../../views/GameSetup/selectionPage";
  * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start
  */
 const AppRouter = () => {
-  return (
-    <BrowserRouter>
-      <Switch>
+    return (
+        <BrowserRouter>
+            <Switch>
 
-        {/*Before joining game*/}
-        <Route exact path="/startscreen">
-          <LoginGuard>
-            <StartScreen/>
-          </LoginGuard>
-        </Route>
+                {/*Before joining game*/}
+                <Route exact path="/startscreen">
+                    <LoginGuard>
+                        <StartScreen/>
+                    </LoginGuard>
+                </Route>
 
-        <Route exact path="/start">
-          <LoginGuard>
-            <StartScreen/>
-          </LoginGuard>
-        </Route>
+                <Route exact path="/start">
+                    <LoginGuard>
+                        <StartScreen/>
+                    </LoginGuard>
+                </Route>
 
-        <Route exact path="/home">
-          <LoginGuard>
-            <StartScreen/>
-          </LoginGuard>
-        </Route>
+                <Route exact path="/home">
+                    <LoginGuard>
+                        <StartScreen/>
+                    </LoginGuard>
+                </Route>
 
-        <Route exact path="/joincode">
-          <LoginGuard>
-            <JoinCode/>
-          </LoginGuard>
-        </Route>
+                <Route exact path="/joincode">
+                    <LoginGuard>
+                        <JoinCode/>
+                    </LoginGuard>
+                </Route>
 
-        <Route exact path="/enterName/:pin">
-          <LoginGuard>
-            <EnterName/>
-          </LoginGuard>
-        </Route>
+                <Route exact path="/enterName/:pin">
+                    <LoginGuard>
+                        <EnterName/>
+                    </LoginGuard>
+                </Route>
 
-        {/*Joining game*/}
-        <Route exact path="/lobby">
-          <LobbyGuard>
-            <Lobby/>
-          </LobbyGuard>
-        </Route>
+                {/*Joining game*/}
+                <Route exact path="/lobby">
+                    <LobbyGuard>
+                        <Lobby/>
+                    </LobbyGuard>
+                </Route>
 
-        {/*Selecting prompt numbers*/}
-        <Route exact path="/selectionpage">
-          <SelectionGuard>
-            <SelectionPage/>
-          </SelectionGuard>
-        </Route>
-
-
-        {/*Filling out prompts*/}
-        <Route exact path="/answerPrompt">
-          <PromptsGuard>
-            <AnswerPrompt/>
-          </PromptsGuard>
-        </Route>
-
-        <Route exact path="/prompts">
-          <PromptsGuard>
-            <AnswerPrompt/>
-          </PromptsGuard>
-        </Route>
-
-        <Route exact path="/waitingRoom">
-          <PromptsGuard>
-            <WaitingRoom/>
-          </PromptsGuard>
-        </Route>
+                {/*Selecting prompt numbers*/}
+                <Route exact path="/selectionpage">
+                    <SelectionGuard>
+                        <SelectionPage/>
+                    </SelectionGuard>
+                </Route>
 
 
-        {/*Quiz*/}
-        <Route exact path="/quizAnswer">
-          <QuizGuard>
-            <QuizAnswer/>
-          </QuizGuard>
-        </Route>
+                {/*Filling out prompts*/}
+                <Route exact path="/answerPrompt">
+                    <PromptsGuard>
+                        <AnswerPrompt/>
+                    </PromptsGuard>
+                </Route>
 
-        <Route exact path="/leaderboard">
-          <QuizGuard>
-            <LeaderBoardView/>
-          </QuizGuard>
-        </Route>
+                <Route exact path="/prompts">
+                    <PromptsGuard>
+                        <AnswerPrompt/>
+                    </PromptsGuard>
+                </Route>
 
-
-        {/*End of game*/}
-        <Route exact path="/EndScreen">
-          <EndGuard>
-            <EndScreen/>
-          </EndGuard>
-        </Route>
+                <Route exact path="/waitingRoom">
+                    <PromptsGuard>
+                        <WaitingRoom/>
+                    </PromptsGuard>
+                </Route>
 
 
-        {/*Base*/}
-        <Route exact path="/">
-          <LoginGuard>
-            <Redirect to="/startscreen"/>
-          </LoginGuard>
-        </Route>
+                {/*Quiz*/}
+                <Route exact path="/quizAnswer">
+                    <QuizGuard>
+                        <QuizAnswer/>
+                    </QuizGuard>
+                </Route>
 
-      </Switch>
-    </BrowserRouter>
-  );
+                <Route exact path="/leaderboard">
+                    <QuizGuard>
+                        <LeaderBoardView/>
+                    </QuizGuard>
+                </Route>
+
+
+                {/*End of game*/}
+                <Route exact path="/EndScreen">
+                    <EndGuard>
+                        <EndScreen/>
+                    </EndGuard>
+                </Route>
+
+
+                {/*Base*/}
+                <Route exact path="/">
+                    <LoginGuard>
+                        <Redirect to="/startscreen"/>
+                    </LoginGuard>
+                </Route>
+
+            </Switch>
+        </BrowserRouter>
+    );
 };
 
 /*

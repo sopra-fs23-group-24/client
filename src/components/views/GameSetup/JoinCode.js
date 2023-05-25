@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {api, handleError} from 'helpers/api';
+import {api} from 'helpers/api';
 import GameInstance from 'models/GameInstance';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
@@ -40,7 +40,7 @@ const JoinCode = props => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleKeyDown = event => {
-        if(event.key === "Enter"){
+        if (event.key === "Enter") {
             joinGame();
         }
     };
@@ -64,7 +64,6 @@ const JoinCode = props => {
     };
 
 
-
     return (
         <BaseContainer>
             <div className="joincode container">
@@ -80,7 +79,7 @@ const JoinCode = props => {
                         onKeyDown={handleKeyDown}
                     />
                     {errorMessage && (
-                        <div className="joincode error-message" style={{ color: "red" }}>
+                        <div className="joincode error-message" style={{color: "red"}}>
                             {errorMessage}
                         </div>
                     )}
@@ -95,7 +94,7 @@ const JoinCode = props => {
 
                 </div>
 
-                <div  className="joincode form2">
+                <div className="joincode form2">
                     <img src={QuestionImage} alt="" className="joincode questionimg"/>
 
 

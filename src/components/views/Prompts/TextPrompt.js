@@ -20,7 +20,12 @@ const FormField = props => {
                 onChange={e => props.onChange(e.target.value)}
                 onKeyDown={props.onKeyDown}
             />
-            <p style={{fontStyle: "italic", fontSize: "smaller", marginTop: -18, textAlign: "right"}}>{props.value.length} / 60</p>
+            <p style={{
+                fontStyle: "italic",
+                fontSize: "smaller",
+                marginTop: -18,
+                textAlign: "right"
+            }}>{props.value.length} / 60</p>
 
         </div>
     );
@@ -58,7 +63,7 @@ const TextPrompt = props => {
     }
 
     const handleKeyDown = event => {
-        if (event.key === "Enter" && answer.length>0) {
+        if (event.key === "Enter" && answer.length > 0) {
             submitAnswer();
             updateCounter();
         }

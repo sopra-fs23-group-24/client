@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {api, handleError} from 'helpers/api';
-import {useHistory, useParams} from 'react-router-dom';
+import {api} from 'helpers/api';
+import {useHistory} from 'react-router-dom';
 import 'styles/views/JoinCode.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import DrawingPrompt from "./DrawingPrompt";
@@ -18,17 +18,11 @@ specific components that belong to the main one in the same file.
 const AnswerPrompt = props => {
     const [counter, setCounter] = useState(0);
     const updateCounter = () => {
-        //setCounter(prevCounter => prevCounter + 1);
-        //localStorage.setItem("promptCounter", counter)
         let counter = Number(localStorage.getItem("promptCounter"))
         counter = counter + 1
         localStorage.setItem("promptCounter", String(counter))
         setCounter(counter)
-        console.log("counter updated to: " + localStorage.getItem("promptCounter"))
-        /*if(counter >= promptNr-1){
-            history.push("/waitingRoom");
-        }*/
-        if(localStorage.getItem("promptCounter") >= promptNr){
+        if (localStorage.getItem("promptCounter") >= promptNr) {
             history.push("/waitingRoom");
         }
     }
@@ -40,8 +34,7 @@ const AnswerPrompt = props => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                let response2 = await api.get('/games/' + localStorage.getItem("gamePin") +"/prompts");
-                console.log(response2.data);
+                let response2 = await api.get('/games/' + localStorage.getItem("gamePin") + "/prompts");
                 setPromptNr(response2.data.length)
                 setCounter(Number(localStorage.getItem("promptCounter")));
 
@@ -64,13 +57,10 @@ const AnswerPrompt = props => {
 
     let content = null;
 
-    if(prompts && prompts !== [] && Number(localStorage.getItem("promptCounter")) <= promptNr - 1 ){
-        console.log("local storage counter currently at: " + localStorage.getItem("promptCounter"))
+    if (prompts && prompts !== [] && Number(localStorage.getItem("promptCounter")) <= promptNr - 1) {
 
         let counter = Number(localStorage.getItem("promptCounter"))
-        console.log("counter set to: " + counter)
         const currentPrompt = new PromptInstance(prompts[counter])
-        console.log("prompt picked: " + currentPrompt + "/" + currentPrompt.promptText)
 
         if (currentPrompt.promptType === 'TRUEFALSE') {
             content =
@@ -93,7 +83,7 @@ const AnswerPrompt = props => {
 
     }
 
-        return (
+    return (
         <BaseContainer>
             <div className="prompt container">
                 {content}

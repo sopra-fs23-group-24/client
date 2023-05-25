@@ -1,6 +1,5 @@
 import {Redirect} from "react-router-dom";
 import PropTypes from "prop-types";
-import {api} from "../../../helpers/api";
 
 /**
  * routeProtectors interfaces can tell the router whether or not it should allow navigation to a requested route.
@@ -12,32 +11,22 @@ import {api} from "../../../helpers/api";
  * @param props
  */
 export const LobbyGuard = props => {
-  if (localStorage.getItem("gamePin")) {
-    console.log("game Pin found")
-    if(localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'false') || !localStorage.getItem("gameLastState")){
-      console.log("accepted as lobby")
-      return props.children;
+    if (localStorage.getItem("gamePin")) {
+        if (localStorage.getItem("gameLastState") === "LOBBY" || (localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'false') || !localStorage.getItem("gameLastState")) {
+            return props.children;
+        } else if (localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'true') {
+            return <Redirect to="/selectionpage"/>;
+        } else if (localStorage.getItem("gameLastState") === "PROMPT") {
+            return <Redirect to="/answerPrompt"/>;
+        } else if (localStorage.getItem("gameLastState") === "QUIZ") {
+            return <Redirect to="/quizAnswer"/>;
+        } else if (localStorage.getItem("gameLastState") === "END") {
+            return <Redirect to="/EndScreen"/>;
+        }
     }
-    else if(localStorage.getItem("gameLastState") === "SELECTION" && localStorage.getItem("isHost") === 'true'){
-      console.log("trying to go to selection")
-      return <Redirect to="/selectionpage"/>;
-    }
-    else if(localStorage.getItem("gameLastState") === "PROMPT"){
-      console.log("trying to go to prompts")
-      return <Redirect to="/answerPrompt"/>;
-    }
-    else if(localStorage.getItem("gameLastState") === "QUIZ"){
-      console.log("trying to go to quiz")
-      return <Redirect to="/quizAnswer"/>;
-    }
-    else if(localStorage.getItem("gameLastState") === "END"){
-      console.log("trying to go to end")
-      return <Redirect to="/EndScreen"/>;
-    }
-  }
-  return <Redirect to="/startscreen"/>;
+    return <Redirect to="/startscreen"/>;
 };
 
 LobbyGuard.propTypes = {
-  children: PropTypes.node
+    children: PropTypes.node
 };
